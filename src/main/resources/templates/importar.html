@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Importar Notas via Excel</title>
+    <link rel="stylesheet" href="/css/importar.css">
+</head>
+<body>
+<div class="container" style="max-width: 400px; margin: 50px auto;">
+    <h1>Importar Notas Fiscais via Excel</h1>
+
+    <form th:action="@{/notas/importar}" method="post" enctype="multipart/form-data" class="form-container">
+        <input type="file" name="file" accept=".xlsx, .xls" required>
+        <button type="submit" style="margin-top: 15px;">Importar</button>
+    </form>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <a th:href="@{/notas}" class="button-link">Voltar para Notas</a>
+    </div>
+</div>
+</body>
+</html>

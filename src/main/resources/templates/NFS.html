@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Notas Fiscais</title>
+    <link rel="stylesheet" href="/css/NFS.css">
+</head>
+<body>
+
+<h1>Notas Fiscais</h1>
+
+<div class="botoes-container">
+    <div style="text-align: center;">
+        <a href="/notas/cadastrar" class="button-link">Cadastrar Nota</a>
+        <a href="/notas/importar" class="button-link">Importar via Excel</a>
+    </div>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Data Emissão</th>
+        <th>CNPJ Tomador</th>
+        <th>Tomador</th>
+        <th>Valor NF</th>
+        <th>Valor Deduções</th>
+        <th>Valor Base</th>
+        <th>Alíquota</th>
+        <th>Valor ISSQN</th>
+        <th>Retido</th>
+        <th>Status</th>
+        <th>Local Recolhimento</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="nota : ${notas}">
+        <td th:text="${nota.id}"></td>
+        <td th:text="${nota.dataEmissao}"></td>
+        <td th:text="${nota.cnpjTomador}"></td>
+        <td th:text="${nota.tomador}"></td>
+        <td th:text="${nota.valorNF}"></td>
+        <td th:text="${nota.valorDeducoes}"></td>
+        <td th:text="${nota.valorBase}"></td>
+        <td th:text="${nota.aliquota}"></td>
+        <td th:text="${nota.valorIssqn}"></td>
+        <td th:text="${nota.retido}"></td>
+        <td th:text="${nota.status}"></td>
+        <td th:text="${nota.localRecolhimento}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+

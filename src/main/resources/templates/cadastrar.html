@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Nota Fiscal</title>
+    <link rel="stylesheet" href="/css/cadastrar.css">
+</head>
+<body>
+<div class="container">
+    <h2>Cadastro de Nota Fiscal</h2>
+
+    <!-- Formulário para cadastro manual -->
+    <form th:action="@{/notas/cadastrar}" method="post">
+        <div class="form-group">
+            <label>Data de Emissão</label>
+            <input type="date" name="dataEmissao" required>
+        </div>
+
+        <div class="form-group">
+            <label>CNPJ Tomador</label>
+            <input type="text" name="cnpjTomador" required>
+        </div>
+
+        <div class="form-group">
+            <label>Tomador</label>
+            <input type="text" name="tomador" required>
+        </div>
+
+        <div class="form-group">
+            <label>Valor NF</label>
+            <input type="number" step="0.01" name="valorNF" required>
+        </div>
+
+        <div class="form-group">
+            <label>Valor Deduções</label>
+            <input type="number" step="0.01" name="valorDeducoes">
+        </div>
+
+        <div class="form-group">
+            <label>Valor Base</label>
+            <input type="number" step="0.01" name="valorBase" required>
+        </div>
+
+        <div class="form-group">
+            <label>Alíquota</label>
+            <input type="number" step="0.01" name="aliquota" required>
+        </div>
+
+        <div class="form-group">
+            <label>Valor ISSQN</label>
+            <input type="number" step="0.01" name="valorIssqn" required>
+        </div>
+
+        <div class="form-group">
+            <label>Retido</label>
+            <select name="retido" required>
+                <option value="">Selecione</option>
+                <option value="SIM">SIM</option>
+                <option value="NÃO">NÃO</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+            <input type="text" name="status" required>
+        </div>
+
+        <div class="form-group">
+            <label>Local do Recolhimento</label>
+            <input type="text" name="localRecolhimento" required>
+        </div>
+
+        <div class="button-group" style="margin-top: 20px;">
+            <button type="submit">Cadastrar Nota</button>
+        </div>
+    </form>
+
+    <!-- Botão para ir para página de importação -->
+    <div style="margin-top: 30px; text-align: center;">
+        <a th:href="@{/notas/importar}" class="button-link">Importar Notas via Excel</a>
+    </div>
+</div>
+</body>
+</html>
