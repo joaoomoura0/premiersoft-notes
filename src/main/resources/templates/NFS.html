@@ -10,6 +10,18 @@
 
 <h1>Notas Fiscais</h1>
 
+<!-- MENSAGENS DE SUCESSO / ERRO -->
+<div th:if="${success}" class="alert alert-success" role="alert">
+    <p th:text="${success}"></p>
+</div>
+<div th:if="${error}" class="alert alert-danger" role="alert">
+    <p th:text="${error}"></p>
+</div>
+<!-- FIM DAS MENSAGENS -->
+
+<div class="botoes-container">
+
+
 <div class="botoes-container">
     <div style="text-align: center;">
         <a href="/notas/cadastrar" class="button-link">Cadastrar Nota</a>
