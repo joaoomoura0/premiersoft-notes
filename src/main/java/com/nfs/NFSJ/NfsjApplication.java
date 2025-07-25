@@ -5,9 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class NfsjApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(NfsjApplication.class, args);
+	public static void main(String[] args) {SpringApplication.run(NfsjApplication.class, args);
 	}
-
 }

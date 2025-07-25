@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>Notas Fiscais</title>
     <link rel="stylesheet" href="/css/NFS.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 </head>
 <body>
 
@@ -17,52 +19,92 @@
 <div th:if="${error}" class="alert alert-danger" role="alert">
     <p th:text="${error}"></p>
 </div>
-<!-- FIM DAS MENSAGENS -->
-
-<div class="botoes-container">
 
 
-<div class="botoes-container">
-    <div style="text-align: center;">
+
+<!-- Form para filtro  -->
+<form method="get" action="/notas" style="margin-bottom: 10px;">
+    <select name="filtroTomador" id="filtroTomador" style="width: 300px;">
+        <option value="" selected>Selecione o Tomador</option>
+        <option th:each="tomador : ${tomadores}" th:value="${tomador}" th:text="${tomador}"></option>
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
+
+<!-- Form para exclusão das notas selecionadas -->
+<form th:action="@{/notas/excluir-multiplos}" method="post" onsubmit="return confirm('Deseja excluir as notas selecionadas?');">
+
+    <div class="botoes-container" style="margin-bottom: 10px;">
         <a href="/notas/cadastrar" class="button-link">Cadastrar Nota</a>
         <a href="/notas/importar" class="button-link">Importar via Excel</a>
+        <button type="submit" style="background-color: #f44336; color: white; border: none; padding: 6px 12px; cursor: pointer;">
+            Excluir Selecionados
+        </button>
     </div>
-</div>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Data Emissão</th>
-        <th>CNPJ Tomador</th>
-        <th>Tomador</th>
-        <th>Valor NF</th>
-        <th>Valor Deduções</th>
-        <th>Valor Base</th>
-        <th>Alíquota</th>
-        <th>Valor ISSQN</th>
-        <th>Retido</th>
-        <th>Status</th>
-        <th>Local Recolhimento</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="nota : ${notas}">
-        <td th:text="${nota.id}"></td>
-        <td th:text="${nota.dataEmissao}"></td>
-        <td th:text="${nota.cnpjTomador}"></td>
-        <td th:text="${nota.tomador}"></td>
-        <td th:text="${nota.valorNF}"></td>
-        <td th:text="${nota.valorDeducoes}"></td>
-        <td th:text="${nota.valorBase}"></td>
-        <td th:text="${nota.aliquota}"></td>
-        <td th:text="${nota.valorIssqn}"></td>
-        <td th:text="${nota.retido}"></td>
-        <td th:text="${nota.status}"></td>
-        <td th:text="${nota.localRecolhimento}"></td>
-    </tr>
-    </tbody>
-</table>
+    <!-- Botão para mostrar quantidade de notas -->
+    <div class="qtdNotas">
+        <span>Total de notas: <strong th:text="${notas.size()}"></strong></span>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"/></th>
+            <th>ID</th>
+            <th>Data Emissão</th>
+            <th>CNPJ Tomador</th>
+            <th>Tomador</th>
+            <th>Valor NF</th>
+            <th>Valor Deduções</th>
+            <th>Valor Base</th>
+            <th>Alíquota</th>
+            <th>Valor ISSQN</th>
+            <th>Retido</th>
+            <th>Status</th>
+            <th>Local Recolhimento</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="nota : ${notas}">
+            <td><input type="checkbox" name="ids" th:value="${nota.id}"/></td>
+            <td th:text="${nota.id}"></td>
+            <td th:text="${nota.dataEmissao}"></td>
+            <td th:text="${nota.cnpjTomador}"></td>
+            <td th:text="${nota.tomador}"></td>
+            <td th:text="${nota.valorNF}"></td>
+            <td th:text="${nota.valorDeducoes}"></td>
+            <td th:text="${nota.valorBase}"></td>
+            <td th:text="${nota.aliquota}"></td>
+            <td th:text="${nota.valorIssqn}"></td>
+            <td th:text="${nota.retido}"></td>
+            <td th:text="${nota.status}"></td>
+            <td th:text="${nota.localRecolhimento}"></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+<script>
+    function toggleAll(source) {
+        checkboxes = document.getElementsByName('ids');
+        for(let i=0, n=checkboxes.length;i<n;i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#filtroTomador').select2({
+            placeholder: "Selecione o Tomador",
+            allowClear: true,
+            width: 'resolve'
+        });
+    });
+</script>
 </body>
 </html>
-
