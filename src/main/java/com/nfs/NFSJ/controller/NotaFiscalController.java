@@ -43,6 +43,7 @@ public class NotaFiscalController {
             List<NotaFiscalModel> notas = ExcelHelper.lerNotasDoExcel(file.getInputStream(), filename);
 
             for (NotaFiscalModel nota : notas) {
+                // A padronização do 'tomador' ocorre no service.salvarNota()
                 service.salvarNota(nota);
             }
 
@@ -66,13 +67,13 @@ public class NotaFiscalController {
         List<NotaFiscalModel> notas;
 
         if (filtroTomador != null && !filtroTomador.isEmpty()) {
-            filtroTomador = filtroTomador.trim().toUpperCase();
+            filtroTomador = filtroTomador.trim().toUpperCase(); // Termo de busca já padronizado para maiúsculas
             notas = repository.findByTomador(filtroTomador);
         } else {
             notas = repository.findAll();
         }
 
-        List<String> tomadoresUnicos = repository.findDistinctTomadores();
+        // O findDistinctTomadores já retorna os tomadores em MAIÚSCULAS
         model.addAttribute("notas", notas);
         model.addAttribute("tomadores", repository.findDistinctTomadores());
         model.addAttribute("filtroTomador", filtroTomador);  // Para manter o filtro selecionado no select

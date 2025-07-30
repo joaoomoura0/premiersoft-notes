@@ -79,3 +79,14 @@ button:hover, .button-link:hover {
     margin-top: 2rem;
     margin-bottom: 0.5rem;
 }
+
+/* No seu NFS.css */
+.alert {
+    padding: 15px;
+    margin: 20px auto;
+    width: 80%;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}

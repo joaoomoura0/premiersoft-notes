@@ -12,7 +12,6 @@
 
 <h1>Notas Fiscais</h1>
 
-<!-- MENSAGENS DE SUCESSO / ERRO -->
 <div th:if="${success}" class="alert alert-success" role="alert">
     <p th:text="${success}"></p>
 </div>
@@ -22,7 +21,6 @@
 
 
 
-<!-- Form para filtro  -->
 <form method="get" action="/notas" style="margin-bottom: 10px;">
     <select name="filtroTomador" id="filtroTomador" style="width: 300px;">
         <option value="" selected>Selecione o Tomador</option>
@@ -31,8 +29,7 @@
     <button type="submit">Filtrar</button>
 </form>
 
-<!-- Form para exclusão das notas selecionadas -->
-<form th:action="@{/notas/excluir-multiplos}" method="post" onsubmit="return confirm('Deseja excluir as notas selecionadas?');">
+<form th:action="@{/excluir-multiplos}" method="post" onsubmit="return validarExclusao();">
 
     <div class="botoes-container" style="margin-bottom: 10px;">
         <a href="/notas/cadastrar" class="button-link">Cadastrar Nota</a>
@@ -42,7 +39,6 @@
         </button>
     </div>
 
-    <!-- Botão para mostrar quantidade de notas -->
     <div class="qtdNotas">
         <span>Total de notas: <strong th:text="${notas.size()}"></strong></span>
     </div>
@@ -91,6 +87,26 @@
         for(let i=0, n=checkboxes.length;i<n;i++) {
             checkboxes[i].checked = source.checked;
         }
+    }
+
+    // NOVA FUNÇÃO DE VALIDAÇÃO PARA EXCLUSÃO
+    function validarExclusao() {
+        const checkboxes = document.getElementsByName('ids');
+        let algumaSelecionada = false;
+        for (let i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                algumaSelecionada = true;
+                break;
+            }
+        }
+
+        if (!algumaSelecionada) {
+            alert('Por favor, selecione ao menos uma nota para excluir.');
+            return false; // Impede a submissão do formulário
+        }
+
+        // Se alguma estiver selecionada, pede confirmação padrão do navegador
+        return confirm('Deseja excluir as notas selecionadas?');
     }
 </script>
 
