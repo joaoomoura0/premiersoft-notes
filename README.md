@@ -1,36 +1,33 @@
-📄 Sistema de Gestão de Notas Fiscais (NFS)
-Este projeto tem como objetivo a criação de um sistema web simples para organizar e gerenciar notas fiscais, inspirado na rotina que desenvolvo utilizando planilhas no dia a dia da empresa.
+# 📄 Sistema de Gestão de Notas Fiscais (NFS)
 
-É uma iniciativa pessoal para automatizar tarefas repetitivas, treinar habilidades com Java e Spring Boot, e também propor soluções que podem facilitar processos internos na empresa.
+Projeto pessoal desenvolvido com o objetivo de transformar uma planilha manual de controle de notas fiscais em um **sistema web automatizado**. A ideia surgiu a partir da minha rotina na empresa, onde faço esse processo manualmente — então resolvi criar algo que facilite e otimize esse trabalho.
 
-🚧 Status do Projeto
-Em desenvolvimento... melhorias e novos recursos estão sendo implementados gradualmente.
+---
 
-🎯 Objetivo
-O sistema permite:
+## 🚧 Status do Projeto
 
-Cadastro e visualização de notas fiscais.
+🔧 Em desenvolvimento
 
-Filtro por tomador.
+---
 
-Exclusão de notas.
+## 🎯 Funcionalidades
 
-Organização das notas de forma estruturada e automatizada, similar à rotina feita em planilhas manuais.
+✔️ Listagem de notas fiscais  
+✔️ Filtro por tomador (com opções únicas e ordenadas)  
+✔️ Exclusão de notas fiscais  
+❌ Edição de notas (em breve)  
+❌ Dashboard com estatísticas (em breve)  
+❌ Autenticação de usuários (em breve)
 
-⚙️ Tecnologias Utilizadas
-Java 17
+---
 
-Spring Boot
+## ⚙️ Tecnologias Utilizadas
 
-Thymeleaf
-
-HTML5
-
-CSS3
-
-JavaScript
-
-MySQL (ou outro banco relacional)
-
-Figma (para prototipação e layout)
-
+- Java 17 ☕  
+- Spring Boot  
+- Thymeleaf  
+- HTML5  
+- CSS3  
+- JavaScript  
+- MySQL (ou outro banco relacional)  
+- Figma (para prototipação)
