@@ -2,13 +2,10 @@
 
 Projeto pessoal desenvolvido com o objetivo de transformar uma planilha manual de controle de notas fiscais em um **sistema web automatizado**. A ideia surgiu a partir da minha rotina na empresa, onde faço esse processo manualmente, então resolvi criar algo que facilite e otimize esse trabalho.
 
----
-
 ## 🚧 Status do Projeto
 
-🔧 Em desenvolvimento
+ **Em desenvolvimento...**
 
----
 
 ## 🎯 Funcionalidades
 
