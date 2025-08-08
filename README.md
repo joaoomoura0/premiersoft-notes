@@ -1,6 +1,6 @@
 # 📄 Sistema de Gestão de Notas Fiscais (NFS)
 
-Projeto pessoal desenvolvido com o objetivo de transformar uma planilha manual de controle de notas fiscais em um **sistema web automatizado**. A ideia surgiu a partir da minha rotina na empresa, onde faço esse processo manualmente — então resolvi criar algo que facilite e otimize esse trabalho.
+Projeto pessoal desenvolvido com o objetivo de transformar uma planilha manual de controle de notas fiscais em um **sistema web automatizado**. A ideia surgiu a partir da minha rotina na empresa, onde faço esse processo manualmente, então resolvi criar algo que facilite e otimize esse trabalho.
 
 ---
 
