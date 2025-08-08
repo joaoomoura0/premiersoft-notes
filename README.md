@@ -13,10 +13,9 @@ Projeto pessoal desenvolvido com o objetivo de transformar uma planilha manual d
 ## 🎯 Funcionalidades
 
 ✔️ Listagem de notas fiscais  
-✔️ Filtro por tomador (com opções únicas e ordenadas)  
+✔️ Filtro por tomador
 ✔️ Exclusão de notas fiscais  
-❌ Edição de notas (em breve)  
-❌ Dashboard com estatísticas (em breve)  
+❌ Controle de pagamento: marcar se a nota está Paga, No Prazo ou Atrasada  (em breve)
 ❌ Autenticação de usuários (em breve)
 
 ---
@@ -29,5 +28,5 @@ Projeto pessoal desenvolvido com o objetivo de transformar uma planilha manual d
 - HTML5  
 - CSS3  
 - JavaScript  
-- MySQL (ou outro banco relacional)  
+- MySQL
 - Figma (para prototipação)
