@@ -32,9 +32,3 @@ A ideia surgiu a partir da minha rotina na empresa, onde esse processo era feito
 - **Figma** *(para prototipação)*  
 
 ---
-
-## 📌 Como rodar o projeto
-
-1. **Clone este repositório**
-   ```bash
-   git clone https://github.com/usuario/repositorio.git
