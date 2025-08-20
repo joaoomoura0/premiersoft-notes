@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Notas Fiscais</title>
     <link rel="stylesheet" href="/css/NFS.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
 </head>
 <body>
 
-<h1>Notas Fiscais</h1>
+<header>
+    <h1>Notas Fiscais</h1>
+</header>
 
+<!-- Alerts -->
 <div th:if="${success}" class="alert alert-success" role="alert">
     <p th:text="${success}"></p>
 </div>
@@ -19,106 +20,156 @@
     <p th:text="${error}"></p>
 </div>
 
-
-
-<form method="get" action="/notas" style="margin-bottom: 10px;">
-    <select name="filtroTomador" id="filtroTomador" style="width: 300px;">
+<!-- Filtros -->
+<form method="get" action="/notas" class="form-filtros">
+    <select name="filtroTomador" id="filtroTomador" class="select-filtro">
         <option value="" selected>Selecione o Tomador</option>
-        <option th:each="tomador : ${tomadores}" th:value="${tomador}" th:text="${tomador}"></option>
+        <option th:each="tomador : ${tomadores}"
+                th:value="${tomador}"
+                th:text="${tomador}"
+                th:selected="${filtroTomador == tomador}"></option>
     </select>
-    <button type="submit">Filtrar</button>
+
+    <select name="filtroStatus" id="filtroStatus" class="select-filtro">
+        <option value="">Status (Todos)</option>
+        <option value="true" th:selected="${filtroStatus == true}">Pagas</option>
+        <option value="false" th:selected="${filtroStatus == false}">Não Pagas</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+    <a href="/notas" class="btn btn-secondary">Limpar Filtros</a>
 </form>
 
-<form th:action="@{/excluir-multiplos}" method="post" onsubmit="return validarExclusao();">
-
-    <div class="botoes-container" style="margin-bottom: 10px;">
-        <a href="/notas/cadastrar" class="button-link">Cadastrar Nota</a>
-        <a href="/notas/importar" class="button-link">Importar via Excel</a>
-        <button type="submit" style="background-color: #f44336; color: white; border: none; padding: 6px 12px; cursor: pointer;">
-            Excluir Selecionados
-        </button>
+<!-- Ações -->
+<form th:action="@{/notas/excluir-multiplos}" method="post" onsubmit="return validarExclusao();">
+    <div class="botoes-container">
+        <a href="/notas/cadastrar" class="btn btn-secondary">Cadastrar Nota</a>
+        <a href="/notas/importar" class="btn btn-secondary">Importar via Excel</a>
+        <button type="submit" class="btn btn-danger">Excluir Selecionados</button>
     </div>
 
-    <div class="qtdNotas">
+    <!-- Quantidade de Notas -->
+    <div class="qtd-notas">
         <span>Total de notas: <strong th:text="${notas.size()}"></strong></span>
+        <span th:if="${filtroTomador != null}" class="filtro-ativo">
+            | Filtrado por Tomador: <strong th:text="${filtroTomador}"></strong>
+        </span>
+        <span th:if="${filtroStatus != null}" class="filtro-ativo">
+            | Status: <strong th:text="${filtroStatus ? 'Pagas' : 'Não Pagas'}"></strong>
+        </span>
     </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"/></th>
-            <th>ID</th>
-            <th>Data Emissão</th>
-            <th>CNPJ Tomador</th>
-            <th>Tomador</th>
-            <th>Valor NF</th>
-            <th>Valor Deduções</th>
-            <th>Valor Base</th>
-            <th>Alíquota</th>
-            <th>Valor ISSQN</th>
-            <th>Retido</th>
-            <th>Status</th>
-            <th>Local Recolhimento</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="nota : ${notas}">
-            <td><input type="checkbox" name="ids" th:value="${nota.id}"/></td>
-            <td th:text="${nota.id}"></td>
-            <td th:text="${nota.dataEmissao}"></td>
-            <td th:text="${nota.cnpjTomador}"></td>
-            <td th:text="${nota.tomador}"></td>
-            <td th:text="${nota.valorNF}"></td>
-            <td th:text="${nota.valorDeducoes}"></td>
-            <td th:text="${nota.valorBase}"></td>
-            <td th:text="${nota.aliquota}"></td>
-            <td th:text="${nota.valorIssqn}"></td>
-            <td th:text="${nota.retido}"></td>
-            <td th:text="${nota.status}"></td>
-            <td th:text="${nota.localRecolhimento}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <!-- Tabela -->
+    <div class="table-container">
+        <table class="tabela-notas">
+            <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"/></th>
+                <th>ID</th>
+                <th>Data Emissão</th>
+                <th>CNPJ Tomador</th>
+                <th>Tomador</th>
+                <th>Valor NF</th>
+                <th>Valor Deduções</th>
+                <th>Valor Base</th>
+                <th>Alíquota</th>
+                <th>Valor ISSQN</th>
+                <th>Retido</th>
+                <th>Status</th>
+                <th>Local Recolhimento</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="nota : ${notas}">
+                <td><input type="checkbox" name="ids" th:value="${nota.id}"/></td>
+                <td>
+                    <a th:href="@{/notas/{id}(id=${nota.id})}"
+                       th:text="${nota.id}"
+                       class="link-detalhes"></a>
+                </td>
+                <td th:text="${#temporals.format(nota.dataEmissao, 'dd/MM/yyyy')}"></td>
+                <td th:text="${nota.cnpjTomador}"></td>
+                <td th:text="${nota.tomador}"></td>
+                <td th:text="${#numbers.formatCurrency(nota.valorNF)}"></td>
+                <td th:text="${#numbers.formatCurrency(nota.valorDeducoes)}"></td>
+                <td th:text="${#numbers.formatCurrency(nota.valorBase)}"></td>
+                <td th:text="${nota.aliquota != null ? #numbers.formatDecimal(nota.aliquota, 1, 2) + '%' : ''}"></td>
+                <td th:text="${#numbers.formatCurrency(nota.valorIssqn)}"></td>
+                <td th:text="${nota.retido}"></td>
+                <td>
+                    <input type="checkbox"
+                           th:checked="${nota.status == 'PAGO'}"
+                           onchange="atualizarStatus(this, [[${nota.id}]])" />
+                    <span th:text="${nota.status}"
+                          th:class="${nota.status == 'PAGO'} ? 'status-pago' : 'status-pendente'"
+                          class="status-texto"></span>
+                </td>
+                <td th:text="${nota.localRecolhimento}"></td>
+                <td>
+                    <a th:href="@{/notas/{id}(id=${nota.id})}"
+                       class="btn btn-sm btn-info">Detalhes</a>
+                </td>
+            </tr>
+            <tr th:if="${notas.empty}">
+                <td colspan="14" class="text-center">Nenhuma nota fiscal encontrada</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </form>
 
-<script>
-    function toggleAll(source) {
-        checkboxes = document.getElementsByName('ids');
-        for(let i=0, n=checkboxes.length;i<n;i++) {
-            checkboxes[i].checked = source.checked;
-        }
-    }
-
-    // NOVA FUNÇÃO DE VALIDAÇÃO PARA EXCLUSÃO
-    function validarExclusao() {
-        const checkboxes = document.getElementsByName('ids');
-        let algumaSelecionada = false;
-        for (let i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                algumaSelecionada = true;
-                break;
-            }
-        }
-
-        if (!algumaSelecionada) {
-            alert('Por favor, selecione ao menos uma nota para excluir.');
-            return false; // Impede a submissão do formulário
-        }
-
-        // Se alguma estiver selecionada, pede confirmação padrão do navegador
-        return confirm('Deseja excluir as notas selecionadas?');
-    }
-</script>
-
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="/js/NFS.js"></script>
 
 <script>
+    function atualizarStatus(checkbox, notaId) {
+        const novoStatus = checkbox.checked;
+
+        $.ajax({
+            url: '/notas/atualizar-status/' + notaId,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ status: novoStatus }),
+            success: function() {
+                console.log("Status atualizado com sucesso!");
+                // Atualiza o texto do status visualmente
+                const statusSpan = checkbox.nextElementSibling;
+                statusSpan.textContent = novoStatus ? 'PAGO' : 'PENDENTE';
+                statusSpan.className = novoStatus ? 'status-pago status-texto' : 'status-pendente status-texto';
+            },
+            error: function() {
+                alert("Erro ao atualizar status.");
+                checkbox.checked = !novoStatus;
+            }
+        });
+    }
+
+    // Selecionar/Deselecionar todos
+    function toggleAll(source) {
+        const checkboxes = document.querySelectorAll('input[name="ids"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = source.checked;
+        });
+    }
+
+    // Validar antes de excluir
+    function validarExclusao() {
+        const selecionados = document.querySelectorAll('input[name="ids"]:checked');
+        if (selecionados.length === 0) {
+            alert("Selecione pelo menos uma nota para excluir.");
+            return false;
+        }
+        return confirm("Tem certeza que deseja excluir " + selecionados.length + " nota(s) selecionada(s)?");
+    }
+
+    // Inicializar Select2
     $(document).ready(function() {
         $('#filtroTomador').select2({
             placeholder: "Selecione o Tomador",
-            allowClear: true,
-            width: 'resolve'
+            allowClear: true
         });
     });
 </script>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Nota Fiscal</title>
+    <link rel="stylesheet" href="/css/detalhes-nota.css">
+</head>
+<body>
+
+<header>
+    <h1>Detalhes da Nota Fiscal #<span th:text="${nota.id}"></span></h1>
+    <a href="/notas" class="btn btn-secondary">← Voltar</a>
+</header>
+
+<div class="detalhes-container">
+    <div class="detalhes-card">
+        <div class="detalhes-row">
+            <span class="detalhes-label">Data Emissão:</span>
+            <span th:text="${nota.dataEmissao}"></span>
+        </div>
+        <div class="detalhes-row">
+            <span class="detalhes-label">CNPJ Tomador:</span>
+            <span th:text="${nota.cnpjTomador}"></span>
+        </div>
+        <div class="detalhes-row">
+            <span class="detalhes-label">Tomador:</span>
+            <span th:text="${nota.tomador}"></span>
+        </div>
+        <div class="detalhes-row">
+            <span class="detalhes-label">Valor NF:</span>
+            <span th:text="${#numbers.formatCurrency(nota.valorNF)}"></span>
+        </div>
+        <div class="detalhes-row">
+            <span class="detalhes-label">Status:</span>
+            <span th:class="${nota.status == 'PAGO'} ? 'status-pago' : 'status-pendente'"
+                  th:text="${nota.status}"></span>
+        </div>
+        <!-- Adicione mais campos conforme necessário -->
+    </div>
+</div>
+
+</body>
+</html>

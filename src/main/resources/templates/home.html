@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="home.css">
-    <title>Home</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        h1 {
-            margin-bottom: 24px;
-            color: #333;
-        }
-        a.button {
-            display: inline-block;
-            padding: 14px 28px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
-        }
-        a.button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/home.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Notas Fiscais</title>
 </head>
 <body>
-<div class="container">
-    <h1>Bem-vindo ao Sistema</h1>
-    <a href="/notas" class="button">Ir para Notas Fiscais</a>
-</div>
+
+<button class="menu-toggle" id="menu-toggle">☰</button>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-nav-container">
+        <div class="sidebar-logo">
+            <img src="/css/img/premier-logo.png" alt="Logo premier">
+        </div>
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item"><a href="/notas">Notas Fiscais</a></li>
+            <li class="sidebar-nav-item"><a href="#">Configurações</a></li>
+            <li class="sidebar-nav-item"><a href="#">Sair</a></li>
+        </ul>
+    </div>
+    <div class="sidebar-footer">
+        <p></p>
+    </div>
+</aside>
+
+<main class="main-content" id="main-content">
+    <header class="header">
+        <h1>Painel de Notas Fiscais</h1>
+        <p>Selecione uma das opções abaixo para gerenciar suas notas.</p>
+    </header>
+
+    <div class="card-container">
+        <a href="/notas" class="card">
+            <h2>Notas Fiscais</h2>
+            <p>Relatório completo das notas fiscais.</p>
+        </a>
+    </div>
+</main>
+
+<script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        mainContent.classList.toggle('shifted');
+    });
+</script>
 </body>
 </html>
