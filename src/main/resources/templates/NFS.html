@@ -59,6 +59,8 @@
     | Status: <strong th:text="${filtroStatus == 'true' ? 'Pagas' : 'Não Pagas'}"></strong>
         </span>
 
+    </div>
+
     <!-- Tabela -->
     <div class="table-container">
         <table class="tabela-notas">
@@ -100,12 +102,14 @@
 
                 <td>
                     <input type="checkbox"
-                           th:checked="${nota.statusPagamento == 'PAGO'}"  <!-- ✅ MUDE PARA statusPagamento -->
-                    onchange="atualizarStatus(this, [[${nota.id}]])" />
-                    <span th:text="${nota.statusPagamento}"  <!-- ✅ MUDE PARA statusPagamento -->
-                    th:class="${nota.statusPagamento == 'PAGO'} ? 'status-pago' : 'status-pendente'"  <!-- ✅ MUDE PARA statusPagamento -->
-                    class="status-texto"></span>
+                           th:checked="${nota.statusPagamento == 'PAGO'}"
+                           th:onchange="|atualizarStatus(this, ${nota.id})|" />
+
+                    <span th:text="${nota.statusPagamento}"
+                          th:classappend="${nota.statusPagamento == 'PAGO' ? 'status-pago' : 'status-pendente'}"
+                          class="status-texto"></span>
                 </td>
+
 
                 <td th:text="${nota.localRecolhimento}"></td>
                 <td>
@@ -113,7 +117,7 @@
                        class="btn btn-sm btn-info">Detalhes</a>
                 </td>
             </tr>
-            <tr th:if="${notas.empty}">
+            <tr th:if="${#lists.isEmpty(notas)}">
                 <td colspan="14" class="text-center">Nenhuma nota fiscal encontrada</td>
             </tr>
             </tbody>
