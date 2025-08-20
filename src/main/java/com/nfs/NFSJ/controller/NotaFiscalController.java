@@ -15,10 +15,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
+@RequestMapping("/notas")
 public class NotaFiscalController {
 
+
     @Autowired
-    private NotaFiscalRepository repository;  // Injetar repository aqui
+    private NotaFiscalRepository repository;
 
     @Autowired
     private NotaFiscalService service;
@@ -49,38 +51,49 @@ public class NotaFiscalController {
 
             redirectAttributes.addFlashAttribute("success", "Importação feita com sucesso!");
 
-        } catch (EncryptedDocumentException e) {
-            redirectAttributes.addFlashAttribute("error", "O arquivo está protegido por senha e não pode ser lido.");
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "Erro ao processar o arquivo. Verifique se ele é um Excel válido.");
         }
-
         return "redirect:/notas";
     }
 
-    // Lista notas, com filtro opcional
     @GetMapping
-    public String listarNotas(@RequestParam(required = false) String filtroTomador, Model model) {
+    public String listarNotas(@RequestParam(required = false) String filtroTomador,
+                              @RequestParam(required = false) String filtroStatus,
+                              Model model) {
         List<NotaFiscalModel> notas;
 
         if (filtroTomador != null && !filtroTomador.isEmpty()) {
-            filtroTomador = filtroTomador.trim().toUpperCase(); // Termo de busca já padronizado para maiúsculas
+            filtroTomador = filtroTomador.trim().toUpperCase();
             notas = repository.findByTomador(filtroTomador);
+        } else if (filtroStatus != null && !filtroStatus.isEmpty()) {
+
+            String statusPagamento = filtroStatus.equals("true") ? "PAGO" : "PENDENTE";
+            notas = repository.findByStatusPagamento(statusPagamento);
         } else {
             notas = repository.findAll();
         }
 
-        // O findDistinctTomadores já retorna os tomadores em MAIÚSCULAS
         model.addAttribute("notas", notas);
         model.addAttribute("tomadores", repository.findDistinctTomadores());
-        model.addAttribute("filtroTomador", filtroTomador);  // Para manter o filtro selecionado no select
+        model.addAttribute("filtroTomador", filtroTomador);
+        model.addAttribute("filtroStatus", filtroStatus);
+
         return "NFS";
     }
 
-    // Excluir notas selecionadas
+    @PostMapping("/atualizar-status/{id}")
+    @ResponseBody
+    public String atualizarStatus(@PathVariable Long id, @RequestBody StatusRequest statusRequest) {
+        try {
+            service.atualizarStatus(id, statusRequest.isStatus());
+            return "OK";
+        } catch (Exception e) {
+            return "ERRO";
+        }
+    }
+
     @PostMapping("/excluir-multiplos")
     public String excluirNotas(@RequestParam("ids") List<Long> idsSelecionados, RedirectAttributes redirectAttributes) {
         try {

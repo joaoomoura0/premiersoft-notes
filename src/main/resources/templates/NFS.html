@@ -32,8 +32,8 @@
 
     <select name="filtroStatus" id="filtroStatus" class="select-filtro">
         <option value="">Status (Todos)</option>
-        <option value="true" th:selected="${filtroStatus == true}">Pagas</option>
-        <option value="false" th:selected="${filtroStatus == false}">Não Pagas</option>
+        <option value="true" th:selected="${filtroStatus == 'true'}">Pagas</option>
+        <option value="false" th:selected="${filtroStatus == 'false'}">Não Pagas</option>
     </select>
 
     <button type="submit" class="btn btn-primary">Filtrar</button>
@@ -54,10 +54,10 @@
         <span th:if="${filtroTomador != null}" class="filtro-ativo">
             | Filtrado por Tomador: <strong th:text="${filtroTomador}"></strong>
         </span>
+
         <span th:if="${filtroStatus != null}" class="filtro-ativo">
-            | Status: <strong th:text="${filtroStatus ? 'Pagas' : 'Não Pagas'}"></strong>
+    | Status: <strong th:text="${filtroStatus == 'true' ? 'Pagas' : 'Não Pagas'}"></strong>
         </span>
-    </div>
 
     <!-- Tabela -->
     <div class="table-container">
@@ -97,14 +97,16 @@
                 <td th:text="${nota.aliquota != null ? #numbers.formatDecimal(nota.aliquota, 1, 2) + '%' : ''}"></td>
                 <td th:text="${#numbers.formatCurrency(nota.valorIssqn)}"></td>
                 <td th:text="${nota.retido}"></td>
+
                 <td>
                     <input type="checkbox"
-                           th:checked="${nota.status == 'PAGO'}"
-                           onchange="atualizarStatus(this, [[${nota.id}]])" />
-                    <span th:text="${nota.status}"
-                          th:class="${nota.status == 'PAGO'} ? 'status-pago' : 'status-pendente'"
-                          class="status-texto"></span>
+                           th:checked="${nota.statusPagamento == 'PAGO'}"  <!-- ✅ MUDE PARA statusPagamento -->
+                    onchange="atualizarStatus(this, [[${nota.id}]])" />
+                    <span th:text="${nota.statusPagamento}"  <!-- ✅ MUDE PARA statusPagamento -->
+                    th:class="${nota.statusPagamento == 'PAGO'} ? 'status-pago' : 'status-pendente'"  <!-- ✅ MUDE PARA statusPagamento -->
+                    class="status-texto"></span>
                 </td>
+
                 <td th:text="${nota.localRecolhimento}"></td>
                 <td>
                     <a th:href="@{/notas/{id}(id=${nota.id})}"

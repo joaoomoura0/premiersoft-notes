@@ -17,23 +17,16 @@ public class PagesController {
 
     @GetMapping("/home")
     public String home() {
-        return "home"; // home.html
-    }
-
-    @GetMapping("/notas")
-    public String notas(Model model) {
-        List<NotaFiscalModel> notas = service.listarNotas();
-        model.addAttribute("notas", notas);
-        return "NFS"; // home.html.html
+        return "home";
     }
 
     @GetMapping("/notas/cadastrar")
     public String cadastrar() {
-        return "cadastrar"; // cadastrar.html
+        return "cadastrar";
     }
 
     @GetMapping("/notas/importar")
     public String importar() {
-        return "importar"; // importar.html
+        return "importar";
     }
 }

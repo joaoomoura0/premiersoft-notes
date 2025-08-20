@@ -33,6 +33,8 @@ public class NotaFiscalModel {
 
     private String localRecolhimento;
 
+    private String statusPagamento;
+
     // Getters e Setters
     public Long getId() {
         return id;
@@ -128,5 +130,14 @@ public class NotaFiscalModel {
 
     public void setLocalRecolhimento(String localRecolhimento) {
         this.localRecolhimento = localRecolhimento;
+    }
+
+
+    public String getStatusPagamento() {
+        return statusPagamento;
+    }
+
+    public void setStatusPagamento(String statusPagamento) {
+        this.statusPagamento = statusPagamento;
     }
 }

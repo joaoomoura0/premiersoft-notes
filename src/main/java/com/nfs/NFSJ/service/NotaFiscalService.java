@@ -11,7 +11,6 @@ public class NotaFiscalService {
 
     private final NotaFiscalRepository repository;
 
-    // Usando injeção de dependência via construtor (melhor prática)
     public NotaFiscalService(NotaFiscalRepository repository) {
         this.repository = repository;
     }
@@ -20,11 +19,20 @@ public class NotaFiscalService {
         return repository.findAll();
     }
 
-    // MODIFICAÇÃO AQUI: Padroniza o campo 'tomador' para maiúsculas antes de salvar.
     public NotaFiscalModel salvarNota(NotaFiscalModel nota) {
         if (nota.getTomador() != null && !nota.getTomador().trim().isEmpty()) {
             nota.setTomador(nota.getTomador().trim().toUpperCase());
         }
+        if (nota.getStatusPagamento() == null) {
+            nota.setStatusPagamento("PENDENTE");
+        }
+
         return repository.save(nota);
+    }
+    public void atualizarStatus(Long id, boolean status) {
+        NotaFiscalModel nota = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Nota não encontrada"));
+        nota.setStatusPagamento(status ? "PAGO" : "PENDENTE");
+        repository.save(nota);
     }
 }
