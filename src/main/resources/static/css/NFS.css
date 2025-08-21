@@ -369,7 +369,6 @@ input[type="checkbox"] {
     }
 }
 
-/* Animações e efeitos */
 @keyframes fadeIn {
     from {
         opacity: 0;

@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/notas")
@@ -25,6 +26,7 @@ public class NotaFiscalController {
     @Autowired
     private NotaFiscalService service;
 
+    // Rota para cadastrar uma nova nota (POST)
     @PostMapping("/cadastrar")
     public String cadastrarNota(@ModelAttribute NotaFiscalModel notaFiscal, RedirectAttributes redirectAttributes) {
         service.salvarNota(notaFiscal);
@@ -32,25 +34,24 @@ public class NotaFiscalController {
         return "redirect:/notas";
     }
 
+    // Rota para importar notas via Excel (POST)
     @PostMapping("/importar")
     public String importarExcel(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         String filename = file.getOriginalFilename();
-
         if (filename == null || !(filename.endsWith(".xls") || filename.endsWith(".xlsx"))) {
             redirectAttributes.addFlashAttribute("error", "Por favor, envie um arquivo Excel válido (.xls ou .xlsx).");
             return "redirect:/notas";
         }
-
         try {
-            List<NotaFiscalModel> notas = ExcelHelper.lerNotasDoExcel(file.getInputStream(), filename);
-
+            List<NotaFiscalModel> notas = ExcelHelper.lerNotasDoExcel(file.getInputStream());
             for (NotaFiscalModel nota : notas) {
-                // A padronização do 'tomador' ocorre no service.salvarNota()
                 service.salvarNota(nota);
             }
-
             redirectAttributes.addFlashAttribute("success", "Importação feita com sucesso!");
-
+        } catch (EncryptedDocumentException e) {
+            redirectAttributes.addFlashAttribute("error", "O arquivo está protegido por senha e não pode ser lido.");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "Erro ao processar o arquivo. Verifique se ele é um Excel válido.");
@@ -94,6 +95,24 @@ public class NotaFiscalController {
         }
     }
 
+    @GetMapping("/{id}")
+    public String verDetalhesDaNota(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        // Busca a nota fiscal no repositório pelo ID
+        Optional<NotaFiscalModel> notaOptional = repository.findById(id);
+
+        // Verifica se a nota foi encontrada
+        if (notaOptional.isPresent()) {
+            // Se encontrou, adiciona o objeto da nota ao modelo
+            model.addAttribute("nota", notaOptional.get());
+            // Retorna o nome do arquivo HTML que será renderizado
+            return "detalhes-nota";
+        } else {
+            // Se não encontrou, redireciona para a lista com uma mensagem de erro
+            redirectAttributes.addFlashAttribute("error", "Nota fiscal com ID " + id + " não encontrada.");
+            return "redirect:/notas";
+        }
+    }
+
     @PostMapping("/excluir-multiplos")
     public String excluirNotas(@RequestParam("ids") List<Long> idsSelecionados, RedirectAttributes redirectAttributes) {
         try {
@@ -105,7 +124,7 @@ public class NotaFiscalController {
         }
         return "redirect:/notas";
     }
-    class StatusRequest {
+    static class StatusRequest {
         private boolean status;
 
         public boolean isStatus() {

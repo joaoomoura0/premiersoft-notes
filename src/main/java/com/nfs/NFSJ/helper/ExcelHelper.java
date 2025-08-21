@@ -1,11 +1,7 @@
 package com.nfs.NFSJ.helper;
 
 import com.nfs.NFSJ.models.NotaFiscalModel;
-import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -14,7 +10,7 @@ import java.util.List;
 
 public class ExcelHelper {
 
-    public static List<NotaFiscalModel> lerNotasDoExcel(InputStream is, String filename) {
+    public static List<NotaFiscalModel> lerNotasDoExcel(InputStream is) {
         List<NotaFiscalModel> notas = new ArrayList<>();
 
         try (Workbook workbook = WorkbookFactory.create(is)) {
@@ -23,140 +19,84 @@ public class ExcelHelper {
             boolean primeiraLinha = true;
             for (Row row : sheet) {
                 if (primeiraLinha) {
-                    primeiraLinha = false; // pula cabeçalho
+                    primeiraLinha = false; // Pula o cabeçalho
+                    continue;
+                }
+
+                // Ignora linhas completamente vazias
+                if (row == null || row.getCell(1) == null) {
                     continue;
                 }
 
                 NotaFiscalModel nota = new NotaFiscalModel();
 
-                Cell cell;
+                // Coluna 1: Data Emissao
+                lerData(row.getCell(1), nota);
 
-                // Data Emissao (col 0)
-                cell = row.getCell(1);
-                if (cell != null && cell.getCellType() == CellType.NUMERIC && DateUtil.isCellDateFormatted(cell)) {
-                    LocalDate data = cell.getDateCellValue()
-                            .toInstant()
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDate();
-                    nota.setDataEmissao(data);
-                }
+                // Coluna 2: CNPJ Tomador
+                nota.setCnpjTomador(lerString(row.getCell(2)));
 
-                // CNPJ Tomador (col 1)
-                cell = row.getCell(2);
-                if (cell != null) {
-                    cell.setCellType(CellType.STRING);
-                    nota.setCnpjTomador(cell.getStringCellValue());
-                }
+                // Coluna 3: Tomador
+                nota.setTomador(lerString(row.getCell(3)));
 
-                // Tomador (col 2)
-                cell = row.getCell(3);
-                if (cell != null) {
-                    cell.setCellType(CellType.STRING);
-                    nota.setTomador(cell.getStringCellValue());
-                }
+                // Coluna 4: Valor NF
+                nota.setValorNF(lerDouble(row.getCell(4)));
 
-                // Valor NF (col 3)
-                cell = row.getCell(4);
-                if (cell != null) {
-                    if (cell.getCellType() == CellType.NUMERIC) {
-                        nota.setValorNF(cell.getNumericCellValue());
-                    } else if (cell.getCellType() == CellType.STRING) {
-                        try {
-                            nota.setValorNF(Double.parseDouble(cell.getStringCellValue().replace(",", ".")));
-                        } catch (Exception e) {
-                            nota.setValorNF(0.0);
-                        }
-                    }
-                }
+                // Coluna 5: Valor Deducoes
+                nota.setValorDeducoes(lerDouble(row.getCell(5)));
 
-                // Valor Deducoes (col 4)
-                cell = row.getCell(5);
-                if (cell != null) {
-                    if (cell.getCellType() == CellType.NUMERIC) {
-                        nota.setValorDeducoes(cell.getNumericCellValue());
-                    } else if (cell.getCellType() == CellType.STRING) {
-                        try {
-                            nota.setValorDeducoes(Double.parseDouble(cell.getStringCellValue().replace(",", ".")));
-                        } catch (Exception e) {
-                            nota.setValorDeducoes(0.0);
-                        }
-                    }
-                }
+                // Coluna 6: Valor Base
+                nota.setValorBase(lerDouble(row.getCell(6)));
 
-                // Valor Base (col 5)
-                cell = row.getCell(6);
-                if (cell != null) {
-                    if (cell.getCellType() == CellType.NUMERIC) {
-                        nota.setValorBase(cell.getNumericCellValue());
-                    } else if (cell.getCellType() == CellType.STRING) {
-                        try {
-                            nota.setValorBase(Double.parseDouble(cell.getStringCellValue().replace(",", ".")));
-                        } catch (Exception e) {
-                            nota.setValorBase(0.0);
-                        }
-                    }
-                }
+                // Coluna 7: Aliquota
+                nota.setAliquota(lerDouble(row.getCell(7)));
 
-                // Aliquota (col 6)
-                cell = row.getCell(7);
-                if (cell != null) {
-                    if (cell.getCellType() == CellType.NUMERIC) {
-                        nota.setAliquota(cell.getNumericCellValue());
-                    } else if (cell.getCellType() == CellType.STRING) {
-                        try {
-                            nota.setAliquota(Double.parseDouble(cell.getStringCellValue().replace(",", ".")));
-                        } catch (Exception e) {
-                            nota.setAliquota(0.0);
-                        }
-                    }
-                }
+                // Coluna 8: Valor ISSQN
+                nota.setValorIssqn(lerDouble(row.getCell(8))); // <--- CORREÇÃO APLICADA AQUI
 
-                // Valor ISSQN (col 8)
-                cell = row.getCell(7);
-                if (cell != null) {
-                    if (cell.getCellType() == CellType.NUMERIC) {
-                        nota.setValorIssqn(cell.getNumericCellValue());
-                    } else if (cell.getCellType() == CellType.STRING) {
-                        try {
-                            nota.setValorIssqn(Double.parseDouble(cell.getStringCellValue().replace(",", ".")));
-                        } catch (Exception e) {
-                            nota.setValorIssqn(0.0);
-                        }
-                    }
-                }
+                // Coluna 9: Retido
+                nota.setRetido(lerString(row.getCell(9)));
 
-                // Retido (col 8)
-                cell = row.getCell(9);
-                if (cell != null) {
-                    cell.setCellType(CellType.STRING);
-                    nota.setRetido(cell.getStringCellValue());
-                }
+                // Coluna 10: Status
+                nota.setStatus(lerString(row.getCell(10)));
 
-                // Status (col 9)
-                cell = row.getCell(10);
-                if (cell != null) {
-                    cell.setCellType(CellType.STRING);
-                    nota.setStatus(cell.getStringCellValue());
-                }
-
-                // Local Recolhimento (col 10)
-                cell = row.getCell(11);
-                if (cell != null) {
-                    cell.setCellType(CellType.STRING);
-                    nota.setLocalRecolhimento(cell.getStringCellValue());
-                }
+                // Coluna 11: Local Recolhimento
+                nota.setLocalRecolhimento(lerString(row.getCell(11)));
 
                 notas.add(nota);
             }
-        } catch (EncryptedDocumentException e) {
-            // Arquivo protegido por senha
-            throw e;
         } catch (Exception e) {
-            // Outro erro qualquer: formato inválido, conteúdo corrompido etc
-            e.printStackTrace(); // assim você vê o erro no terminal
-            throw new IllegalArgumentException("Erro ao ler o conteúdo do Excel. Verifique o arquivo enviado.");
+            e.printStackTrace();
+            throw new IllegalArgumentException("Erro ao ler o conteúdo do Excel. Verifique o formato e o conteúdo do arquivo.");
         }
         return notas;
     }
-}
 
+    // Funções auxiliares para evitar repetição de código e tratar células vazias
+    private static String lerString(Cell cell) {
+        if (cell == null) return null;
+        cell.setCellType(CellType.STRING);
+        return cell.getStringCellValue();
+    }
+
+    private static Double lerDouble(Cell cell) {
+        if (cell == null) return 0.0;
+        if (cell.getCellType() == CellType.NUMERIC) {
+            return cell.getNumericCellValue();
+        }
+        if (cell.getCellType() == CellType.STRING) {
+            try {
+                return Double.parseDouble(cell.getStringCellValue().replace(",", "."));
+            } catch (NumberFormatException e) {
+                return 0.0;
+            }
+        }
+        return 0.0;
+    }
+
+    private static void lerData(Cell cell, NotaFiscalModel nota) {
+        if (cell != null && cell.getCellType() == CellType.NUMERIC && DateUtil.isCellDateFormatted(cell)) {
+            nota.setDataEmissao(cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
+    }
+}

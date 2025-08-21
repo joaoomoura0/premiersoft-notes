@@ -62,70 +62,73 @@
     </div>
 
     <!-- Tabela -->
-    <div class="table-container">
-        <table class="tabela-notas">
-            <thead>
-            <tr>
-                <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"/></th>
-                <th>ID</th>
-                <th>Data Emissão</th>
-                <th>CNPJ Tomador</th>
-                <th>Tomador</th>
-                <th>Valor NF</th>
-                <th>Valor Deduções</th>
-                <th>Valor Base</th>
-                <th>Alíquota</th>
-                <th>Valor ISSQN</th>
-                <th>Retido</th>
-                <th>Status</th>
-                <th>Local Recolhimento</th>
-                <th>Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="nota : ${notas}">
-                <td><input type="checkbox" name="ids" th:value="${nota.id}"/></td>
-                <td>
-                    <a th:href="@{/notas/{id}(id=${nota.id})}"
-                       th:text="${nota.id}"
-                       class="link-detalhes"></a>
-                </td>
-                <td th:text="${#temporals.format(nota.dataEmissao, 'dd/MM/yyyy')}"></td>
-                <td th:text="${nota.cnpjTomador}"></td>
-                <td th:text="${nota.tomador}"></td>
-                <td th:text="${#numbers.formatCurrency(nota.valorNF)}"></td>
-                <td th:text="${#numbers.formatCurrency(nota.valorDeducoes)}"></td>
-                <td th:text="${#numbers.formatCurrency(nota.valorBase)}"></td>
-                <td th:text="${nota.aliquota != null ? #numbers.formatDecimal(nota.aliquota, 1, 2) + '%' : ''}"></td>
-                <td th:text="${#numbers.formatCurrency(nota.valorIssqn)}"></td>
-                <td th:text="${nota.retido}"></td>
+    <div class="tabela-e-acoes-wrapper">
 
-                <td>
-                    <input type="checkbox"
-                           th:checked="${nota.statusPagamento == 'PAGO'}"
-                           th:onchange="|atualizarStatus(this, ${nota.id})|" />
+        <div class="table-container">
+            <table class="tabela-notas">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"/></th>
+                    <th>Data Emissão</th>
+                    <th>CNPJ Tomador</th>
+                    <th>Tomador</th>
+                    <th>Valor NF</th>
+                    <th>Valor Deduções</th>
+                    <th>Valor Base</th>
+                    <th>Alíquota</th>
+                    <th>Valor ISSQN</th>
+                    <th>Retido</th>
+                    <th>Status da Nota</th>
+                    <th>Status Pagamento</th>
+                    <th>Local Recolhimento</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="nota : ${notas}">
+                    <td><input type="checkbox" name="ids" th:value="${nota.id}"/></td>
+                    <td th:text="${#temporals.format(nota.dataEmissao, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${nota.cnpjTomador}"></td>
+                    <td th:text="${nota.tomador}"></td>
+                    <td th:text="${#numbers.formatCurrency(nota.valorNF)}"></td>
+                    <td th:text="${(nota.valorDeducoes == null or nota.valorDeducoes == 0) ? '0' : (nota.valorDeducoes % 1 == 0 ? #numbers.formatInteger(nota.valorDeducoes, 1) : #numbers.formatDecimal(nota.valorDeducoes, 1, 2))}"></td>
+                    <td th:text="${#numbers.formatCurrency(nota.valorBase)}"></td>
+                    <td th:text="${(nota.aliquota == null or nota.aliquota == 0) ? '0' : (nota.aliquota % 1 == 0 ? #numbers.formatInteger(nota.aliquota, 1) : #numbers.formatDecimal(nota.aliquota, 1, 2))}"></td>
+                    <td th:text="${#numbers.formatCurrency(nota.valorIssqn)}"></td>
+                    <td th:text="${nota.retido}"></td>
+                    <td th:text="${nota.status}"></td>
+                    <td>
+                        <input type="checkbox"
+                               th:checked="${nota.statusPagamento == 'PAGO'}"
+                               th:onchange="|atualizarStatus(this, ${nota.id})|" />
+                        <span th:text="${nota.statusPagamento}"
+                              th:classappend="${nota.statusPagamento == 'PAGO' ? 'status-pago' : 'status-pendente'}"
+                              class="status-texto"></span>
+                    </td>
+                    <td th:text="${nota.localRecolhimento}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(notas)}">
+                    <td colspan="13" class="text-center">Nenhuma nota fiscal encontrada</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-                    <span th:text="${nota.statusPagamento}"
-                          th:classappend="${nota.statusPagamento == 'PAGO' ? 'status-pago' : 'status-pendente'}"
-                          class="status-texto"></span>
-                </td>
 
-
-                <td th:text="${nota.localRecolhimento}"></td>
-                <td>
+        <div class="acoes-externas-container">
+            <div class="acoes-header">Ações</div>
+            <div class="acoes-body">
+                <!-- Loop para gerar um botão para cada nota -->
+                <div class="acao-item" th:each="nota : ${notas}">
                     <a th:href="@{/notas/{id}(id=${nota.id})}"
                        class="btn btn-sm btn-info">Detalhes</a>
-                </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(notas)}">
-                <td colspan="14" class="text-center">Nenhuma nota fiscal encontrada</td>
-            </tr>
-            </tbody>
-        </table>
+                </div>
+            </div>
+        </div>
+
     </div>
+
 </form>
 
-<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="/js/NFS.js"></script>
