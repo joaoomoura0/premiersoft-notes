@@ -7,19 +7,15 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
-
 <header>
-    <h1>Notas Fiscais</h1>
+    <img src="/css/img/premier-logo.png" alt="Logo premier" class="header-logo">
 </header>
-
-<!-- Alerts -->
 <div th:if="${success}" class="alert alert-success" role="alert">
     <p th:text="${success}"></p>
 </div>
 <div th:if="${error}" class="alert alert-danger" role="alert">
     <p th:text="${error}"></p>
 </div>
-
 <!-- Filtros -->
 <form method="get" action="/notas" class="form-filtros">
     <select name="filtroTomador" id="filtroTomador" class="select-filtro">
@@ -29,7 +25,8 @@
                 th:text="${tomador}"
                 th:selected="${filtroTomador == tomador}"></option>
     </select>
-
+    code
+    Code
     <select name="filtroStatus" id="filtroStatus" class="select-filtro">
         <option value="">Status (Todos)</option>
         <option value="true" th:selected="${filtroStatus == 'true'}">Pagas</option>
@@ -39,29 +36,27 @@
     <button type="submit" class="btn btn-primary">Filtrar</button>
     <a href="/notas" class="btn btn-secondary">Limpar Filtros</a>
 </form>
-
-<!-- Ações -->
 <form th:action="@{/notas/excluir-multiplos}" method="post" onsubmit="return validarExclusao();">
     <div class="botoes-container">
         <a href="/notas/cadastrar" class="btn btn-secondary">Cadastrar Nota</a>
         <a href="/notas/importar" class="btn btn-secondary">Importar via Excel</a>
         <button type="submit" class="btn btn-danger">Excluir Selecionados</button>
     </div>
-
+    code
+    Code
     <!-- Quantidade de Notas -->
     <div class="qtd-notas">
         <span>Total de notas: <strong th:text="${notas.size()}"></strong></span>
         <span th:if="${filtroTomador != null}" class="filtro-ativo">
-            | Filtrado por Tomador: <strong th:text="${filtroTomador}"></strong>
-        </span>
+        | Filtrado por Tomador: <strong th:text="${filtroTomador}"></strong>
+    </span>
 
         <span th:if="${filtroStatus != null}" class="filtro-ativo">
-    | Status: <strong th:text="${filtroStatus == 'true' ? 'Pagas' : 'Não Pagas'}"></strong>
-        </span>
+| Status: <strong th:text="${filtroStatus == 'true' ? 'Pagas' : 'Não Pagas'}"></strong>
+    </span>
 
     </div>
 
-    <!-- Tabela -->
     <div class="tabela-e-acoes-wrapper">
 
         <div class="table-container">
@@ -112,27 +107,13 @@
                 </tbody>
             </table>
         </div>
-
-
-        <div class="acoes-externas-container">
-            <div class="acoes-header">Ações</div>
-            <div class="acoes-body">
-                <!-- Loop para gerar um botão para cada nota -->
-                <div class="acao-item" th:each="nota : ${notas}">
-                    <a th:href="@{/notas/{id}(id=${nota.id})}"
-                       class="btn btn-sm btn-info">Detalhes</a>
-                </div>
-            </div>
         </div>
 
     </div>
-
 </form>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="/js/NFS.js"></script>
-
 <script>
     function atualizarStatus(checkbox, notaId) {
         const novoStatus = checkbox.checked;

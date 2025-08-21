@@ -1,15 +1,14 @@
 :root {
-    --primary-color: #004d9c;       /* Azul PremierSoft */
-    --secondary-color: #003366;     /* Azul Escuro */
-    --accent-color: #4da6ff;        /* Azul Claro */
-    --text-color: #333;             /* Preto/cinza para texto */
-    --background-light: #f4f4f4;    /* Cinza claro para o fundo */
-    --background-dark: #e0e0e0;     /* Cinza médio */
-    --card-background: #ffffff;     /* Branco para cartões e containers */
+    --primary-color: #004d9c;
+    --secondary-color: #003366;
+    --accent-color: #4da6ff;
+    --text-color: #333;
+    --background-light: #f4f4f4;
+    --background-dark: #e0e0e0;
+    --card-background: #ffffff;
     --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Reset e configurações básicas */
 * {
     margin: 0;
     padding: 0;
@@ -23,30 +22,25 @@ body {
     line-height: 1.6;
 }
 
-/* Header */
 header {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 2rem 0;
-    box-shadow: var(--shadow);
-    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-header h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: 300;
-    letter-spacing: 1px;
+.header-logo {
+    width: 300px;
+    max-width: 90%;
+    height: auto;
+    margin: 2rem;
 }
 
-/* Container principal */
 body > * {
-    max-width: 1400px;
+    max-width: 90%;
     margin: 0 auto;
     padding: 0 1rem;
 }
 
-/* Alerts */
 .alert {
     padding: 1rem 1.5rem;
     margin-bottom: 1.5rem;
@@ -67,7 +61,6 @@ body > * {
     border-left-color: #dc3545;
 }
 
-/* Formulário de filtros */
 .form-filtros, .botoes-container, .qtd-notas {
     background-color: var(--card-background);
     padding: 1.5rem;
@@ -96,7 +89,6 @@ body > * {
     box-shadow: 0 0 0 3px rgba(0, 77, 156, 0.1);
 }
 
-/* Botões */
 .btn {
     padding: 0.75rem 1.5rem;
     border: none;
@@ -156,12 +148,10 @@ body > * {
     font-size: 0.85rem;
 }
 
-/* Container de botões */
 .botoes-container {
     margin-bottom: 1rem;
 }
 
-/* Quantidade de notas */
 .qtd-notas {
     margin-bottom: 1.5rem;
     font-size: 0.95rem;
@@ -173,7 +163,6 @@ body > * {
     font-weight: 500;
 }
 
-/* Container da tabela */
 .table-container {
     background: var(--card-background);
     border-radius: 12px;
@@ -182,7 +171,6 @@ body > * {
     margin-bottom: 2rem;
 }
 
-/* Tabela */
 .tabela-notas {
     width: 100%;
     border-collapse: collapse;
@@ -218,7 +206,6 @@ body > * {
     background-color: #f0f1f5;
 }
 
-/* Links de detalhes */
 .link-detalhes {
     color: var(--primary-color);
     text-decoration: none;
@@ -231,7 +218,6 @@ body > * {
     text-decoration: underline;
 }
 
-/* Status */
 .status-texto {
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
@@ -252,7 +238,6 @@ body > * {
     color: #856404;
 }
 
-/* Checkboxes personalizados */
 input[type="checkbox"] {
     width: 18px;
     height: 18px;
@@ -260,7 +245,6 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
-/* Centralizar texto */
 .text-center {
     text-align: center;
     color: #6c757d;
@@ -268,7 +252,6 @@ input[type="checkbox"] {
     padding: 2rem;
 }
 
-/* Select2 customization */
 .select2-container--default .select2-selection--single {
     height: auto !important;
     padding: 0.75rem 1rem;
@@ -304,7 +287,27 @@ input[type="checkbox"] {
     background-color: var(--primary-color) !important;
 }
 
-/* Responsividade */
+.tabela-notas .col-acoes, /* Usando classe para consistência */
+.tabela-notas th:last-child,
+.tabela-notas td:last-child {
+    width: 60px; /* Largura bem pequena */
+    text-align: center;
+}
+
+/* Estilo para o link que envolve o ícone */
+.action-icon {
+    display: inline-block;
+    color: var(--primary-color); /* Usa a cor primária da sua marca */
+    font-size: 1.2rem; /* Tamanho do ícone */
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Efeito de hover para o ícone */
+.action-icon:hover {
+    color: var(--secondary-color); /* Escurece a cor no hover */
+    transform: scale(1.2); /* Aumenta um pouco o tamanho no hover */
+}
+
 @media (max-width: 1200px) {
     .table-container {
         overflow-x: auto;

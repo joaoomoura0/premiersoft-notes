@@ -1,15 +1,13 @@
 :root {
-    --primary-color: #004d9c;       /* Azul PremierSoft */
-    --secondary-color: #003366;     /* Azul Escuro */
-    --accent-color: #4da6ff;        /* Azul Claro */
-    --text-color: #333;             /* Preto/cinza para texto */
-    --background-light: #f4f4f4;    /* Cinza claro para o fundo */
-    --background-dark: #e0e0e0;     /* Cinza médio */
-    --card-background: #ffffff;     /* Branco para cartões */
+    --primary-color: #004d9c;
+    --secondary-color: #003366;
+    --accent-color: #4da6ff;
+    --background-light: #f4f4f4;
+    --background-dark: #e0e0e0;
+    --card-background: #ffffff;
     --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Base styles */
 * {
     margin: 0;
     padding: 0;
@@ -24,7 +22,6 @@ body {
     min-height: 100vh;
 }
 
-/* Sidebar styles */
 .sidebar {
     width: 250px;
     background-color: var(--primary-color);
@@ -45,8 +42,10 @@ body {
 }
 
 .sidebar-logo img {
-    width: 150px;
+    width: 200px;
     height: auto;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .sidebar-nav {
@@ -77,7 +76,6 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* Main Content and Header styles */
 .main-content {
     margin-left: 250px;
     padding: 40px;
@@ -152,22 +150,4 @@ body {
     cursor: pointer;
     border-radius: 5px;
     box-shadow: var(--shadow);
-}
-
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
-    }
-    .sidebar {
-        transform: translateX(-100%);
-    }
-    .sidebar.active {
-        transform: translateX(0);
-    }
-    .main-content {
-        margin-left: 0;
-    }
-    .main-content.shifted {
-        margin-left: 250px;
-    }
 }
