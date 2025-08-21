@@ -15,7 +15,7 @@ A ideia surgiu a partir da minha rotina na empresa, onde esse processo era feito
 - ✔️ **Listagem** de notas fiscais  
 - ✔️ **Filtro** por tomador  
 - ✔️ **Exclusão** de notas fiscais  
-- ✔️ **Controle de pagamento**: marcar se a nota está **Paga**, **No Prazo** ou **Atrasada** *(em breve)*  
+- ❌ **Controle de pagamento**: marcar se a nota está **Paga**, **No Prazo** ou **Atrasada** *(em breve)*  
 - ❌ **Autenticação de usuários** *(em breve)*  
 
 ---
