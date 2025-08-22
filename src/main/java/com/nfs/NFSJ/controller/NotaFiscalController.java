@@ -126,6 +126,7 @@ public class NotaFiscalController {
         }
         return "redirect:/notas";
     }
+
     static class StatusRequest {
         private boolean status;
 
