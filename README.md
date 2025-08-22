@@ -18,7 +18,7 @@ A ideia surgiu a partir da minha rotina na empresa, onde esse processo era feito
 - ✔️ **Filtro** por tomador  
 - ✔️ **Exclusão** de notas fiscais
 - ✔️ **Controle de pagamento**: marcar se a nota está **Paga** ou **Atrasada**
-- ❌ **Painel de prazo:** permitir que cada nota seja cadastrada com um prazo de pagamento específico **(ex: 7, 15, 45 dias).** *(em breve)*
+- ❌ **Painel de prazo:** permitir que cada nota seja cadastrada com um prazo de pagamento específico **(ex: 7, 15, 45 dias), (em breve)**
 - ❌ **Autenticação de usuários** *(em breve)*  
 
 ---
