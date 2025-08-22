@@ -100,14 +100,10 @@ public class NotaFiscalController {
         // Busca a nota fiscal no repositório pelo ID
         Optional<NotaFiscalModel> notaOptional = repository.findById(id);
 
-        // Verifica se a nota foi encontrada
         if (notaOptional.isPresent()) {
-            // Se encontrou, adiciona o objeto da nota ao modelo
             model.addAttribute("nota", notaOptional.get());
-            // Retorna o nome do arquivo HTML que será renderizado
             return "detalhes-nota";
         } else {
-            // Se não encontrou, redireciona para a lista com uma mensagem de erro
             redirectAttributes.addFlashAttribute("error", "Nota fiscal com ID " + id + " não encontrada.");
             return "redirect:/notas";
         }

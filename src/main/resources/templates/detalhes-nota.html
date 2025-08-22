@@ -3,41 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalhes da Nota Fiscal</title>
-    <link rel="stylesheet" href="/css/detalhes-nota.css">
-</head>
+    <link rel="stylesheet" href="/css/detalhes-nota.css"></head>
 <body>
+<div class="container">
+    <header>
+        <img src="/css/img/premier-logo.png" alt="Logo premier" class="header-logo">
+    </header>
 
-<header>
-    <h1>Detalhes da Nota Fiscal #<span th:text="${nota.id}"></span></h1>
-    <a href="/notas" class="btn btn-secondary">← Voltar</a>
-</header>
+    <div class="details-card">
+        <h2>Detalhes da Nota Fiscal #<span th:text="${nota.id}"></span></h2>
 
-<div class="detalhes-container">
-    <div class="detalhes-card">
-        <div class="detalhes-row">
-            <span class="detalhes-label">Data Emissão:</span>
-            <span th:text="${nota.dataEmissao}"></span>
+        <div class="details-grid">
+
+            <!-- Grupo 1: Informações Principais -->
+            <div class="details-group">
+                <span class="details-label">Data de Emissão</span>
+                <span class="details-value" th:text="${#temporals.format(nota.dataEmissao, 'dd/MM/yyyy')}"></span>
+            </div>
+            <div class="details-group">
+                <span class="details-label">Tomador</span>
+                <span class="details-value" th:text="${nota.tomador}"></span>
+            </div>
+            <div class="details-group">
+                <span class="details-label">CNPJ do Tomador</span>
+                <span class="details-value" th:text="${nota.cnpjTomador}"></span>
+            </div>
+            <div class="details-group">
+                <span class="details-label">Local do Recolhimento</span>
+                <span class="details-value" th:text="${nota.localRecolhimento}"></span>
+            </div>
+
+            <!-- Grupo 2: Valores -->
+            <div class="details-group">
+                <span class="details-label">Valor da NF</span>
+                <span class="details-value currency" th:text="${#numbers.formatCurrency(nota.valorNF)}"></span>
+            </div>
+            <div class="details-group">
+                <span class="details-label">Valor das Deduções</span>
+                <span class="details-value currency" th:text="${#numbers.formatCurrency(nota.valorDeducoes)}"></span>
+            </div>
+            <div class="details-group">
+                <span class="details-label">Valor Base</span>
+                <span class="details-value currency" th:text="${#numbers.formatCurrency(nota.valorBase)}"></span>
+            </div>
+            <div class="details-group">
+                <span class="details-label">Alíquota</span>
+                <span class="details-value" th:text="${nota.aliquota} + '%'"></span>
+            </div>
+            <div class="details-group">
+                <span class="details-label">Valor ISSQN</span>
+                <span class="details-value currency" th:text="${#numbers.formatCurrency(nota.valorIssqn)}"></span>
+            </div>
+            <div class="details-group">
+                <span class="details-label">ISSQN Retido</span>
+                <span class="details-value" th:text="${nota.retido}"></span>
+            </div>
+
+            <!-- Grupo 3: Status -->
+            <div class="details-group">
+                <span class="details-label">Status da Nota</span>
+                <span class="details-value">
+                     <span class="status-badge"
+                           th:classappend="${nota.status == 'NORMAL'} ? 'status-normal' : 'status-cancelada'"
+                           th:text="${nota.status}">
+                     </span>
+                </span>
+            </div>
+            <div class="details-group">
+                <span class="details-label">Status do Pagamento</span>
+                <span class="details-value">
+                     <span class="status-badge"
+                           th:classappend="${nota.statusPagamento == 'PAGO'} ? 'status-pago' : 'status-pendente'"
+                           th:text="${nota.statusPagamento}">
+                     </span>
+                </span>
+            </div>
+
         </div>
-        <div class="detalhes-row">
-            <span class="detalhes-label">CNPJ Tomador:</span>
-            <span th:text="${nota.cnpjTomador}"></span>
-        </div>
-        <div class="detalhes-row">
-            <span class="detalhes-label">Tomador:</span>
-            <span th:text="${nota.tomador}"></span>
-        </div>
-        <div class="detalhes-row">
-            <span class="detalhes-label">Valor NF:</span>
-            <span th:text="${#numbers.formatCurrency(nota.valorNF)}"></span>
-        </div>
-        <div class="detalhes-row">
-            <span class="detalhes-label">Status:</span>
-            <span th:class="${nota.status == 'PAGO'} ? 'status-pago' : 'status-pendente'"
-                  th:text="${nota.status}"></span>
-        </div>
-        <!-- Adicione mais campos conforme necessário -->
     </div>
-</div>
 
+    <!-- Botão de Voltar -->
+    <div class="link-container">
+        <a th:href="@{/notas}" class="button-link">Voltar para a Lista de Notas</a>
+    </div>
+
+</div>
 </body>
 </html>
