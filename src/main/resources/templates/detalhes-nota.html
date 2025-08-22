@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalhes da Nota Fiscal</title>
-    <link rel="stylesheet" href="/css/detalhes-nota.css"></head>
+    <!-- O link já aponta para o seu CSS correto -->
+    <link rel="stylesheet" href="/css/detalhes-nota.css">
+    <!-- Ícones para o painel de prazo -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
 <body>
 <div class="container">
     <header>
@@ -13,72 +17,90 @@
     <div class="details-card">
         <h2>Detalhes da Nota Fiscal #<span th:text="${nota.id}"></span></h2>
 
-        <div class="details-grid">
 
-            <!-- Grupo 1: Informações Principais -->
-            <div class="details-group">
-                <span class="details-label">Data de Emissão</span>
-                <span class="details-value" th:text="${#temporals.format(nota.dataEmissao, 'dd/MM/yyyy')}"></span>
-            </div>
-            <div class="details-group">
-                <span class="details-label">Tomador</span>
-                <span class="details-value" th:text="${nota.tomador}"></span>
-            </div>
-            <div class="details-group">
-                <span class="details-label">CNPJ do Tomador</span>
-                <span class="details-value" th:text="${nota.cnpjTomador}"></span>
-            </div>
-            <div class="details-group">
-                <span class="details-label">Local do Recolhimento</span>
-                <span class="details-value" th:text="${nota.localRecolhimento}"></span>
+        <!-- CENÁRIO 1: A NOTA JÁ FOI PAGA -->
+        <div th:if="${nota.statusPagamento == 'PAGO'}"
+             class="deadline-status-card"
+             th:classappend="${nota.diasPagamento != null and nota.diasPagamento < 0} ? 'status-pago-atrasado' : 'status-pago-em-dia'">
+
+            <div th:if="${nota.diasPagamento != null and nota.diasPagamento < 0}" class="deadline-content">
+                <span class="deadline-main-number" th:text="${nota.diasPagamento * -1}">3</span>
+                <span class="deadline-label">pago com dias de atraso</span>
+                <div class="deadline-date">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span th:text="'Pago em ' + ${nota.dataPagamentoFormatada}">Pago em 03/10/2025</span>
+                </div>
             </div>
 
-            <!-- Grupo 2: Valores -->
-            <div class="details-group">
-                <span class="details-label">Valor da NF</span>
-                <span class="details-value currency" th:text="${#numbers.formatCurrency(nota.valorNF)}"></span>
+            <div th:if="${nota.diasPagamento == null or nota.diasPagamento >= 0}" class="deadline-content">
+                <span class="deadline-main-number" th:text="${nota.diasPagamento}">12</span>
+                <span class="deadline-label">pago com dias de antecedência</span>
+                <div class="deadline-date">
+                    <i class="fas fa-check-circle"></i>
+                    <span th:text="'Pago em ' + ${nota.dataPagamentoFormatada}">Pago em 18/09/2025</span>
+                </div>
             </div>
-            <div class="details-group">
-                <span class="details-label">Valor das Deduções</span>
-                <span class="details-value currency" th:text="${#numbers.formatCurrency(nota.valorDeducoes)}"></span>
-            </div>
-            <div class="details-group">
-                <span class="details-label">Valor Base</span>
-                <span class="details-value currency" th:text="${#numbers.formatCurrency(nota.valorBase)}"></span>
-            </div>
-            <div class="details-group">
-                <span class="details-label">Alíquota</span>
-                <span class="details-value" th:text="${nota.aliquota} + '%'"></span>
-            </div>
-            <div class="details-group">
-                <span class="details-label">Valor ISSQN</span>
-                <span class="details-value currency" th:text="${#numbers.formatCurrency(nota.valorIssqn)}"></span>
-            </div>
-            <div class="details-group">
-                <span class="details-label">ISSQN Retido</span>
-                <span class="details-value" th:text="${nota.retido}"></span>
-            </div>
+        </div>
 
-            <!-- Grupo 3: Status -->
-            <div class="details-group">
-                <span class="details-label">Status da Nota</span>
-                <span class="details-value">
+        <!-- CENÁRIO 2: A NOTA ESTÁ PENDENTE -->
+        <div th:if="${nota.statusPagamento == 'PENDENTE'}"
+             class="deadline-status-card"
+             th:classappend="${nota.statusPrazo == 'VENCIDO'} ? 'status-vencido' : (${nota.statusPrazo == 'ATENCAO'} ? 'status-atencao' : 'status-no-prazo')">
+
+            <div th:switch="${nota.statusPrazo}">
+                <div th:case="'VENCIDO'" class="deadline-content">
+                    <span class="deadline-main-number" th:text="${nota.diasParaVencer * -1}">5</span>
+                    <span class="deadline-label">dias de atraso</span>
+                    <div class="deadline-date">
+                        <i class="fas fa-calendar-times"></i>
+                        <span th:text="'Venceu em ' + ${nota.dataVencimentoFormatada}">Venceu em 30/09/2025</span>
+                    </div>
+                </div>
+                <div th:case="'ATENCAO'" class="deadline-content">
+                    <span class="deadline-main-number" th:text="${nota.diasParaVencer}">7</span>
+                    <span class="deadline-label">dias restantes</span>
+                    <div class="deadline-date">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span th:text="'Vence em ' + ${nota.dataVencimentoFormatada}">Vence em 15/10/2025</span>
+                    </div>
+                </div>
+                <div th:case="'NO_PRAZO'" class="deadline-content">
+                    <span class="deadline-main-number" th:text="${nota.diasParaVencer}">25</span>
+                    <span class="deadline-label">dias restantes</span>
+                    <div class="deadline-date">
+                        <i class="fas fa-calendar-check"></i>
+                        <span th:text="'Vence em ' + ${nota.dataVencimentoFormatada}">Vence em 05/11/2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="invoice-summary">
+            <div class="summary-item">
+                <span class="summary-label">Tomador:</span>
+                <span class="summary-value" th:text="${nota.tomador}"></span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">CNPJ do Tomador:</span>
+                <span class="summary-value" th:text="${nota.cnpjTomador}"></span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Data de Emissão:</span>
+                <span class="summary-value" th:text="${#temporals.format(nota.dataEmissao, 'dd/MM/yyyy')}"></span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Valor Total da Nota:</span>
+                <span class="summary-value currency" th:text="${#numbers.formatCurrency(nota.valorNF)}"></span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Status da Nota:</span>
+                <span class="summary-value">
                      <span class="status-badge"
                            th:classappend="${nota.status == 'NORMAL'} ? 'status-normal' : 'status-cancelada'"
                            th:text="${nota.status}">
                      </span>
                 </span>
             </div>
-            <div class="details-group">
-                <span class="details-label">Status do Pagamento</span>
-                <span class="details-value">
-                     <span class="status-badge"
-                           th:classappend="${nota.statusPagamento == 'PAGO'} ? 'status-pago' : 'status-pendente'"
-                           th:text="${nota.statusPagamento}">
-                     </span>
-                </span>
-            </div>
-
         </div>
     </div>
 
