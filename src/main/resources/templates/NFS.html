@@ -25,8 +25,7 @@
                 th:text="${tomador}"
                 th:selected="${filtroTomador == tomador}"></option>
     </select>
-    code
-    Code
+
     <select name="filtroStatus" id="filtroStatus" class="select-filtro">
         <option value="">Status (Todos)</option>
         <option value="true" th:selected="${filtroStatus == 'true'}">Pagas</option>
@@ -42,8 +41,7 @@
         <a href="/notas/importar" class="btn btn-secondary">Importar via Excel</a>
         <button type="submit" class="btn btn-danger">Excluir Selecionados</button>
     </div>
-    code
-    Code
+
     <!-- Quantidade de Notas -->
     <div class="qtd-notas">
         <span>Total de notas: <strong th:text="${notas.size()}"></strong></span>
