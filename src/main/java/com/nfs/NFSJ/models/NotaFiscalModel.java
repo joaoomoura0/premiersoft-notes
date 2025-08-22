@@ -2,6 +2,7 @@ package com.nfs.NFSJ.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "nota_fiscal")
@@ -34,6 +35,40 @@ public class NotaFiscalModel {
     private String localRecolhimento;
 
     private String statusPagamento;
+
+    // funcao de prazo pagamento
+
+    @Column(name = "data_pagamento")
+    private LocalDate dataPagamento;
+
+    @Transient
+    private String statusPrazo;
+
+    @Transient
+    private Long diasParaVencer;
+
+    @Transient
+    private Long diasPagamento;
+
+    @Transient // Também ignorado pelo banco, é apenas um método auxiliar
+    public String getDataVencimentoFormatada() {
+        if (this.dataEmissao == null) {
+            return "N/A";
+        }
+        // Lógica de prazo: Data de Emissão + 30 dias.
+        // Você pode ajustar o número de dias aqui se a regra mudar.
+        LocalDate dataVencimento = this.dataEmissao.plusDays(30);
+        return dataVencimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    @Transient
+    public String getDataPagamentoFormatada() {
+        if (this.dataPagamento == null) {
+            return "N/A";
+        }
+        return this.dataPagamento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
 
     // Getters e Setters
     public Long getId() {
@@ -140,4 +175,39 @@ public class NotaFiscalModel {
     public void setStatusPagamento(String statusPagamento) {
         this.statusPagamento = statusPagamento;
     }
+
+
+    // get e set -> funcao prazo pagamento
+
+public LocalDate getDataPagamento() {
+    return dataPagamento;
+}
+
+public void setDataPagamento(LocalDate dataPagamento) {
+    this.dataPagamento = dataPagamento;
+}
+
+public String getStatusPrazo() {
+    return statusPrazo;
+}
+
+public void setStatusPrazo(String statusPrazo) {
+    this.statusPrazo = statusPrazo;
+}
+
+public Long getDiasParaVencer() {
+    return diasParaVencer;
+}
+
+public void setDiasParaVencer(Long diasParaVencer) {
+    this.diasParaVencer = diasParaVencer;
+}
+
+public Long getDiasPagamento() {
+    return diasPagamento;
+}
+
+public void setDiasPagamento(Long diasPagamento) {
+    this.diasPagamento = diasPagamento;
+}
 }

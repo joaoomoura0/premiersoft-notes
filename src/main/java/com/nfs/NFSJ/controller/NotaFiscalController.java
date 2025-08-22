@@ -97,11 +97,17 @@ public class NotaFiscalController {
 
     @GetMapping("/{id}")
     public String verDetalhesDaNota(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        // Busca a nota fiscal no repositório pelo ID
         Optional<NotaFiscalModel> notaOptional = repository.findById(id);
 
         if (notaOptional.isPresent()) {
-            model.addAttribute("nota", notaOptional.get());
+            // 1. Pega a nota do banco
+            NotaFiscalModel nota = notaOptional.get();
+
+            // 2. CHAMA O SERVICE PARA FAZER OS CÁLCULOS DE PRAZO!
+            service.calcularDetalhesDePrazo(nota);
+
+            // 3. Adiciona a nota (agora com os dados de prazo) ao modelo
+            model.addAttribute("nota", nota);
             return "detalhes-nota";
         } else {
             redirectAttributes.addFlashAttribute("error", "Nota fiscal com ID " + id + " não encontrada.");
