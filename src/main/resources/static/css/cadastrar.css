@@ -401,3 +401,37 @@ button[type="submit"].loading::after {
         transform: rotate(360deg);
     }
 }
+
+.button-group {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Adiciona um espaço entre os botões */
+    margin-top: 1rem;
+}
+
+
+/* Estilo para o botão secundário (Voltar) */
+.button-secondary {
+    padding: 1.25rem 3rem;
+    background-color: #6c757d; /* Cinza neutro */
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block; /* Garante que padding e outras propriedades funcionem bem */
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(108, 117, 125, 0.2);
+}
+
+.button-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(108, 117, 125, 0.3);
+    background-color: #5a6268;
+}

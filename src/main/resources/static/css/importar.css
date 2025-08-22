@@ -1,4 +1,6 @@
-/* Reset e configurações básicas */
+/* ==========================================================================
+   Base e Reset - Padrão do projeto
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -11,90 +13,129 @@ body {
     color: #2c3e50;
     line-height: 1.6;
     min-height: 100vh;
+    padding: 2rem 0;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 1rem;
+    align-items: center;
 }
 
 .container {
-    background: #ffffff; /* Fundo branco */
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header-logo {
+    width: 300px;
+    max-width: 90%;
+    height: auto;
+}
+
+/* ==========================================================================
+   Estilos do Formulário de Upload
+   ========================================================================== */
+
+.upload-form {
+    background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 3rem 2.5rem;
-    max-width: 500px;
-    width: 100%;
+    padding: 3rem;
+    border-top: 5px solid #004d9c;
     text-align: center;
-    position: relative;
-    overflow: hidden;
-    border-top: 5px solid #004d9c; /* Linha superior com a cor primária */
+    animation: slideIn 0.6s ease-out;
 }
 
-/* Título */
-h1 {
+h2 {
     font-size: 2rem;
     font-weight: 300;
-    color: #004d9c; /* Azul PremierSoft */
-    margin-bottom: 2rem;
+    color: #004d9c;
+    margin-bottom: 2.5rem;
     letter-spacing: 0.5px;
-    position: relative;
-    z-index: 2;
 }
 
-h1::after {
+h2::after {
     content: '';
     display: block;
-    width: 60px;
+    width: 80px;
     height: 3px;
     background-color: #004d9c;
     margin: 1rem auto 0;
     border-radius: 2px;
 }
 
-/* Formulário */
-.form-container {
-    position: relative;
-    z-index: 2;
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
     margin-bottom: 2rem;
 }
 
-/* Input de arquivo customizado */
-input[type="file"] {
-    width: 100%;
-    padding: 1.5rem;
-    border: 2px dashed #e0e0e0;
-    border-radius: 8px;
-    background-color: #fafafa;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: inherit;
-    font-size: 1rem;
+.form-group label {
+    font-weight: 600;
     color: #495057;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+/* Área de Upload Customizada */
+.file-drop-area {
     position: relative;
-    overflow: hidden;
-}
-
-input[type="file"]:hover {
-    border-color: #004d9c;
-    background-color: #f0f1f5;
-}
-
-input[type="file"]:focus {
-    outline: none;
-    border-color: #004d9c;
-    box-shadow: 0 0 0 3px rgba(0, 77, 156, 0.1);
-}
-
-/* Estilo para quando o arquivo é selecionado */
-input[type="file"]:valid {
-    border-color: #28a745;
-    background-color: #d4edda;
-}
-
-/* Botão de envio */
-button[type="submit"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 3rem 1rem;
+    border: 2px dashed #004d9c;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.file-drop-area:hover {
+    background-color: #e9ecef;
+    border-style: solid;
+}
+
+.file-msg {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.file-drop-area input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Estilo quando um arquivo é selecionado (via JS, opcional, mas bom ter) */
+.file-drop-area.is-active {
+    background-color: #d4edda; /* Verde sucesso */
+    border-color: #28a745;
+}
+
+/* ==========================================================================
+   Botões e Links - Padrão do projeto
+   ========================================================================== */
+.button-group {
+    display: flex;
+    justify-content: center;
+}
+
+button[type="submit"] {
+    padding: 1.25rem 3rem;
     background-color: #004d9c;
     color: white;
     border: none;
@@ -105,53 +146,33 @@ button[type="submit"] {
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: 1.5rem;
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 77, 156, 0.3);
+    width: 100%;
 }
 
 button[type="submit"]:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(0, 77, 156, 0.4);
+    box-shadow: 0 12px 35px rgba(0, 77, 156, 0.4);
     background-color: #003366;
 }
 
-/* Efeito shimmer no botão */
-button[type="submit"]::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: left 0.5s;
+.link-container {
+    margin-top: 2rem;
+    text-align: center;
 }
 
-button[type="submit"]:hover::before {
-    left: 100%;
-}
-
-/* Link de voltar */
 .button-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
     background-color: #e0e0e0;
     color: #6c757d;
     text-decoration: none;
-    border-radius: 25px;
+    border-radius: 8px;
     font-weight: 500;
     transition: all 0.3s ease;
     border: 2px solid #e0e0e0;
-}
-
-.button-link:hover {
-    background-color: #c5c5c5;
-    border-color: #c5c5c5;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(224, 224, 224, 0.2);
 }
 
 .button-link::before {
@@ -159,29 +180,33 @@ button[type="submit"]:hover::before {
     font-size: 1.2rem;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .container {
-        padding: 2rem 1.5rem;
-        margin: 1rem;
-    }
+.button-link:hover {
+    background-color: #c5c5c5;
+    border-color: #c5c5c5;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(224, 224, 224, 0.2);
+}
 
-    h1 {
-        font-size: 1.75rem;
+/* ==========================================================================
+   Animações e Responsividade
+   ========================================================================== */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
-@media (max-width: 480px) {
-    body {
-        padding: 0.5rem;
+@media (max-width: 768px) {
+    .upload-form {
+        padding: 2rem 1.5rem;
     }
 
-    .container {
-        padding: 1.5rem 1rem;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
+    h2 {
+        font-size: 1.8rem;
     }
 }
