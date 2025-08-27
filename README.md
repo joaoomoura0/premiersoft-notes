@@ -14,7 +14,7 @@ Assim nasceu o **Sistema de Gestão Interna**, com o objetivo de centralizar e a
 
 ## 🎯 Funcionalidades
 
-### 📄 Módulo de Notas Fiscais
+### 📄 Sistema de Notas Fiscais
 - ✔️ Listagem de notas fiscais  
 - ✔️ Cadastro manual de notas fiscais  
 - ✔️ Cadastro via importação do Excel  
@@ -23,12 +23,12 @@ Assim nasceu o **Sistema de Gestão Interna**, com o objetivo de centralizar e a
 - ✔️ Controle de pagamento: marcar se a nota está **Paga** ou **Atrasada**  
 - ❌ Painel de prazo: cadastrar prazo de pagamento específico por nota (ex: 7, 15, 45 dias) *(em breve)*  
 
-### 🛡️ Módulo de Seguros
+### 🛡️ Sistema de Seguros
 - ❌ Cadastro de colaboradores no seguro  *(em breve)*  
 - ❌ Remoção de colaboradores do seguro  *(em breve)*  
 - ❌ Relatórios e histórico de alterações *(em breve)*  
 
-### 💰 Módulo de Dados Bancários
+### 💰 Sistema de Dados Bancários
 - ❌ Cadastro de dados bancários dos colaboradores  *(em breve)*  
 - ❌ Atualização de informações quando necessário  *(em breve)*  
 - ❌ Exportação de dados para relatórios *(em breve)*  
