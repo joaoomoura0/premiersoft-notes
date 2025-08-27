@@ -1,64 +1,160 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4; color: #2c3e50; line-height: 1.6;
-    min-height: 100vh; padding: 2rem 0; display: flex;
-    justify-content: center; align-items: center;
+    background-color: #f4f4f4;
+    color: #2c3e50;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 2rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.container { max-width: 800px; margin: 0 auto; padding: 0 1rem; width: 100%; }
-header { display: flex; justify-content: center; margin-bottom: 2rem; }
-.header-logo { width: 300px; max-width: 90%; height: auto; }
 
-/* Card Principal */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.header-logo {
+    width: 300px;
+    max-width: 90%;
+    height: auto;
+}
+
 .details-card {
-    background-color: #ffffff; border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
     border-top: 5px solid #004d9c;
 }
+
 h2 {
-    font-size: 2.2rem; font-weight: 300; color: #004d9c;
-    margin-bottom: 2.5rem; text-align: center; letter-spacing: 0.5px;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: #004d9c;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    letter-spacing: 0.5px;
 }
+
 h2::after {
-    content: ''; display: block; width: 80px; height: 3px;
-    background-color: #004d9c; margin: 1rem auto 0; border-radius: 2px;
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: #004d9c;
+    margin: 1rem auto 0;
+    border-radius: 2px;
 }
 
 .deadline-status-card {
-    border: 2px solid transparent; border-radius: 12px; padding: 2rem;
-    text-align: center; transition: all 0.3s ease; margin-bottom: 2rem;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
 }
-.deadline-content { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-.deadline-main-number { font-size: 4rem; font-weight: 700; line-height: 1; }
+
+.deadline-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.deadline-main-number {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
 .deadline-label {
-    font-size: 1.1rem; font-weight: 500; text-transform: uppercase;
-    letter-spacing: 1px; color: #6c757d;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6c757d;
 }
+
 .deadline-date {
-    display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem;
-    font-size: 0.95rem; color: #495057; background-color: rgba(255,255,255,0.7);
-    padding: 0.5rem 1rem; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #495057;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 
-/* Variações de Cor por Status (PENDENTE) */
-.deadline-status-card.status-vencido { border-color: #dc3545; background-color: #f8d7da; }
-.deadline-status-card.status-vencido .deadline-main-number { color: #721c24; }
-.deadline-status-card.status-atencao { border-color: #ffc107; background-color: #fff3cd; }
-.deadline-status-card.status-atencao .deadline-main-number { color: #856404; }
-.deadline-status-card.status-no-prazo { border-color: #17a2b8; background-color: #d1ecf1; }
-.deadline-status-card.status-no-prazo .deadline-main-number { color: #0c5460; }
+.deadline-status-card.status-vencido {
+    border-color: #dc3545;
+    background-color: #f8d7da;
+}
 
-/* Variações de Cor por Status (PAGO) */
-.deadline-status-card.status-pago-em-dia { border-color: #28a745; background-color: #d4edda; }
-.deadline-status-card.status-pago-em-dia .deadline-main-number { color: #155724; }
-.deadline-status-card.status-pago-atrasado { border-color: #ffc107; background-color: #fff3cd; }
-.deadline-status-card.status-pago-atrasado .deadline-main-number { color: #856404; }
+.deadline-status-card.status-vencido .deadline-main-number {
+    color: #721c24;
+}
+
+.deadline-status-card.status-atencao {
+    border-color: #ffc107;
+    background-color: #fff3cd;
+}
+
+.deadline-status-card.status-atencao .deadline-main-number {
+    color: #856404;
+}
+
+.deadline-status-card.status-no-prazo {
+    border-color: #17a2b8;
+    background-color: #d1ecf1;
+}
+
+.deadline-status-card.status-no-prazo .deadline-main-number {
+    color: #0c5460;
+}
+
+.deadline-status-card.status-pago-em-dia {
+    border-color: #28a745;
+    background-color: #d4edda;
+}
+
+.deadline-status-card.status-pago-em-dia .deadline-main-number {
+    color: #155724;
+}
+
+.deadline-status-card.status-pago-atrasado {
+    border-color: #ffc107;
+    background-color: #fff3cd;
+}
+
+.deadline-status-card.status-pago-atrasado .deadline-main-number {
+    color: #856404;
+}
 
 .invoice-summary {
     border-top: 1px solid #e9ecef;
     padding-top: 1.5rem;
 }
+
 .summary-item {
     display: flex;
     justify-content: space-between;
@@ -67,38 +163,78 @@ h2::after {
     border-bottom: 1px solid #f8f9fa;
     transition: background-color 0.2s ease-in-out;
 }
-.summary-item:last-child { border-bottom: none; }
-.summary-item:hover { background-color: #f8f9fa; border-radius: 8px; }
-.summary-label { font-weight: 600; color: #495057; font-size: 0.95rem; }
-.summary-value { font-size: 1rem; text-align: right; }
-.summary-value.currency { font-weight: 600; color: #1e7e34; }
 
-/* Badges de Status (Reutilizados) */
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-item:hover {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.summary-label {
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+.summary-value {
+    font-size: 1rem;
+    text-align: right;
+}
+
+.summary-value.currency {
+    font-weight: 600;
+    color: #1e7e34;
+}
+
 .status-badge {
-    padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.85rem;
-    font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
-.status-normal { background-color: #d1ecf1; color: #0c5460; }
-.status-cancelada { background-color: #f8d7da; color: #721c24; }
 
-.link-container { margin-top: 2.5rem; text-align: center; }
+.status-normal {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-cancelada {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.link-container {
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
 .button-link {
-    display: inline-flex; align-items: center; gap: 0.75rem;
-    padding: 1rem 2rem; background-color: #e0e0e0; color: #6c757d;
-    text-decoration: none; border-radius: 8px; font-weight: 500;
-    transition: all 0.3s ease; border: 2px solid #e0e0e0;
-}
-.button-link::before { content: '←'; font-size: 1.2rem; }
-.button-link:hover {
-    background-color: #c5c5c5; border-color: #c5c5c5;
-    transform: translateY(-2px); box-shadow: 0 8px 25px rgba(224, 224, 224, 0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background-color: #e0e0e0;
+    color: #6c757d;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid #e0e0e0;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .details-card { padding: 2rem 1.5rem; }
-    h2 { font-size: 1.8rem; }
-    .deadline-main-number { font-size: 3.5rem; }
-    .summary-item { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
-    .summary-value { text-align: left; }
+.button-link::before {
+    content: '←';
+    font-size: 1.2rem;
+}
+
+.button-link:hover {
+    background-color: #c5c5c5;
+    border-color: #c5c5c5;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(224, 224, 224, 0.2);
 }

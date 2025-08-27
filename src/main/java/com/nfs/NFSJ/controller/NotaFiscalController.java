@@ -19,14 +19,12 @@ import java.util.Optional;
 @RequestMapping("/notas")
 public class NotaFiscalController {
 
-
     @Autowired
     private NotaFiscalRepository repository;
 
     @Autowired
     private NotaFiscalService service;
 
-    // Rota para cadastrar uma nova nota (POST)
     @PostMapping("/cadastrar")
     public String cadastrarNota(@ModelAttribute NotaFiscalModel notaFiscal, RedirectAttributes redirectAttributes) {
         service.salvarNota(notaFiscal);
@@ -34,7 +32,6 @@ public class NotaFiscalController {
         return "redirect:/notas";
     }
 
-    // Rota para importar notas via Excel (POST)
     @PostMapping("/importar")
     public String importarExcel(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         String filename = file.getOriginalFilename();
@@ -80,7 +77,6 @@ public class NotaFiscalController {
         model.addAttribute("tomadores", repository.findDistinctTomadores());
         model.addAttribute("filtroTomador", filtroTomador);
         model.addAttribute("filtroStatus", filtroStatus);
-
         return "NFS";
     }
 
@@ -100,13 +96,8 @@ public class NotaFiscalController {
         Optional<NotaFiscalModel> notaOptional = repository.findById(id);
 
         if (notaOptional.isPresent()) {
-            // 1. Pega a nota do banco
             NotaFiscalModel nota = notaOptional.get();
-
-            // 2. CHAMA O SERVICE PARA FAZER OS CÁLCULOS DE PRAZO!
             service.calcularDetalhesDePrazo(nota);
-
-            // 3. Adiciona a nota (agora com os dados de prazo) ao modelo
             model.addAttribute("nota", nota);
             return "detalhes-nota";
         } else {

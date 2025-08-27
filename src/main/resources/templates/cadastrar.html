@@ -11,7 +11,6 @@
         <img src="/css/img/premier-logo.png" alt="Logo premier" class="header-logo">
     </header>
 
-    <!-- Formulário para cadastro manual -->
     <form th:action="@{/notas/cadastrar}" method="post">
         <div class="form-group">
             <label>Data de Emissão</label>
@@ -91,7 +90,6 @@
         </div>
     </form>
 
-    <!-- Botão para ir para página de importação -->
     <div style="margin-top: 30px; text-align: center;">
         <a th:href="@{/notas/importar}" class="button-link">Importar Notas via Excel</a>
     </div>

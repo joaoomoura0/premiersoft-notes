@@ -98,7 +98,12 @@ body {
     margin-top: 10px;
 }
 
-/* Card styles */
+.cards-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
 .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -134,20 +139,4 @@ body {
 .card p {
     font-size: 1rem;
     color: #666;
-}
-
-/* Mobile styles for the menu toggle */
-.menu-toggle {
-    display: none;
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 101;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    box-shadow: var(--shadow);
 }

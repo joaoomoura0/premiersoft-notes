@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalhes da Nota Fiscal</title>
-    <!-- O link já aponta para o seu CSS correto -->
     <link rel="stylesheet" href="/css/detalhes-nota.css">
-    <!-- Ícones para o painel de prazo -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
@@ -17,8 +15,6 @@
     <div class="details-card">
         <h2>Detalhes da Nota Fiscal #<span th:text="${nota.id}"></span></h2>
 
-
-        <!-- CENÁRIO 1: A NOTA JÁ FOI PAGA -->
         <div th:if="${nota.statusPagamento == 'PAGO'}"
              class="deadline-status-card"
              th:classappend="${nota.diasPagamento != null and nota.diasPagamento < 0} ? 'status-pago-atrasado' : 'status-pago-em-dia'">
@@ -41,8 +37,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- CENÁRIO 2: A NOTA ESTÁ PENDENTE -->
         <div th:if="${nota.statusPagamento == 'PENDENTE'}"
              class="deadline-status-card"
              th:classappend="${nota.statusPrazo == 'VENCIDO'} ? 'status-vencido' : (${nota.statusPrazo == 'ATENCAO'} ? 'status-atencao' : 'status-no-prazo')">
@@ -74,7 +68,6 @@
                 </div>
             </div>
         </div>
-
         <div class="invoice-summary">
             <div class="summary-item">
                 <span class="summary-label">Tomador:</span>
@@ -103,8 +96,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Botão de Voltar -->
     <div class="link-container">
         <a th:href="@{/notas}" class="button-link">Voltar para a Lista de Notas</a>
     </div>

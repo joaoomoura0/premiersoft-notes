@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Importar Notas via Excel</title>
-    <!-- Mude o link para o novo arquivo CSS -->
     <link rel="stylesheet" href="/css/importar.css"></head>
 <body>
 <div class="container">
     <header>
         <img src="/css/img/premier-logo.png" alt="Logo premier" class="header-logo">
     </header>
-
-    <!-- Formulário de Importação -->
     <form th:action="@{/notas/importar}" method="post" enctype="multipart/form-data" class="upload-form">
 
         <h2>Importar Notas Fiscais via Excel</h2>
@@ -28,8 +25,6 @@
             <button type="submit">Importar Arquivo</button>
         </div>
     </form>
-
-    <!-- Botão para voltar -->
     <div class="link-container">
         <a th:href="@{/notas}" class="button-link">Voltar para a Lista de Notas</a>
     </div>

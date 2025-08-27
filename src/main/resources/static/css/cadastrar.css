@@ -1,4 +1,3 @@
-/* Reset e configurações básicas */
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +6,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4; /* Fundo cinza claro */
+    background-color: #f4f4f4;
     color: #2c3e50;
     line-height: 1.6;
     min-height: 100vh;
@@ -46,6 +45,11 @@ form {
     overflow: hidden;
     border-top: 5px solid #004d9c;
     margin-bottom: 2rem;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    align-items: start;
+    animation: slideIn 0.6s ease-out;
 }
 
 h2 {
@@ -57,6 +61,7 @@ h2 {
     letter-spacing: 0.5px;
     position: relative;
     z-index: 2;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 h2::after {
@@ -69,19 +74,25 @@ h2::after {
     border-radius: 2px;
 }
 
-form {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    align-items: start;
-}
-
 .form-group {
     display: flex;
     flex-direction: column;
     position: relative;
     z-index: 2;
+    animation: fadeInUp 0.6s ease-out both;
 }
+
+.form-group:nth-child(1) { animation-delay: 0.3s; }
+.form-group:nth-child(2) { animation-delay: 0.35s; }
+.form-group:nth-child(3) { animation-delay: 0.4s; }
+.form-group:nth-child(4) { animation-delay: 0.45s; }
+.form-group:nth-child(5) { animation-delay: 0.5s; }
+.form-group:nth-child(6) { animation-delay: 0.55s; }
+.form-group:nth-child(7) { animation-delay: 0.6s; }
+.form-group:nth-child(8) { animation-delay: 0.65s; }
+.form-group:nth-child(9) { animation-delay: 0.7s; }
+.form-group:nth-child(10) { animation-delay: 0.75s; }
+.form-group:nth-child(11) { animation-delay: 0.8s; }
 
 .form-group label {
     font-weight: 600;
@@ -102,7 +113,6 @@ form {
     flex-shrink: 0;
 }
 
-/* Campos de entrada */
 .form-group input,
 .form-group select {
     padding: 1rem 1.25rem;
@@ -129,14 +139,8 @@ form {
     border-color: #b8c6ea;
 }
 
-/* Campos específicos */
-input[type="date"] {
-    color: #495057;
-}
-
-input[type="number"] {
-    text-align: right;
-}
+input[type="date"] { color: #495057; }
+input[type="number"] { text-align: right; }
 
 select {
     cursor: pointer;
@@ -148,24 +152,32 @@ select {
     appearance: none;
 }
 
-/* Estados de validação */
-.form-group input:valid {
-    border-color: #28a745;
+.form-group input:valid { border-color: #28a745; }
+.form-group input:invalid:not(:placeholder-shown) { border-color: #dc3545; }
+
+.form-group.required label::after {
+    content: ' *';
+    color: #dc3545;
+    font-weight: bold;
 }
 
-.form-group input:invalid:not(:placeholder-shown) {
-    border-color: #dc3545;
+.form-group:focus-within { transform: translateY(-2px); }
+
+input::placeholder,
+select option:first-child {
+    color: #6c757d;
+    opacity: 0.8;
 }
 
-/* Grupo de botões */
 .button-group {
     grid-column: 1 / -1;
     display: flex;
     justify-content: center;
+    gap: 1rem;
     margin-top: 1rem;
+    animation: fadeInUp 0.8s ease-out 0.9s both;
 }
 
-/* Botão principal */
 button[type="submit"] {
     padding: 1.25rem 3rem;
     background-color: #004d9c;
@@ -194,7 +206,6 @@ button[type="submit"]:active {
     box-shadow: 0 6px 20px rgba(0, 77, 156, 0.3);
 }
 
-/* Efeito shimmer no botão */
 button[type="submit"]::before {
     content: '';
     position: absolute;
@@ -206,177 +217,8 @@ button[type="submit"]::before {
     transition: left 0.5s;
 }
 
-button[type="submit"]:hover::before {
-    left: 100%;
-}
+button[type="submit"]:hover::before { left: 100%; }
 
-/* Link de importação */
-.button-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 2rem;
-    background-color: #e0e0e0;
-    color: #6c757d;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    border: 2px solid #e0e0e0;
-    font-size: 1rem;
-}
-
-.button-link::before {
-    content: '📊';
-    font-size: 1.2rem;
-}
-
-.button-link:hover {
-    background-color: #c5c5c5;
-    border-color: #c5c5c5;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(224, 224, 224, 0.2);
-}
-
-/* Animações */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-form {
-    animation: slideIn 0.6s ease-out;
-}
-
-h2 {
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-}
-
-.form-group {
-    animation: fadeInUp 0.6s ease-out both;
-}
-
-.form-group:nth-child(1) { animation-delay: 0.3s; }
-.form-group:nth-child(2) { animation-delay: 0.35s; }
-.form-group:nth-child(3) { animation-delay: 0.4s; }
-.form-group:nth-child(4) { animation-delay: 0.45s; }
-.form-group:nth-child(5) { animation-delay: 0.5s; }
-.form-group:nth-child(6) { animation-delay: 0.55s; }
-.form-group:nth-child(7) { animation-delay: 0.6s; }
-.form-group:nth-child(8) { animation-delay: 0.65s; }
-.form-group:nth-child(9) { animation-delay: 0.7s; }
-.form-group:nth-child(10) { animation-delay: 0.75s; }
-.form-group:nth-child(11) { animation-delay: 0.8s; }
-
-.button-group {
-    animation: fadeInUp 0.8s ease-out 0.9s both;
-}
-
-.button-link {
-    animation: fadeInUp 0.8s ease-out 1s both;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    form {
-        grid-template-columns: 1fr;
-        padding: 2rem 1.5rem;
-        border-radius: 12px;
-    }
-
-    .container {
-        padding: 0 1rem;
-    }
-
-    h2 {
-        font-size: 1.8rem;
-        margin-bottom: 2rem;
-    }
-
-    .form-group {
-        margin-bottom: 0.5rem;
-    }
-
-    button[type="submit"] {
-        padding: 1rem 2rem;
-        width: 100%;
-    }
-
-    .button-link {
-        width: 100%;
-        justify-content: center;
-        padding: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 1rem 0;
-    }
-
-    form {
-        padding: 1.5rem 1rem;
-        border-radius: 8px;
-        gap: 1.25rem;
-    }
-
-    h2 {
-        font-size: 1.6rem;
-    }
-
-    .form-group label {
-        font-size: 0.9rem;
-    }
-
-    .form-group input,
-    .form-group select {
-        padding: 0.875rem 1rem;
-        font-size: 0.95rem;
-    }
-}
-
-/* Estados especiais */
-.form-group.required label::after {
-    content: ' *';
-    color: #dc3545;
-    font-weight: bold;
-}
-
-/* Melhorias visuais */
-form {
-    background-color: #ffffff;
-}
-
-/* Placeholder styling */
-input::placeholder,
-select option:first-child {
-    color: #6c757d;
-    opacity: 0.8;
-}
-
-/* Focus trap visual */
-.form-group:focus-within {
-    transform: translateY(-2px);
-}
-
-/* Loading state para o botão */
 button[type="submit"]:disabled {
     background: #6c757d;
     cursor: not-allowed;
@@ -396,25 +238,9 @@ button[type="submit"].loading::after {
     margin-left: 10px;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.button-group {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: center;
-    gap: 1rem; /* Adiciona um espaço entre os botões */
-    margin-top: 1rem;
-}
-
-
-/* Estilo para o botão secundário (Voltar) */
 .button-secondary {
     padding: 1.25rem 3rem;
-    background-color: #6c757d; /* Cinza neutro */
+    background-color: #6c757d;
     color: white;
     text-decoration: none;
     border: none;
@@ -425,7 +251,7 @@ button[type="submit"].loading::after {
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
-    display: inline-block; /* Garante que padding e outras propriedades funcionem bem */
+    display: inline-block;
     text-align: center;
     box-shadow: 0 8px 25px rgba(108, 117, 125, 0.2);
 }
@@ -434,4 +260,46 @@ button[type="submit"].loading::after {
     transform: translateY(-3px);
     box-shadow: 0 12px 35px rgba(108, 117, 125, 0.3);
     background-color: #5a6268;
+}
+
+.button-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background-color: #e0e0e0;
+    color: #6c757d;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid #e0e0e0;
+    font-size: 1rem;
+    animation: fadeInUp 0.8s ease-out 1s both;
+}
+
+.button-link::before {
+    content: '📊';
+    font-size: 1.2rem;
+}
+
+.button-link:hover {
+    background-color: #c5c5c5;
+    border-color: #c5c5c5;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(224, 224, 224, 0.2);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }

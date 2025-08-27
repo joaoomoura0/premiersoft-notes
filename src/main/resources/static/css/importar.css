@@ -1,6 +1,3 @@
-/* ==========================================================================
-   Base e Reset - Padrão do projeto
-   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -39,12 +36,8 @@ header {
     height: auto;
 }
 
-/* ==========================================================================
-   Estilos do Formulário de Upload
-   ========================================================================== */
-
 .upload-form {
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     padding: 3rem;
@@ -85,7 +78,6 @@ h2::after {
     font-size: 1rem;
 }
 
-/* Área de Upload Customizada */
 .file-drop-area {
     position: relative;
     display: flex;
@@ -120,15 +112,11 @@ h2::after {
     cursor: pointer;
 }
 
-/* Estilo quando um arquivo é selecionado (via JS, opcional, mas bom ter) */
 .file-drop-area.is-active {
-    background-color: #d4edda; /* Verde sucesso */
+    background-color: #d4edda;
     border-color: #28a745;
 }
 
-/* ==========================================================================
-   Botões e Links - Padrão do projeto
-   ========================================================================== */
 .button-group {
     display: flex;
     justify-content: center;
@@ -187,9 +175,6 @@ button[type="submit"]:hover {
     box-shadow: 0 8px 25px rgba(224, 224, 224, 0.2);
 }
 
-/* ==========================================================================
-   Animações e Responsividade
-   ========================================================================== */
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -198,15 +183,5 @@ button[type="submit"]:hover {
     to {
         opacity: 1;
         transform: scale(1);
-    }
-}
-
-@media (max-width: 768px) {
-    .upload-form {
-        padding: 2rem 1.5rem;
-    }
-
-    h2 {
-        font-size: 1.8rem;
     }
 }
