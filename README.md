@@ -2,8 +2,8 @@
 
 Projeto pessoal desenvolvido com o objetivo de transformar processos manuais da empresa em **sistemas web automatizados**.  
 A ideia surgiu a partir da minha rotina, onde diversas atividades eram feitas manualmente em planilhas (notas fiscais, seguros e dados bancários).  
-Esse projeto busca **centralizar e otimizar** essas tarefas em uma única aplicação prática e eficiente.
 
+- Inicialmente a ideia era ser apenas um sistema de NFS, porém gostei da ideia e quis aprimorar o sistema e englobar minhas tarefas...
 ---
 
 ## 🚧 Status do Projeto
