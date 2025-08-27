@@ -1,9 +1,10 @@
 # 📊 Sistema de Gestão Interna
 
-Projeto pessoal desenvolvido com o objetivo de transformar processos manuais da empresa em **sistemas web automatizados**.  
-A ideia surgiu a partir da minha rotina, onde diversas atividades eram feitas manualmente em planilhas (notas fiscais, seguros e dados bancários).  
+Inicialmente, a ideia era desenvolver apenas um **sistema de Notas Fiscais (NFS)**.  
+Porém, durante o desenvolvimento percebi o potencial do projeto e decidi **expandir** a aplicação para englobar também outras tarefas que fazem parte da minha rotina na empresa — como a gestão de seguros e o controle de dados bancários de colaboradores.  
 
-- Inicialmente a ideia era ser apenas um sistema de NFS, porém gostei da ideia e quis aprimorar o sistema e englobar minhas tarefas...
+Assim nasceu o **Sistema de Gestão Interna**, com o objetivo de centralizar e automatizar processos que antes eram feitos manualmente em planilhas.
+
 ---
 
 ## 🚧 Status do Projeto
