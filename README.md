@@ -21,17 +21,17 @@ Assim nasceu o **Premiersoft Notes**, um espaço para **centralizar e testar sol
 - ✔️ Filtro por tomador  
 - ✔️ Exclusão de notas fiscais  
 - ✔️ Controle de pagamento: marcar se a nota está **Paga** ou **Atrasada**  
-- ❌ Painel de prazo: cadastrar prazo de pagamento específico por nota (ex: 7, 15, 45 dias) *(em breve)*  
+- ❌ Painel de prazo: cadastrar prazo de pagamento específico por nota. *(em andamento)*  
 
 ### 🛡️ Sistema de Seguro
-- ❌ Cadastro de colaboradores no seguro  *(em breve)*  
-- ❌ Remoção de colaboradores do seguro  *(em breve)*  
-- ❌ Relatórios e histórico de alterações *(em breve)*  
+- ❌ Cadastro de colaboradores no seguro 
+- ❌ Remoção de colaboradores do seguro  
+- ❌ Relatórios e histórico de alterações 
 
 ### 💰 Sistema de Dados Bancários
-- ❌ Cadastro de dados bancários dos colaboradores  *(em breve)*  
-- ❌ Atualização de informações quando necessário  *(em breve)*  
-- ❌ Exportação de dados para relatórios *(em breve)*  
+- ❌ Cadastro de dados bancários dos colaboradores  
+- ❌ Atualização de informações quando necessário 
+- ❌ Exportação de dados para relatórios
 
 ### 🔒 Outros
 - ❌ Autenticação de usuários *(em breve)*  
