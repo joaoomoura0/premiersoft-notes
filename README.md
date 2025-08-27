@@ -1,7 +1,7 @@
 # 📊 Sistema de Gestão Interna
 
 Inicialmente, a ideia era desenvolver apenas um **sistema de Notas Fiscais (NFS)**.  
-Porém, durante o desenvolvimento percebi o potencial do projeto e decidi **expandir** a aplicação para englobar também outras tarefas que fazem parte da minha rotina na empresa — como a gestão de seguros e o controle de dados bancários de colaboradores.  
+Porém, durante o desenvolvimento percebi o potencial do projeto e decidi **expandir** a aplicação para englobar também outras tarefas que fazem parte da minha rotina na empresa como a gestão de seguros e o controle de dados bancários de colaboradores.  
 
 Assim nasceu o **Sistema de Gestão Interna**, com o objetivo de centralizar e automatizar processos que antes eram feitos manualmente em planilhas.
 
@@ -24,13 +24,13 @@ Assim nasceu o **Sistema de Gestão Interna**, com o objetivo de centralizar e a
 - ❌ Painel de prazo: cadastrar prazo de pagamento específico por nota (ex: 7, 15, 45 dias) *(em breve)*  
 
 ### 🛡️ Módulo de Seguros
-- ✔️ Cadastro de colaboradores no seguro  
-- ✔️ Remoção de colaboradores do seguro  
+- ❌ Cadastro de colaboradores no seguro  
+- ❌ Remoção de colaboradores do seguro  
 - ❌ Relatórios e histórico de alterações *(em breve)*  
 
 ### 💰 Módulo de Dados Bancários
-- ✔️ Cadastro de dados bancários dos colaboradores  
-- ✔️ Atualização de informações quando necessário  
+- ❌ Cadastro de dados bancários dos colaboradores  
+- ❌ Atualização de informações quando necessário  
 - ❌ Exportação de dados para relatórios *(em breve)*  
 
 ### 🔒 Outros
@@ -52,6 +52,8 @@ Assim nasceu o **Sistema de Gestão Interna**, com o objetivo de centralizar e a
 ---
 
 ## 💡 Objetivo Principal
-Automatizar as principais rotinas administrativas da empresa em um **único sistema integrado**, reduzindo o trabalho manual em planilhas, melhorando a organização e aumentando a produtividade.
+O sistema foi pensado com o objetivo de **automatizar as principais rotinas administrativas em um único sistema integrado**, reduzindo o trabalho manual em planilhas, melhorando a organização e aumentando a produtividade.  
 
----
+👉 Porém, vale ressaltar que esse projeto **não é uma ferramenta oficial da empresa**.  
+Ele foi desenvolvido apenas como uma forma de **treinar minhas habilidades, testar ideias e “brincar” com cenários reais** do meu dia a dia.
+
