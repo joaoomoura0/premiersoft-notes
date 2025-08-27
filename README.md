@@ -47,7 +47,6 @@ Assim nasceu o **Premiersoft Notes**, um espaço para **centralizar e testar sol
 - **CSS3**  
 - **JavaScript**  
 - **MySQL**  
-- **Figma** *(para prototipação)*  
 
 ---
 
