@@ -46,7 +46,7 @@ Assim nasceu o **Premiersoft Notes**, um espaço para **centralizar e testar sol
 - **HTML5**  
 - **CSS3**  
 - **JavaScript**  
-- **MySQL**  
+- **MySQL** *(atualmente; planejado migrar para PostgreSQL na nuvem via Supabase futuramente)*  
 
 ---
 
