@@ -1,9 +1,9 @@
-# 📊 Sistema de Gestão Interna
+# 📒 Premiersoft Notes
 
-Inicialmente, a ideia era desenvolver apenas um **sistema de Notas Fiscais (NFS)**.  
-Porém, durante o desenvolvimento percebi o potencial do projeto e decidi **expandir** a aplicação para englobar também outras tarefas que fazem parte da minha rotina na empresa como a gestão de seguros e o controle de dados bancários de colaboradores.  
+No começo, o projeto surgiu apenas como um **sistema de Notas Fiscais (NFS)**.  
+Durante o desenvolvimento, percebi que podia **aprimorar e expandir** a ideia para abranger outras tarefas do meu dia a dia na empresa, como a **gestão de seguros** e o **controle de dados bancários de colaboradores**.  
 
-Assim nasceu o **Sistema de Gestão Interna**, com o objetivo de centralizar e automatizar processos que antes eram feitos manualmente em planilhas.
+Assim nasceu o **Premiersoft Notes**, um espaço para **centralizar e testar soluções**, registrar ideias e automatizar processos que antes eram feitos manualmente em planilhas tudo como um **laboratório pessoal de aprendizado**.
 
 ---
 
