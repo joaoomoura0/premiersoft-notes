@@ -24,13 +24,13 @@ Assim nasceu o **Sistema de Gestão Interna**, com o objetivo de centralizar e a
 - ❌ Painel de prazo: cadastrar prazo de pagamento específico por nota (ex: 7, 15, 45 dias) *(em breve)*  
 
 ### 🛡️ Módulo de Seguros
-- ❌ Cadastro de colaboradores no seguro  
-- ❌ Remoção de colaboradores do seguro  
+- ❌ Cadastro de colaboradores no seguro  *(em breve)*  
+- ❌ Remoção de colaboradores do seguro  *(em breve)*  
 - ❌ Relatórios e histórico de alterações *(em breve)*  
 
 ### 💰 Módulo de Dados Bancários
-- ❌ Cadastro de dados bancários dos colaboradores  
-- ❌ Atualização de informações quando necessário  
+- ❌ Cadastro de dados bancários dos colaboradores  *(em breve)*  
+- ❌ Atualização de informações quando necessário  *(em breve)*  
 - ❌ Exportação de dados para relatórios *(em breve)*  
 
 ### 🔒 Outros
