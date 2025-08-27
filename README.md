@@ -23,7 +23,7 @@ Assim nasceu o **Sistema de Gestão Interna**, com o objetivo de centralizar e a
 - ✔️ Controle de pagamento: marcar se a nota está **Paga** ou **Atrasada**  
 - ❌ Painel de prazo: cadastrar prazo de pagamento específico por nota (ex: 7, 15, 45 dias) *(em breve)*  
 
-### 🛡️ Sistema de Seguros
+### 🛡️ Sistema de Seguro
 - ❌ Cadastro de colaboradores no seguro  *(em breve)*  
 - ❌ Remoção de colaboradores do seguro  *(em breve)*  
 - ❌ Relatórios e histórico de alterações *(em breve)*  
