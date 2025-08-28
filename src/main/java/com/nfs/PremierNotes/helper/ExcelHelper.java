@@ -1,9 +1,8 @@
-package com.nfs.NFSJ.helper;
+package com.nfs.PremierNotes.helper;
 
-import com.nfs.NFSJ.models.NotaFiscalModel;
+import com.nfs.PremierNotes.models.NotaFiscalModel;
 import org.apache.poi.ss.usermodel.*;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;

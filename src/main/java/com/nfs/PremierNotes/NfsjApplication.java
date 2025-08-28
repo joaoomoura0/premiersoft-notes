@@ -1,4 +1,4 @@
-package com.nfs.NFSJ;
+package com.nfs.PremierNotes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

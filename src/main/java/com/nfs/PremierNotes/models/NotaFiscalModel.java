@@ -1,4 +1,4 @@
-package com.nfs.NFSJ.models;
+package com.nfs.PremierNotes.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;

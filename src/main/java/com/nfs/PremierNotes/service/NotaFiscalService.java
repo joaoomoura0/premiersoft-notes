@@ -1,7 +1,7 @@
-package com.nfs.NFSJ.service;
+package com.nfs.PremierNotes.service;
 
-import com.nfs.NFSJ.models.NotaFiscalModel;
-import com.nfs.NFSJ.repository.NotaFiscalRepository;
+import com.nfs.PremierNotes.models.NotaFiscalModel;
+import com.nfs.PremierNotes.repository.NotaFiscalRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

@@ -1,6 +1,6 @@
-package com.nfs.NFSJ.repository;
+package com.nfs.PremierNotes.repository;
 
-import com.nfs.NFSJ.models.NotaFiscalModel;
+import com.nfs.PremierNotes.models.NotaFiscalModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -1,13 +1,9 @@
-package com.nfs.NFSJ.controller;
+package com.nfs.PremierNotes.controller;
 
-import com.nfs.NFSJ.models.NotaFiscalModel;
-import com.nfs.NFSJ.service.NotaFiscalService;
+import com.nfs.PremierNotes.service.NotaFiscalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @Controller
 public class PagesController {
