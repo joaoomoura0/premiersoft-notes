@@ -30,6 +30,7 @@ public class NotaFiscalService {
 
         Integer prazoDias = 30;
 
+
         if (nota.getTomador() != null) {
             switch (nota.getTomador()) {
                 case "SOPRANO INDUSTRIA ELETROMETALURGICA EIRELI":
