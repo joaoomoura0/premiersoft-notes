@@ -36,6 +36,9 @@ public class NotaFiscalModel {
     @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
 
+    @Column(name = "prazo_pagamento_dias")
+    private Integer prazoPagamentoDias;
+
     @Transient
     private String statusPrazo;
 
@@ -50,7 +53,8 @@ public class NotaFiscalModel {
         if (this.dataEmissao == null) {
             return "N/A";
         }
-        LocalDate dataVencimento = this.dataEmissao.plusDays(30);
+        Integer prazo = (this.prazoPagamentoDias != null && this.prazoPagamentoDias > 0) ? this.prazoPagamentoDias : 30;
+        LocalDate dataVencimento = this.dataEmissao.plusDays(prazo);
         return dataVencimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 

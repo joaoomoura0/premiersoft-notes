@@ -20,20 +20,20 @@
              th:classappend="${nota.diasPagamento != null and nota.diasPagamento < 0} ? 'status-pago-atrasado' : 'status-pago-em-dia'">
 
             <div th:if="${nota.diasPagamento != null and nota.diasPagamento < 0}" class="deadline-content">
-                <span class="deadline-main-number" th:text="${nota.diasPagamento * -1}">3</span>
+                <span class="deadline-main-number" th:text="${nota.diasPagamento * -1}"></span>
                 <span class="deadline-label">pago com dias de atraso</span>
                 <div class="deadline-date">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span th:text="'Pago em ' + ${nota.dataPagamentoFormatada}">Pago em 03/10/2025</span>
+                    <span th:text="'Pago em ' + ${nota.dataPagamentoFormatada}"></span>
                 </div>
             </div>
 
             <div th:if="${nota.diasPagamento == null or nota.diasPagamento >= 0}" class="deadline-content">
-                <span class="deadline-main-number" th:text="${nota.diasPagamento}">12</span>
+                <span class="deadline-main-number" th:if="${nota.diasPagamento != null}" th:text="${nota.diasPagamento}"></span>
                 <span class="deadline-label">pago com dias de antecedência</span>
                 <div class="deadline-date">
                     <i class="fas fa-check-circle"></i>
-                    <span th:text="'Pago em ' + ${nota.dataPagamentoFormatada}">Pago em 18/09/2025</span>
+                    <span th:text="'Pago em ' + ${nota.dataPagamentoFormatada}"></span>
                 </div>
             </div>
         </div>
@@ -43,27 +43,27 @@
 
             <div th:switch="${nota.statusPrazo}">
                 <div th:case="'VENCIDO'" class="deadline-content">
-                    <span class="deadline-main-number" th:text="${nota.diasParaVencer * -1}">5</span>
+                    <span class="deadline-main-number" th:text="${nota.diasParaVencer != null ? nota.diasParaVencer * -1 : ''}"></span>
                     <span class="deadline-label">dias de atraso</span>
                     <div class="deadline-date">
                         <i class="fas fa-calendar-times"></i>
-                        <span th:text="'Venceu em ' + ${nota.dataVencimentoFormatada}">Venceu em 30/09/2025</span>
+                        <span th:text="'Venceu em ' + ${nota.dataVencimentoFormatada}"></span>
                     </div>
                 </div>
                 <div th:case="'ATENCAO'" class="deadline-content">
-                    <span class="deadline-main-number" th:text="${nota.diasParaVencer}">7</span>
+                    <span class="deadline-main-number" th:text="${nota.diasParaVencer}"></span>
                     <span class="deadline-label">dias restantes</span>
                     <div class="deadline-date">
                         <i class="fas fa-calendar-alt"></i>
-                        <span th:text="'Vence em ' + ${nota.dataVencimentoFormatada}">Vence em 15/10/2025</span>
+                        <span th:text="'Vence em ' + ${nota.dataVencimentoFormatada}"></span>
                     </div>
                 </div>
                 <div th:case="'NO_PRAZO'" class="deadline-content">
-                    <span class="deadline-main-number" th:text="${nota.diasParaVencer}">25</span>
+                    <span class="deadline-main-number" th:text="${nota.diasParaVencer}"></span>
                     <span class="deadline-label">dias restantes</span>
                     <div class="deadline-date">
                         <i class="fas fa-calendar-check"></i>
-                        <span th:text="'Vence em ' + ${nota.dataVencimentoFormatada}">Vence em 05/11/2025</span>
+                        <span th:text="'Vence em ' + ${nota.dataVencimentoFormatada}"></span>
                     </div>
                 </div>
             </div>
@@ -81,6 +81,17 @@
                 <span class="summary-label">Data de Emissão:</span>
                 <span class="summary-value" th:text="${#temporals.format(nota.dataEmissao, 'dd/MM/yyyy')}"></span>
             </div>
+
+            <div class="summary-item">
+                <span class="summary-label">Prazo de Pagamento:</span>
+                <span class="summary-value" th:text="${nota.prazoPagamentoDias != null ? nota.prazoPagamentoDias : '30'} + ' dias'"></span>
+            </div>
+
+            <div class="summary-item">
+                <span class="summary-label">Valor Total da Nota:</span>
+                <span class="summary-value currency" th:text="${#numbers.formatCurrency(nota.valorNF)}"></span>
+            </div>
+
             <div class="summary-item">
                 <span class="summary-label">Valor Total da Nota:</span>
                 <span class="summary-value currency" th:text="${#numbers.formatCurrency(nota.valorNF)}"></span>
