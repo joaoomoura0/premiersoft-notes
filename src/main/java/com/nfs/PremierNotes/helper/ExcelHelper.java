@@ -25,14 +25,12 @@ public class ExcelHelper {
                 Row currentRow = sheet.getRow(i);
                 if (currentRow == null) continue;
 
-                // 1. Procura por uma linha de cabeçalho
                 if (isHeaderRow(currentRow)) {
                     System.out.println("\n>>> Bloco de Notas Encontrado na Linha " + (i + 1) + " <<<");
 
                     Map<String, Integer> columnMap = mapColumns(currentRow);
                     System.out.println("Mapa de Colunas: " + columnMap);
 
-                    // 2. Lê todas as notas abaixo deste cabeçalho
                     for (int j = i + 1; j <= sheet.getLastRowNum(); j++) {
                         Row dataRow = sheet.getRow(j);
                         if (dataRow == null) break;
@@ -47,7 +45,6 @@ public class ExcelHelper {
                         try {
                             NotaFiscalModel nota = new NotaFiscalModel();
 
-                            // Os nomes aqui devem bater EXATAMENTE com o que está no mapa
                             nota.setDataEmissao(getCellValueAsDate(dataRow.getCell(columnMap.get("Dt. Emissão"))));
                             nota.setCnpjTomador(cnpj);
                             nota.setTomador(getCellValueAsString(dataRow.getCell(columnMap.get("Tomador"))));
@@ -78,8 +75,6 @@ public class ExcelHelper {
         }
     }
 
-    // --- MÉTODOS AUXILIARES ---
-
     private static boolean isHeaderRow(Row row) {
         if (row == null) return false;
         boolean hasDtEmissao = false;
@@ -95,7 +90,6 @@ public class ExcelHelper {
     private static Map<String, Integer> mapColumns(Row headerRow) {
         Map<String, Integer> columnMap = new HashMap<>();
         for (Cell cell : headerRow) {
-            // Remove aspas duplas e espaços extras
             String headerText = getCellValueAsString(cell).replace("\"", "").trim();
             if (!headerText.isEmpty()) {
                 columnMap.put(headerText, cell.getColumnIndex());
@@ -121,16 +115,19 @@ public class ExcelHelper {
     }
 
     private static LocalDate getCellValueAsDate(Cell cell) {
-        if (cell == null) return null;
+        if (cell == null) {
+            return null;
+        }
+
+        String dateStr = getCellValueAsString(cell);
+        if (dateStr.isEmpty()) {
+            return null;
+        }
+
         try {
-            if (DateUtil.isCellDateFormatted(cell)) {
-                return cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            } else {
-                String dateStr = getCellValueAsString(cell);
-                if(dateStr.isEmpty()) return null;
-                return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            }
+            return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         } catch (Exception e) {
+            System.err.println("--> ERRO DE DATA: O texto '" + dateStr + "' não está no formato dd/MM/yyyy.");
             return null;
         }
     }
