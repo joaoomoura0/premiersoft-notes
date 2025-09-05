@@ -13,7 +13,7 @@
 </head>
 <body>
 <header>
-    <img src="/css/img/premier-logo.png" alt="Logo premier" class="header-logo">
+    <img src="/img/premier-logo.png" alt="Logo premier" class="header-logo">
 </header>
 
 <div th:if="${success}" class="alert alert-success" role="alert">
@@ -41,6 +41,17 @@
     <button type="submit" class="btn btn-primary">Filtrar</button>
     <a href="/notas" class="btn btn-secondary">Limpar Filtros</a>
 </form>
+
+<div class="ordenacao-container">
+    <span>Ordenar por Data:</span>
+    <a th:href="@{/notas(filtroTomador=${filtroTomador}, filtroStatus=${filtroStatus}, sort='desc')}"
+       th:classappend="${currentSort == 'desc'} ? 'active' : ''"
+       class="btn btn-sm btn-ordenacao">Mais Novas</a>
+
+    <a th:href="@{/notas(filtroTomador=${filtroTomador}, filtroStatus=${filtroStatus}, sort='asc')}"
+       th:classappend="${currentSort == 'asc'} ? 'active' : ''"
+       class="btn btn-sm btn-ordenacao">Mais Antigas</a>
+</div>
 
 <form th:action="@{/notas/excluir-multiplos}" method="post" onsubmit="return validarExclusao();">
     <div class="botoes-container">

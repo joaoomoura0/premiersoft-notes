@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,24 +60,36 @@ public class NotaFiscalController {
     @GetMapping
     public String listarNotas(@RequestParam(required = false) String filtroTomador,
                               @RequestParam(required = false) String filtroStatus,
+                              @RequestParam(defaultValue = "desc") String sort, // NOVO PARÂMETRO
                               Model model) {
+
+        // Lógica para criar o objeto de ordenação
+        Sort.Direction direction = sort.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sortByDate = Sort.by(direction, "dataEmissao");
+
         List<NotaFiscalModel> notas;
 
         if (filtroTomador != null && !filtroTomador.isEmpty()) {
             filtroTomador = filtroTomador.trim().toUpperCase();
-            notas = repository.findByTomador(filtroTomador);
+            // Usa o novo método com ordenação
+            notas = repository.findByTomador(filtroTomador, sortByDate);
         } else if (filtroStatus != null && !filtroStatus.isEmpty()) {
-
             String statusPagamento = filtroStatus.equals("true") ? "PAGO" : "PENDENTE";
-            notas = repository.findByStatusPagamento(statusPagamento);
+            // Usa o novo método com ordenação
+            notas = repository.findByStatusPagamento(statusPagamento, sortByDate);
         } else {
-            notas = repository.findAll();
+            // Usa o novo método com ordenação
+            notas = repository.findAll(sortByDate);
         }
 
         model.addAttribute("notas", notas);
         model.addAttribute("tomadores", repository.findDistinctTomadores());
         model.addAttribute("filtroTomador", filtroTomador);
         model.addAttribute("filtroStatus", filtroStatus);
+
+        // Envia a ordenação atual para o HTML, para destacar o botão correto
+        model.addAttribute("currentSort", sort);
+
         return "NFS";
     }
 
