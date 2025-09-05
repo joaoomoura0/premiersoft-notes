@@ -16,11 +16,6 @@ public class PagesController {
         return "home";
     }
 
-    @GetMapping("/notas/cadastrar")
-    public String cadastrar() {
-        return "cadastrar";
-    }
-
     @GetMapping("/notas/importar")
     public String importar() {
         return "importar";

@@ -2,6 +2,7 @@ package com.nfs.PremierNotes.controller;
 
 import com.nfs.PremierNotes.models.NotaFiscalModel;
 import com.nfs.PremierNotes.repository.NotaFiscalRepository;
+import com.nfs.PremierNotes.repository.TomadorRepository;
 import com.nfs.PremierNotes.service.NotaFiscalService;
 import com.nfs.PremierNotes.helper.ExcelHelper;
 import org.apache.poi.EncryptedDocumentException;
@@ -26,11 +27,14 @@ public class NotaFiscalController {
     @Autowired
     private NotaFiscalService service;
 
-    @PostMapping("/cadastrar")
-    public String cadastrarNota(@ModelAttribute NotaFiscalModel notaFiscal, RedirectAttributes redirectAttributes) {
-        service.salvarNota(notaFiscal);
-        redirectAttributes.addFlashAttribute("success", "Nota fiscal cadastrada com sucesso!");
-        return "redirect:/notas";
+    @Autowired
+    private TomadorRepository tomadorRepository;
+
+    @GetMapping("/cadastrar")
+    public String mostrarPaginaCadastro(Model model) {
+        model.addAttribute("tomadoresAtivos", tomadorRepository.findByAtivoTrueOrderByNomeAsc());
+        model.addAttribute("notaFiscal", new NotaFiscalModel());
+        return "cadastrar";
     }
 
     @PostMapping("/importar")

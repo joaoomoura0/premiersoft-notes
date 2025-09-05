@@ -24,7 +24,13 @@
 
         <div class="form-group">
             <label>Tomador</label>
-            <input type="text" name="tomador" required>
+            <!-- O antigo <input> é substituído por este <select> -->
+            <select th:field="*{notaFiscal.tomador}" class="form-control" required>
+                <option value="" disabled>-- Selecione um Tomador --</option>
+                <option th:each="tomador : ${tomadoresAtivos}"
+                        th:value="${tomador.nome}"
+                        th:text="${tomador.nome}"></option>
+            </select>
         </div>
 
         <div class="form-group">
