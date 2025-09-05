@@ -51,6 +51,20 @@
     <a th:href="@{/notas(filtroTomador=${filtroTomador}, filtroStatus=${filtroStatus}, sort='asc')}"
        th:classappend="${currentSort == 'asc'} ? 'active' : ''"
        class="btn btn-sm btn-ordenacao">Mais Antigas</a>
+
+    <span style="margin-left: 20px;">Filtrar por Ano:</span>
+    <!-- Botão para limpar o filtro de ano -->
+    <a th:href="@{/notas(sort=${currentSort})}"
+       th:classappend="${currentAno == null} ? 'active' : ''"
+       class="btn btn-sm btn-ordenacao">Todos</a>
+
+    <!-- Loop para criar um botão para cada ano existente -->
+    <a th:each="anoOpt : ${anos}"
+       th:href="@{/notas(sort=${currentSort}, ano=${anoOpt})}"
+       th:text="${anoOpt}"
+       th:classappend="${currentAno == anoOpt} ? 'active' : ''"
+       class="btn btn-sm btn-ordenacao">
+    </a>
 </div>
 
 <form th:action="@{/notas/excluir-multiplos}" method="post" onsubmit="return validarExclusao();">

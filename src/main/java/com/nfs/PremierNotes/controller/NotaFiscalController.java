@@ -60,35 +60,37 @@ public class NotaFiscalController {
     @GetMapping
     public String listarNotas(@RequestParam(required = false) String filtroTomador,
                               @RequestParam(required = false) String filtroStatus,
-                              @RequestParam(defaultValue = "desc") String sort, // NOVO PARÂMETRO
+                              @RequestParam(required = false) Integer ano, // NOVO PARÂMETRO 'ano'
+                              @RequestParam(defaultValue = "desc") String sort,
                               Model model) {
 
-        // Lógica para criar o objeto de ordenação
         Sort.Direction direction = sort.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sortByDate = Sort.by(direction, "dataEmissao");
 
         List<NotaFiscalModel> notas;
 
-        if (filtroTomador != null && !filtroTomador.isEmpty()) {
+        // --- LÓGICA DE FILTRAGEM ATUALIZADA ---
+        if (ano != null) {
+            // Se um ano foi selecionado, ele tem prioridade
+            notas = repository.findByAno(ano, sortByDate);
+        } else if (filtroTomador != null && !filtroTomador.isEmpty()) {
             filtroTomador = filtroTomador.trim().toUpperCase();
-            // Usa o novo método com ordenação
             notas = repository.findByTomador(filtroTomador, sortByDate);
         } else if (filtroStatus != null && !filtroStatus.isEmpty()) {
             String statusPagamento = filtroStatus.equals("true") ? "PAGO" : "PENDENTE";
-            // Usa o novo método com ordenação
             notas = repository.findByStatusPagamento(statusPagamento, sortByDate);
         } else {
-            // Usa o novo método com ordenação
             notas = repository.findAll(sortByDate);
         }
 
+        // --- ENVIANDO OS NOVOS DADOS PARA O MODEL ---
         model.addAttribute("notas", notas);
         model.addAttribute("tomadores", repository.findDistinctTomadores());
+        model.addAttribute("anos", repository.findDistinctAnos()); // Envia a lista de anos para o HTML
         model.addAttribute("filtroTomador", filtroTomador);
         model.addAttribute("filtroStatus", filtroStatus);
-
-        // Envia a ordenação atual para o HTML, para destacar o botão correto
         model.addAttribute("currentSort", sort);
+        model.addAttribute("currentAno", ano); // Envia o ano selecionado atualmente
 
         return "NFS";
     }
