@@ -2,13 +2,12 @@ package com.nfs.PremierNotes.service;
 
 import com.nfs.PremierNotes.models.NotaFiscalModel;
 import com.nfs.PremierNotes.repository.NotaFiscalRepository;
+import com.nfs.PremierNotes.models.TomadorModel;
+import com.nfs.PremierNotes.repository.TomadorRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import com.nfs.PremierNotes.models.TomadorModel;
-import com.nfs.PremierNotes.repository.TomadorRepository;
-import java.util.Optional;
 
 @Service
 public class NotaFiscalService {
@@ -31,17 +30,14 @@ public class NotaFiscalService {
         }
 
         String nomeTomador = nota.getTomador().trim().toUpperCase();
-        nota.setTomador(nomeTomador);
 
-        // Busca o tomador no banco. Se não existir, cria um novo com prazo padrão de 30 dias.
         TomadorModel tomador = tomadorRepository.findByNome(nomeTomador)
                 .orElseGet(() -> {
                     TomadorModel novoTomador = new TomadorModel(nomeTomador, 30);
                     return tomadorRepository.save(novoTomador);
                 });
 
-        // Pega o prazo do tomador que encontramos (ou acabamos de criar)
-        nota.setPrazoPagamentoDias(tomador.getPrazoPagamentoDias());
+        nota.setTomadorModel(tomador);
 
         if (nota.getStatusPagamento() == null) {
             nota.setStatusPagamento("PENDENTE");
@@ -65,13 +61,16 @@ public class NotaFiscalService {
     }
 
     public void calcularDetalhesDePrazo(NotaFiscalModel nota) {
-        if (nota.getDataEmissao() == null) return;
+        if (nota.getDataEmissao() == null || nota.getTomadorModel() == null) {
+            return;
+        }
 
-        Integer prazoDias = nota.getPrazoPagamentoDias() != null ? nota.getPrazoPagamentoDias() : 30;
+        Integer prazoDias = nota.getTomadorModel().getPrazoPagamentoDias();
+        if (prazoDias == null || prazoDias <= 0) {
+            prazoDias = 30;
+        }
 
-        // ADICIONE ESTA LINHA DE VOLTA
         final int DIAS_PARA_ENTRAR_EM_ATENCAO = 7;
-
         LocalDate hoje = LocalDate.now();
         LocalDate dataVencimento = nota.getDataEmissao().plusDays(prazoDias);
 
@@ -81,7 +80,7 @@ public class NotaFiscalService {
 
             if (diasRestantes < 0) {
                 nota.setStatusPrazo("VENCIDO");
-            } else if (diasRestantes <= DIAS_PARA_ENTRAR_EM_ATENCAO) { // Agora a variável existe
+            } else if (diasRestantes <= DIAS_PARA_ENTRAR_EM_ATENCAO) {
                 nota.setStatusPrazo("ATENCAO");
             } else {
                 nota.setStatusPrazo("NO_PRAZO");

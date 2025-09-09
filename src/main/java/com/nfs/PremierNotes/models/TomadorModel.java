@@ -1,4 +1,4 @@
-package com.nfs.PremierNotes.models; // Verifique seu pacote
+package com.nfs.PremierNotes.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class TomadorModel {
 
     private Integer prazoPagamentoDias;
 
-    private boolean ativo = true; // Por padrão, todo novo tomador é ativo
+    private boolean ativo = true;
 
     public TomadorModel(String nome, Integer prazo) {
         this.nome = nome;

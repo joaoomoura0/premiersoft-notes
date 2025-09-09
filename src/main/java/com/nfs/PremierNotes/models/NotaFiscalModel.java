@@ -22,7 +22,6 @@ public class NotaFiscalModel {
     private Long id;
     private LocalDate dataEmissao;
     private String cnpjTomador;
-    private String tomador;
     private Double valorNF;
     private Double valorDeducoes;
     private Double valorBase;
@@ -36,8 +35,18 @@ public class NotaFiscalModel {
     @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
 
-    @Column(name = "prazo_pagamento_dias")
-    private Integer prazoPagamentoDias;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tomador_id")
+    private TomadorModel tomadorModel;
+
+    @Transient
+    public String getTomador() {
+        if (this.tomadorModel != null) {
+            return this.tomadorModel.getNome();
+        }
+
+        return "N/D (Antigo)"; // Retorne algo que indique que a ligação está faltando
+    }
 
     @Transient
     private String statusPrazo;
@@ -50,10 +59,10 @@ public class NotaFiscalModel {
 
     @Transient
     public String getDataVencimentoFormatada() {
-        if (this.dataEmissao == null) {
+        if (this.dataEmissao == null || this.tomadorModel == null || this.tomadorModel.getPrazoPagamentoDias() == null) {
             return "N/A";
         }
-        Integer prazo = (this.prazoPagamentoDias != null && this.prazoPagamentoDias > 0) ? this.prazoPagamentoDias : 30;
+        Integer prazo = this.tomadorModel.getPrazoPagamentoDias();
         LocalDate dataVencimento = this.dataEmissao.plusDays(prazo);
         return dataVencimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }

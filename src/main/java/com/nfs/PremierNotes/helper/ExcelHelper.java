@@ -35,19 +35,19 @@ public class ExcelHelper {
                         Row dataRow = sheet.getRow(j);
                         if (dataRow == null) break;
 
-                        String cnpj = getCellValueAsString(dataRow.getCell(columnMap.get("CNPJ Tomador")));
-                        if (cnpj.trim().isEmpty() || cnpj.toLowerCase().contains("valor total")) {
-                            System.out.println("Fim do bloco de dados na linha " + (j + 1));
-                            i = j; // Pula o contador principal para depois deste bloco
-                            break;
+                        String primeiraColuna = getCellValueAsString(dataRow.getCell(0));
+
+                        if (!primeiraColuna.matches("\\d+.*")) { // Verifica se a célula NÃO começa com um número
+                            System.out.println("Fim do bloco de dados (linha de total/resumo) na linha " + (j + 1));
+                            i = j; // Pula o contador principal para depois da linha de total
+                            break; // Sai do loop interno e volta a procurar o próximo cabeçalho
                         }
 
                         try {
                             NotaFiscalModel nota = new NotaFiscalModel();
 
                             nota.setDataEmissao(getCellValueAsDate(dataRow.getCell(columnMap.get("Dt. Emissão"))));
-                            nota.setCnpjTomador(cnpj);
-                            nota.setTomador(getCellValueAsString(dataRow.getCell(columnMap.get("Tomador"))));
+                            nota.setCnpjTomador(getCellValueAsString(dataRow.getCell(columnMap.get("CNPJ Tomador"))));
                             nota.setValorNF(getCellValueAsDouble(dataRow.getCell(columnMap.get("Vl. NF."))));
                             nota.setValorDeducoes(getCellValueAsDouble(dataRow.getCell(columnMap.get("Vl. Ded."))));
                             nota.setValorBase(getCellValueAsDouble(dataRow.getCell(columnMap.get("Vl. Base"))));
@@ -115,18 +115,19 @@ public class ExcelHelper {
     }
 
     private static LocalDate getCellValueAsDate(Cell cell) {
-        if (cell == null) {
-            return null;
-        }
-
+        // 1. Lemos a célula como texto, que é como ela realmente está no arquivo.
         String dateStr = getCellValueAsString(cell);
-        if (dateStr.isEmpty()) {
+
+        // 2. Se o texto estiver vazio, não há o que converter.
+        if (dateStr == null || dateStr.trim().isEmpty()) {
             return null;
         }
 
         try {
+            // 3. Tentamos converter o texto para o formato de data que conhecemos.
             return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         } catch (Exception e) {
+            // 4. Se a conversão falhar, registramos o erro e retornamos nulo.
             System.err.println("--> ERRO DE DATA: O texto '" + dateStr + "' não está no formato dd/MM/yyyy.");
             return null;
         }

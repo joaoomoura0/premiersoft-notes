@@ -17,12 +17,21 @@ public class TomadorController {
     @Autowired
     private TomadorRepository tomadorRepository;
 
-    // Rota para LISTAR todos os tomadores
     @GetMapping
-    public String listarTomadores(Model model) {
-        List<TomadorModel> tomadores = tomadorRepository.findAll();
+    public String listarTomadores(@RequestParam(required = false) String busca, Model model) {
+        List<TomadorModel> tomadores;
+
+        if (busca != null && !busca.trim().isEmpty()) {
+            // Se houver uma busca, filtra a lista
+            tomadores = tomadorRepository.findByNomeContainingIgnoreCase(busca.trim());
+        } else {
+            // Senão, lista todos
+            tomadores = tomadorRepository.findAll();
+        }
+
         model.addAttribute("tomadores", tomadores);
-        return "tomadores"; // Renderiza o arquivo tomadores.html
+        model.addAttribute("buscaAtual", busca); // Envia a busca atual de volta para o input
+        return "tomadores";
     }
 
     // Rota para ATUALIZAR um tomador

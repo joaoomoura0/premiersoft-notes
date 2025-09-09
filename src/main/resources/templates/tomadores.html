@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Gerenciar Tomadores</title>
-  <!-- Reutilizando o CSS principal -->
   <link rel="stylesheet" href="/css/NFS.css">
+  <link rel="stylesheet" href="/css/tomadores.css">
 </head>
 <body>
 <header>
@@ -14,6 +14,13 @@
 <div class="container-geral">
   <h2>Gerenciamento de Tomadores</h2>
 
+  <form th:action="@{/tomadores}" method="get" class="form-filtros">
+    <input type="text" name="busca" placeholder="Buscar por nome do tomador..."
+           class="select-filtro input-busca" th:value="${buscaAtual}"/>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+    <a th:href="@{/tomadores}" class="btn btn-secondary">Limpar</a>
+  </form>
+
   <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
 
   <div class="table-container">
@@ -21,9 +28,9 @@
       <thead>
       <tr>
         <th>Tomador</th>
-        <th>Prazo de Pagamento (dias)</th>
-        <th>Status</th>
-        <th>Ações</th>
+        <th style="width: 200px;">Prazo de Pagamento (dias)</th>
+        <th style="width: 150px;">Status</th>
+        <th style="width: 120px;">Ações</th>
       </tr>
       </thead>
       <tbody>
@@ -40,7 +47,7 @@
               <option value="false" th:selected="${!tomador.ativo}">Inativo</option>
             </select>
           </td>
-          <td>
+          <td style="text-align: center;">
             <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
           </td>
         </form>
