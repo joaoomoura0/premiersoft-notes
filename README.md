@@ -1,4 +1,4 @@
-# 📒 Premiersoft Notes
+# 🔵 Premiersoft Notes
 
 No começo, o projeto surgiu apenas como um **sistema de Notas Fiscais (NFS)**.  
 Durante o desenvolvimento, percebi que podia **aprimorar e expandir** a ideia para abranger outras tarefas do meu dia a dia na empresa, como a **gestão de seguros** e o **controle de dados bancários de colaboradores**.  
