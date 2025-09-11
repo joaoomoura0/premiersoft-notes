@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciar Tomadores</title>
+  <link rel="stylesheet" href="/css/NFS.css">
+  <link rel="stylesheet" href="/css/tomadores.css">
+</head>
+<body>
+<header>
+  <img src="/img/premier-logo.png" alt="Logo premier" class="header-logo">
+</header>
+
+<div class="container-geral">
+  <h2>Gerenciamento de Tomadores</h2>
+
+  <form th:action="@{/tomadores}" method="get" class="form-filtros">
+    <input type="text" name="busca" placeholder="Buscar por nome do tomador..."
+           class="select-filtro input-busca" th:value="${buscaAtual}"/>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+    <a th:href="@{/tomadores}" class="btn btn-secondary">Limpar</a>
+    <a th:href="@{/notas}" class="btn btn-secondary">Voltar</a>
+  </form>
+
+  <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+  <div class="table-container">
+    <table class="tabela-notas">
+      <thead>
+      <tr>
+        <th>Tomador</th>
+        <th style="width: 200px;">Prazo de Pagamento (dias)</th>
+        <th style="width: 150px;">Status</th>
+        <th style="width: 120px;">Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="tomador : ${tomadores}">
+        <form th:action="@{/tomadores/atualizar}" method="post">
+          <input type="hidden" name="id" th:value="${tomador.id}" />
+          <td th:text="${tomador.nome}"></td>
+          <td>
+            <input type="number" name="prazo" th:value="${tomador.prazoPagamentoDias}" class="input-tabela" required />
+          </td>
+          <td>
+            <select name="ativo" class="select-tabela">
+              <option value="true" th:selected="${tomador.ativo}">Ativo</option>
+              <option value="false" th:selected="${!tomador.ativo}">Inativo</option>
+            </select>
+          </td>
+          <td style="text-align: center;">
+            <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+          </td>
+        </form>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="text-align: center; margin-top: 2rem;">
+    <a th:href="@{/notas}" class="btn btn-secondary">Voltar para a Lista de Notas</a>
+  </div>
+</div>
+</body>
+</html>

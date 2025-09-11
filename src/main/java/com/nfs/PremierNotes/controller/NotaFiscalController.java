@@ -2,6 +2,7 @@ package com.nfs.PremierNotes.controller;
 
 import com.nfs.PremierNotes.models.NotaFiscalModel;
 import com.nfs.PremierNotes.repository.NotaFiscalRepository;
+import com.nfs.PremierNotes.repository.TomadorRepository;
 import com.nfs.PremierNotes.service.NotaFiscalService;
 import com.nfs.PremierNotes.helper.ExcelHelper;
 import org.apache.poi.EncryptedDocumentException;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.data.domain.Sort;
+import com.nfs.PremierNotes.models.TomadorModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,11 +29,14 @@ public class NotaFiscalController {
     @Autowired
     private NotaFiscalService service;
 
-    @PostMapping("/cadastrar")
-    public String cadastrarNota(@ModelAttribute NotaFiscalModel notaFiscal, RedirectAttributes redirectAttributes) {
-        service.salvarNota(notaFiscal);
-        redirectAttributes.addFlashAttribute("success", "Nota fiscal cadastrada com sucesso!");
-        return "redirect:/notas";
+    @Autowired
+    private TomadorRepository tomadorRepository;
+
+    @GetMapping("/cadastrar")
+    public String mostrarPaginaCadastro(Model model) {
+        model.addAttribute("tomadoresAtivos", tomadorRepository.findByAtivoTrueOrderByNomeAsc());
+        model.addAttribute("notaFiscal", new NotaFiscalModel());
+        return "cadastrar";
     }
 
     @PostMapping("/importar")
@@ -60,7 +66,7 @@ public class NotaFiscalController {
     @GetMapping
     public String listarNotas(@RequestParam(required = false) String filtroTomador,
                               @RequestParam(required = false) String filtroStatus,
-                              @RequestParam(required = false) Integer ano, // NOVO PARÂMETRO 'ano'
+                              @RequestParam(required = false) Integer ano,
                               @RequestParam(defaultValue = "desc") String sort,
                               Model model) {
 
@@ -69,13 +75,22 @@ public class NotaFiscalController {
 
         List<NotaFiscalModel> notas;
 
-        // --- LÓGICA DE FILTRAGEM ATUALIZADA ---
         if (ano != null) {
-            // Se um ano foi selecionado, ele tem prioridade
             notas = repository.findByAno(ano, sortByDate);
         } else if (filtroTomador != null && !filtroTomador.isEmpty()) {
             filtroTomador = filtroTomador.trim().toUpperCase();
-            notas = repository.findByTomador(filtroTomador, sortByDate);
+
+            // --- LÓGICA APRIMORADA ---
+            // 1. Busca o objeto TomadorModel pelo nome
+            Optional<TomadorModel> tomadorOpt = tomadorRepository.findByNome(filtroTomador);
+            if (tomadorOpt.isPresent()) {
+                // 2. Se encontrou, busca as notas relacionadas a esse objeto
+                notas = repository.findByTomadorModel(tomadorOpt.get(), sortByDate);
+            } else {
+                // Se não encontrou nenhum tomador com esse nome, retorna uma lista vazia
+                notas = new ArrayList<>();
+            }
+
         } else if (filtroStatus != null && !filtroStatus.isEmpty()) {
             String statusPagamento = filtroStatus.equals("true") ? "PAGO" : "PENDENTE";
             notas = repository.findByStatusPagamento(statusPagamento, sortByDate);
@@ -83,14 +98,13 @@ public class NotaFiscalController {
             notas = repository.findAll(sortByDate);
         }
 
-        // --- ENVIANDO OS NOVOS DADOS PARA O MODEL ---
         model.addAttribute("notas", notas);
         model.addAttribute("tomadores", repository.findDistinctTomadores());
-        model.addAttribute("anos", repository.findDistinctAnos()); // Envia a lista de anos para o HTML
+        model.addAttribute("anos", repository.findDistinctAnos());
         model.addAttribute("filtroTomador", filtroTomador);
         model.addAttribute("filtroStatus", filtroStatus);
         model.addAttribute("currentSort", sort);
-        model.addAttribute("currentAno", ano); // Envia o ano selecionado atualmente
+        model.addAttribute("currentAno", ano);
 
         return "NFS";
     }

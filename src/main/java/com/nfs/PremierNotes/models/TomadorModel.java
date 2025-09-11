@@ -4,12 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "tomadores")
 public class TomadorModel {
@@ -21,19 +19,12 @@ public class TomadorModel {
     @Column(unique = true, nullable = false)
     private String nome;
 
-    @Column(nullable = false)
     private Integer prazoPagamentoDias;
 
-    @Column(nullable = false)
-    private Boolean ativo;
+    private boolean ativo = true;
 
-    @PrePersist
-    public void prePersist() {
-        if (this.prazoPagamentoDias == null) {
-            this.prazoPagamentoDias = 30;
-        }
-        if (this.ativo == null) {
-            this.ativo = true;
-        }
+    public TomadorModel(String nome, Integer prazo) {
+        this.nome = nome;
+        this.prazoPagamentoDias = prazo;
     }
 }

@@ -71,7 +71,7 @@
     <div class="botoes-container">
         <a href="/notas/cadastrar" class="btn btn-secondary">Cadastrar Nota</a>
         <a href="/notas/importar" class="btn btn-secondary">Importar via Excel</a>
-        <a href="/tomadores" class="btn btn-secondary">Gerenciar Tomadores</a>
+        <a href="/tomadores" class="btn btn-secondary">Consultar Tomadores</a>
         <button type="submit" class="btn btn-danger">Excluir Selecionados</button>
     </div>
 
@@ -113,8 +113,7 @@
                     <td><input type="checkbox" name="ids" th:value="${nota.id}"/></td>
                     <td th:text="${#temporals.format(nota.dataEmissao, 'dd/MM/yyyy')}"></td>
                     <td th:text="${nota.cnpjTomador}"></td>
-                    <td th:text="${nota.tomador}"></td>
-                    <td th:text="${#numbers.formatCurrency(nota.valorNF)}"></td>
+                    <td th:text="${nota.tomador != null ? nota.tomador : 'N/D'}"></td>
                     <td th:text="${(nota.valorDeducoes == null or nota.valorDeducoes == 0) ? '0' : (nota.valorDeducoes % 1 == 0 ? #numbers.formatInteger(nota.valorDeducoes, 1) : #numbers.formatDecimal(nota.valorDeducoes, 1, 2))}"></td>
                     <td th:text="${#numbers.formatCurrency(nota.valorBase)}"></td>
                     <td th:text="${(nota.aliquota == null or nota.aliquota == 0) ? '0' : (nota.aliquota % 1 == 0 ? #numbers.formatInteger(nota.aliquota, 1) : #numbers.formatDecimal(nota.aliquota, 1, 2))}"></td>

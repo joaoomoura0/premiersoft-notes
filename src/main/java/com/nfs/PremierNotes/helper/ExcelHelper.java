@@ -47,7 +47,7 @@ public class ExcelHelper {
 
                             nota.setDataEmissao(getCellValueAsDate(dataRow.getCell(columnMap.get("Dt. Emissão"))));
                             nota.setCnpjTomador(cnpj);
-                            nota.setTomador(getCellValueAsString(dataRow.getCell(columnMap.get("Tomador"))).trim().toUpperCase());
+                            nota.setTomador(getCellValueAsString(dataRow.getCell(columnMap.get("Tomador"))));
                             nota.setValorNF(getCellValueAsDouble(dataRow.getCell(columnMap.get("Vl. NF."))));
                             nota.setValorDeducoes(getCellValueAsDouble(dataRow.getCell(columnMap.get("Vl. Ded."))));
                             nota.setValorBase(getCellValueAsDouble(dataRow.getCell(columnMap.get("Vl. Base"))));

@@ -1,0 +1,35 @@
+
+.container-geral h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    font-size: 2rem;
+}
+
+.form-filtros .input-busca {
+    flex-grow: 1;
+}
+
+.input-tabela, .select-tabela {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Efeito de foco para os campos da tabela */
+.input-tabela:focus, .select-tabela:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 77, 156, 0.1);
+    background-color: white;
+}
+
+/* Cursor de ponteiro para o select */
+.select-tabela {
+    cursor: pointer;
+}

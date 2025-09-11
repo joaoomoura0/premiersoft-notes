@@ -1,23 +1,23 @@
 package com.nfs.PremierNotes.service;
 
 import com.nfs.PremierNotes.models.NotaFiscalModel;
-import com.nfs.PremierNotes.models.TomadorModel;
 import com.nfs.PremierNotes.repository.NotaFiscalRepository;
+import com.nfs.PremierNotes.models.TomadorModel;
+import com.nfs.PremierNotes.repository.TomadorRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NotaFiscalService {
 
     private final NotaFiscalRepository repository;
-    private final TomadorService tomadorService;
+    private final TomadorRepository tomadorRepository;
 
-    public NotaFiscalService(NotaFiscalRepository repository, TomadorService tomadorService) {
+    public NotaFiscalService(NotaFiscalRepository repository, TomadorRepository tomadorRepository) {
         this.repository = repository;
-        this.tomadorService = tomadorService;
+        this.tomadorRepository = tomadorRepository;
     }
 
     public List<NotaFiscalModel> listarNotas() {
@@ -25,28 +25,19 @@ public class NotaFiscalService {
     }
 
     public NotaFiscalModel salvarNota(NotaFiscalModel nota) {
-        if (nota.getTomador() != null && !nota.getTomador().trim().isEmpty()) {
-            String nomeTomadorNormalizado = nota.getTomador().trim().toUpperCase();
-            nota.setTomador(nomeTomadorNormalizado);
-
-            Optional<TomadorModel> tomadorOptional = tomadorService.buscarTomadorPorNome(nomeTomadorNormalizado);
-            TomadorModel tomadorConfig;
-
-            if (tomadorOptional.isPresent()) {
-                tomadorConfig = tomadorOptional.get();
-            } else {
-                tomadorConfig = new TomadorModel();
-                tomadorConfig.setNome(nomeTomadorNormalizado);
-                tomadorConfig.setPrazoPagamentoDias(30);
-                tomadorConfig.setAtivo(true);
-                tomadorConfig = tomadorService.salvarTomador(tomadorConfig);
-            }
-
-            nota.setPrazoPagamentoDias(tomadorConfig.getPrazoPagamentoDias());
-
-        } else {
-            nota.setPrazoPagamentoDias(30);
+        if (nota.getTomador() == null || nota.getTomador().trim().isEmpty()) {
+            throw new IllegalArgumentException("O nome do tomador não pode ser vazio.");
         }
+
+        String nomeTomador = nota.getTomador().trim().toUpperCase();
+
+        TomadorModel tomador = tomadorRepository.findByNome(nomeTomador)
+                .orElseGet(() -> {
+                    TomadorModel novoTomador = new TomadorModel(nomeTomador, 30);
+                    return tomadorRepository.save(novoTomador);
+                });
+
+        nota.setTomadorModel(tomador);
 
         if (nota.getStatusPagamento() == null) {
             nota.setStatusPagamento("PENDENTE");
@@ -70,18 +61,16 @@ public class NotaFiscalService {
     }
 
     public void calcularDetalhesDePrazo(NotaFiscalModel nota) {
-        Integer prazoDias = nota.getPrazoPagamentoDias();
+        if (nota.getDataEmissao() == null || nota.getTomadorModel() == null) {
+            return;
+        }
 
+        Integer prazoDias = nota.getTomadorModel().getPrazoPagamentoDias();
         if (prazoDias == null || prazoDias <= 0) {
             prazoDias = 30;
         }
 
         final int DIAS_PARA_ENTRAR_EM_ATENCAO = 7;
-
-        if (nota.getDataEmissao() == null) {
-            return;
-        }
-
         LocalDate hoje = LocalDate.now();
         LocalDate dataVencimento = nota.getDataEmissao().plusDays(prazoDias);
 
@@ -96,8 +85,7 @@ public class NotaFiscalService {
             } else {
                 nota.setStatusPrazo("NO_PRAZO");
             }
-        }
-        else if ("PAGO".equals(nota.getStatusPagamento()) && nota.getDataPagamento() != null) {
+        } else if ("PAGO".equals(nota.getStatusPagamento()) && nota.getDataPagamento() != null) {
             long diferencaDias = ChronoUnit.DAYS.between(nota.getDataPagamento(), dataVencimento);
             nota.setDiasPagamento(diferencaDias);
         }
