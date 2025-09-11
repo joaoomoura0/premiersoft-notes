@@ -19,6 +19,7 @@
            class="select-filtro input-busca" th:value="${buscaAtual}"/>
     <button type="submit" class="btn btn-primary">Buscar</button>
     <a th:href="@{/tomadores}" class="btn btn-secondary">Limpar</a>
+    <a th:href="@{/notas}" class="btn btn-secondary">Voltar</a>
   </form>
 
   <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
