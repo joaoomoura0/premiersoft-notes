@@ -34,7 +34,6 @@ public class TomadorService {
 
     @Transactional
     public TomadorModel salvarTomador(TomadorModel tomador) {
-        // Normaliza o nome para evitar duplicidades por capitalização diferente
         if (tomador.getNome() != null) {
             tomador.setNome(tomador.getNome().trim().toUpperCase());
         }
@@ -43,6 +42,9 @@ public class TomadorService {
 
     @Transactional
     public TomadorModel criarOuAtualizarTomador(String nomeTomador, Integer prazo, Boolean ativo) {
+        if (nomeTomador == null || nomeTomador.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome do tomador não pode ser nulo ou vazio.");
+        }
         String nomeNormalizado = nomeTomador.trim().toUpperCase();
         Optional<TomadorModel> tomadorOptional = tomadorRepository.findByNomeIgnoreCase(nomeNormalizado);
 
@@ -54,9 +56,8 @@ public class TomadorService {
             tomador.setNome(nomeNormalizado);
         }
 
-        tomador.setPrazoPagamentoDias(prazo != null ? prazo : 30); // Garante um valor padrão
-        tomador.setAtivo(ativo != null ? ativo : true); // Garante um valor padrão
-
+        tomador.setPrazoPagamentoDias(prazo != null ? prazo : tomador.getPrazoPagamentoDias());
+        tomador.setAtivo(ativo != null ? ativo : tomador.getAtivo());
         return tomadorRepository.save(tomador);
     }
 
@@ -66,7 +67,6 @@ public class TomadorService {
 
     @Transactional
     public TomadorModel atualizarTomador(TomadorModel tomadorAtualizado) {
-        // Valida que o tomador existe antes de atualizar
         return tomadorRepository.findById(tomadorAtualizado.getId())
                 .map(tomadorExistente -> {
                     tomadorExistente.setPrazoPagamentoDias(tomadorAtualizado.getPrazoPagamentoDias());

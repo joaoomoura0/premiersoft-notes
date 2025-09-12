@@ -1,27 +1,29 @@
 package com.nfs.PremierNotes.models;
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "nota_fiscal")
 public class NotaFiscalModel {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate dataEmissao;
     private String cnpjTomador;
+
+    // private String tomador;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tomador_id", nullable = false)
+    private TomadorModel tomador;
+
     private Double valorNF;
     private Double valorDeducoes;
     private Double valorBase;
@@ -35,21 +37,14 @@ public class NotaFiscalModel {
     @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tomador_id")
-    private TomadorModel tomadorModel;
-
-    @Transient
-    public String getTomador() {
-        if (this.tomadorModel != null) {
-            return this.tomadorModel.getNome();
-        }
-
-        return "N/D (Antigo)"; // Retorne algo que indique que a ligação está faltando
-    }
+    @Column(name = "prazo_pagamento_dias")
+    private Integer prazoPagamentoDias;
 
     @Transient
     private String statusPrazo;
+
+    @Transient
+    private String nomeTomadorString;
 
     @Transient
     private Long diasParaVencer;
@@ -59,10 +54,10 @@ public class NotaFiscalModel {
 
     @Transient
     public String getDataVencimentoFormatada() {
-        if (this.dataEmissao == null || this.tomadorModel == null || this.tomadorModel.getPrazoPagamentoDias() == null) {
+        if (this.dataEmissao == null) {
             return "N/A";
         }
-        Integer prazo = this.tomadorModel.getPrazoPagamentoDias();
+        Integer prazo = (this.prazoPagamentoDias != null && this.prazoPagamentoDias > 0) ? this.prazoPagamentoDias : 30;
         LocalDate dataVencimento = this.dataEmissao.plusDays(prazo);
         return dataVencimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }

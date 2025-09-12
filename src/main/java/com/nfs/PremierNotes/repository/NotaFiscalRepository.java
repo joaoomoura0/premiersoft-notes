@@ -12,13 +12,11 @@ import java.util.List;
 @Repository
 public interface NotaFiscalRepository extends JpaRepository<NotaFiscalModel, Long> {
 
-    List<NotaFiscalModel> findByTomador(String tomador, Sort sort);
+    List<NotaFiscalModel> findByTomador(TomadorModel tomador, Sort sort); // Agora busca por objeto TomadorModel
     List<NotaFiscalModel> findAll(Sort sort);
     List<NotaFiscalModel> findByStatusPagamento(String statusPagamento, Sort sort);
-    List<NotaFiscalModel> findByTomadorModel(TomadorModel tomadorModel, Sort sort);
 
-
-    @Query("SELECT DISTINCT n.tomadorModel.nome FROM NotaFiscalModel n WHERE n.tomadorModel.nome IS NOT NULL AND n.tomadorModel.nome != '' ORDER BY n.tomadorModel.nome ASC")
+    @Query("SELECT DISTINCT n.tomador.nome FROM NotaFiscalModel n WHERE n.tomador IS NOT NULL ORDER BY n.tomador.nome ASC")
     List<String> findDistinctTomadores();
 
     @Query("SELECT DISTINCT YEAR(n.dataEmissao) FROM NotaFiscalModel n ORDER BY YEAR(n.dataEmissao) DESC")

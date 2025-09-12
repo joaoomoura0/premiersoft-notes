@@ -32,11 +32,11 @@ public class NotaFiscalController {
     @Autowired
     private TomadorRepository tomadorRepository;
 
-    @GetMapping("/cadastrar")
-    public String mostrarPaginaCadastro(Model model) {
-        model.addAttribute("tomadoresAtivos", tomadorRepository.findByAtivoTrueOrderByNomeAsc());
-        model.addAttribute("notaFiscal", new NotaFiscalModel());
-        return "cadastrar";
+    @PostMapping("/cadastrar") // ADICIONE ESTE MÉTODO DE POST PARA CADASTRO MANUAL
+    public String cadastrarNota(@ModelAttribute NotaFiscalModel notaFiscal, RedirectAttributes redirectAttributes) {
+        service.salvarNota(notaFiscal);
+        redirectAttributes.addFlashAttribute("success", "Nota fiscal cadastrada com sucesso!");
+        return "redirect:/notas";
     }
 
     @PostMapping("/importar")
@@ -80,14 +80,10 @@ public class NotaFiscalController {
         } else if (filtroTomador != null && !filtroTomador.isEmpty()) {
             filtroTomador = filtroTomador.trim().toUpperCase();
 
-            // --- LÓGICA APRIMORADA ---
-            // 1. Busca o objeto TomadorModel pelo nome
-            Optional<TomadorModel> tomadorOpt = tomadorRepository.findByNome(filtroTomador);
+            Optional<TomadorModel> tomadorOpt = tomadorRepository.findByNomeIgnoreCase(filtroTomador);
             if (tomadorOpt.isPresent()) {
-                // 2. Se encontrou, busca as notas relacionadas a esse objeto
-                notas = repository.findByTomadorModel(tomadorOpt.get(), sortByDate);
+                notas = repository.findByTomador(tomadorOpt.get(), sortByDate);
             } else {
-                // Se não encontrou nenhum tomador com esse nome, retorna uma lista vazia
                 notas = new ArrayList<>();
             }
 
