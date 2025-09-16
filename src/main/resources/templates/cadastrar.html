@@ -24,11 +24,10 @@
 
         <div class="form-group">
             <label>Tomador</label>
-            <!-- O antigo <input> é substituído por este <select> -->
             <select name="tomador" class="form-control" required>
                 <option value="" disabled selected>-- Selecione um Tomador Ativo --</option>
-                <option th:each="tomador : ${tomadoresAtivos}"
-                        th:value="${tomador.nome}"
+                <option th:each="tomador : ${tomadores}"
+                        th:value="${tomador.id}"
                         th:text="${tomador.nome}"></option>
             </select>
         </div>
