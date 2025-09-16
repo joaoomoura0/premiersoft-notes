@@ -58,7 +58,6 @@
        th:classappend="${currentAno == null} ? 'active' : ''"
        class="btn btn-sm btn-ordenacao">Todos</a>
 
-    <!-- Loop para criar um botão para cada ano existente -->
     <a th:each="anoOpt : ${anos}"
        th:href="@{/notas(sort=${currentSort}, ano=${anoOpt})}"
        th:text="${anoOpt}"
@@ -114,6 +113,7 @@
                     <td th:text="${#temporals.format(nota.dataEmissao, 'dd/MM/yyyy')}"></td>
                     <td th:text="${nota.cnpjTomador}"></td>
                     <td th:text="${nota.tomador != null ? nota.tomador : 'N/D'}"></td>
+                    <td th:text="${nota.valorNF}"></td>
                     <td th:text="${(nota.valorDeducoes == null or nota.valorDeducoes == 0) ? '0' : (nota.valorDeducoes % 1 == 0 ? #numbers.formatInteger(nota.valorDeducoes, 1) : #numbers.formatDecimal(nota.valorDeducoes, 1, 2))}"></td>
                     <td th:text="${#numbers.formatCurrency(nota.valorBase)}"></td>
                     <td th:text="${(nota.aliquota == null or nota.aliquota == 0) ? '0' : (nota.aliquota % 1 == 0 ? #numbers.formatInteger(nota.aliquota, 1) : #numbers.formatDecimal(nota.aliquota, 1, 2))}"></td>
