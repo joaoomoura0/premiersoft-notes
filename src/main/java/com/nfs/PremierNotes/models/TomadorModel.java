@@ -11,29 +11,29 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tomadores") // Nome da tabela no banco de dados
+@Table(name = "tomadores")
 public class TomadorModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false) // Garante que o nome do tomador seja único e não nulo
-    private String nome; // Nome do tomador (ex: "SOPRANO INDUSTRIA ELETROMETALURGICA EIRELI")
+    @Column(unique = true, nullable = false)
+    private String nome;
 
     @Column(nullable = false)
-    private Integer prazoPagamentoDias; // Prazo de pagamento padrão para este tomador
+    private Integer prazoPagamentoDias;
 
     @Column(nullable = false)
-    private Boolean ativo; // Se o tomador está ativo ou inativo para o cálculo de prazo/filtragem
+    private Boolean ativo;
 
-    @PrePersist // Método que será executado antes de persistir um novo objeto
+    @PrePersist
     public void prePersist() {
         if (this.prazoPagamentoDias == null) {
-            this.prazoPagamentoDias = 30; // Prazo padrão se não for especificado
+            this.prazoPagamentoDias = 30;
         }
         if (this.ativo == null) {
-            this.ativo = true; // Ativo por padrão se não for especificado
+            this.ativo = true;
         }
     }
 }
