@@ -92,7 +92,8 @@
 
             <div class="summary-item">
                 <span class="summary-label">Prazo de Pagamento:</span>
-                <span class="summary-value" th:text="${nota.prazoPagamentoDias != null ? nota.prazoPagamentoDias : '30'} + ' dias'"></span>
+                <span class="summary-value"
+                      th:text="${nota.tomador != null ? nota.tomador.prazoPagamentoDias : 30} + ' dias'"></span>
             </div>
 
             <div class="summary-item">
