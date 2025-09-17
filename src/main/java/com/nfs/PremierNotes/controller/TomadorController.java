@@ -19,19 +19,30 @@ public class TomadorController {
     private TomadorService tomadorService;
 
     @GetMapping
-    public String gerenciarTomadores(@RequestParam(required = false) String busca, Model model) {
+    public String gerenciarTomadores(
+            @RequestParam(required = false) String busca,
+            @RequestParam(required = false) String filtroAtivo,
+            Model model) {
+
         List<TomadorModel> tomadores;
+
         if (busca != null && !busca.trim().isEmpty()) {
             tomadores = tomadorService.buscarTomadoresPorNomeParcial(busca);
+        } else if (filtroAtivo != null && !filtroAtivo.isEmpty()) {
+            Boolean ativo = Boolean.parseBoolean(filtroAtivo);
+            tomadores = tomadorService.buscarPorStatus(ativo);
         } else {
             tomadores = tomadorService.listarTodosTomadores();
         }
+
         model.addAttribute("tomadores", tomadores);
         model.addAttribute("buscaAtual", busca);
-        return "gerenciar-tomadores"; // Nome do seu arquivo HTML (sem a extensão)
+        model.addAttribute("filtroAtivo", filtroAtivo);
+
+        return "gerenciar-tomadores";
     }
 
-    @PostMapping("/atualizar") // Mapeia para /tomadores/atualizar
+    @PostMapping("/atualizar")
     public String atualizarTomador(@ModelAttribute TomadorModel tomadorAtualizado, RedirectAttributes redirectAttributes) {
         try {
             tomadorService.atualizarTomador(tomadorAtualizado);

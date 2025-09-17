@@ -13,5 +13,7 @@ public interface TomadorRepository extends JpaRepository<TomadorModel, Long> {
     Optional<TomadorModel> findByNomeIgnoreCase(String nome);
     List<TomadorModel> findByNomeContainingIgnoreCase(String nome);
     List<TomadorModel> findByAtivoTrueOrderByNomeAsc();
+    List<TomadorModel> findByAtivo(Boolean ativo);
+
 
 }

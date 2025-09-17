@@ -40,6 +40,13 @@ public class TomadorService {
         return tomadorRepository.save(tomador);
     }
 
+    public List<TomadorModel> buscarPorStatus(Boolean ativo) {
+        if (ativo == null) {
+            return tomadorRepository.findAll();
+        }
+        return tomadorRepository.findByAtivo(ativo);
+    }
+
     @Transactional
     public TomadorModel criarOuAtualizarTomador(String nomeTomador, Integer prazo, Boolean ativo) {
         if (nomeTomador == null || nomeTomador.trim().isEmpty()) {
