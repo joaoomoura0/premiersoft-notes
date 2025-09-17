@@ -1,0 +1,43 @@
+/* Input de prazo de pagamento */
+.input-tabela {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--background-dark);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.input-tabela:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 77, 156, 0.15);
+    outline: none;
+}
+
+/* Select de status (Ativo/Inativo) */
+.select-tabela {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--background-dark);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background-color: white;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.select-tabela:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 77, 156, 0.15);
+    outline: none;
+}
+
+.select-tabela option[value="true"] {
+    color: green;
+    font-weight: 600;
+}
+
+.select-tabela option[value="false"] {
+    color: red;
+    font-weight: 600;
+}

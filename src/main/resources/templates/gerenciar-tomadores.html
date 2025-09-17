@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Gerenciar Tomadores</title>
   <link rel="stylesheet" href="/css/NFS.css">
+  <link rel="stylesheet" href="/css/gerenciar-tomadores.css">
 </head>
 <body>
 <header>
@@ -16,7 +17,14 @@
   <form th:action="@{/tomadores}" method="get" class="form-filtros">
     <input type="text" name="busca" placeholder="Buscar por nome do tomador..."
            class="select-filtro input-busca" th:value="${buscaAtual}"/>
-    <button type="submit" class="btn btn-primary">Buscar</button>
+
+    <select name="filtroAtivo" class="select-filtro">
+      <option value="">Status (Todos)</option>
+      <option value="true" th:selected="${filtroAtivo == 'true'}">Ativos</option>
+      <option value="false" th:selected="${filtroAtivo == 'false'}">Inativos</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Filtrar</button>
     <a th:href="@{/tomadores}" class="btn btn-secondary">Limpar</a>
     <a th:href="@{/notas}" class="btn btn-secondary">Voltar para Notas</a>
   </form>
@@ -37,11 +45,8 @@
       </thead>
       <tbody>
       <tr th:each="tomador : ${tomadores}">
-        <!-- Cada linha é um formulário para atualizar um tomador específico -->
         <form th:action="@{/tomadores/atualizar}" method="post">
-          <!-- Campo oculto para o ID do tomador, essencial para a atualização -->
           <input type="hidden" name="id" th:value="${tomador.id}" />
-          <!-- Campo oculto para o nome do tomador, importante para a mensagem de sucesso/erro -->
           <input type="hidden" name="nome" th:value="${tomador.nome}" />
 
           <td th:text="${tomador.nome}"></td>
