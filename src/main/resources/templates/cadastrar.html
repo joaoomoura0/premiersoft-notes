@@ -25,7 +25,7 @@
         <div class="form-group">
             <label>Tomador</label>
             <select name="tomador" class="form-control" required>
-                <option value="" disabled selected>-- Selecione um Tomador Ativo --</option>
+                <option value="" disabled selected> Selecione </option>
                 <option th:each="tomador : ${tomadores}"
                         th:if="${tomador.ativo}"
                         th:value="${tomador.id}"
