@@ -15,7 +15,7 @@
   <h2>Gerenciamento de Tomadores</h2>
 
   <form th:action="@{/tomadores}" method="get" class="form-filtros">
-    <input type="text" name="busca" placeholder="Buscar por nome do tomador..."
+    <input type="text" name="busca" placeholder="Buscar por nome do tomador"
            class="select-filtro input-busca" th:value="${buscaAtual}"/>
 
     <select name="filtroAtivo" class="select-filtro">
@@ -25,7 +25,7 @@
     </select>
 
     <button type="submit" class="btn btn-primary">Filtrar</button>
-    <a th:href="@{/tomadores}" class="btn btn-secondary">Limpar</a>
+    <a th:href="@{/tomadores}" class="btn btn-secondary">Limpar Filtros</a>
     <a th:href="@{/notas}" class="btn btn-secondary">Voltar para Notas</a>
   </form>
 
