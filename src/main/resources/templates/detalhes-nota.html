@@ -70,8 +70,16 @@
         </div>
         <div class="invoice-summary">
             <div class="summary-item">
+                <span class="summary-label">Status do Tomador:</span>
+                <span class="summary-value">
+            <span th:text="${nota.tomador != null and nota.tomador.ativo ? 'Ativo' : 'Inativo'}"
+                  th:classappend="${nota.tomador != null and nota.tomador.ativo ? 'status-ativo' : 'status-inativo'}">
+            </span>
+        </span>
+            </div>
+            <div class="summary-item">
                 <span class="summary-label">Tomador:</span>
-                <span class="summary-value" th:text="${nota.tomador}"></span>
+                <span class="summary-value" th:text="${nota.tomador != null ? nota.tomador.nome : 'N/D'}"></span>
             </div>
             <div class="summary-item">
                 <span class="summary-label">CNPJ do Tomador:</span>

@@ -108,7 +108,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="nota : ${notas}">
+                <tr th:each="nota : ${notas}" th:classappend="${nota.tomador != null and !nota.tomador.ativo} ? 'inativo' : ''">
                     <td><input type="checkbox" name="ids" th:value="${nota.id}"/></td>
                     <td th:text="${#temporals.format(nota.dataEmissao, 'dd/MM/yyyy')}"></td>
                     <td th:text="${nota.cnpjTomador}"></td>

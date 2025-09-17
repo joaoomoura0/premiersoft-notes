@@ -35,6 +35,16 @@ header {
     height: auto;
 }
 
+.status-ativo {
+    color: green;
+    font-weight: bold;
+}
+
+.status-inativo {
+    color: red;
+    font-weight: bold;
+}
+
 .details-card {
     background-color: #ffffff;
     border-radius: 12px;
