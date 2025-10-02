@@ -21,7 +21,7 @@ Assim nasceu o **Premiersoft Notes**, um espaço para **centralizar e testar sol
 - ✔️ Filtro por tomador  
 - ✔️ Exclusão de notas fiscais  
 - ✔️ Controle de pagamento: marcar se a nota está **Paga** ou **Atrasada**  
-- ❌ Painel de prazo: cadastrar prazo de pagamento específico por nota. *(em andamento)*  
+- ✔️ Painel de prazo: cadastrar prazo de pagamento específico por nota.
 
 ### 🛡️ Sistema de Seguro
 - ❌ Cadastro de colaboradores no seguro 
