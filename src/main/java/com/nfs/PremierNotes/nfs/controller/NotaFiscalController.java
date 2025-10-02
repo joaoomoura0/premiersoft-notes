@@ -42,7 +42,7 @@ public class NotaFiscalController {
     @PostMapping("/cadastrar") // ADICIONE ESTE MÉTODO DE POST PARA CADASTRO MANUAL
     public String cadastrarNota(@ModelAttribute NotaFiscalModel notaFiscal, RedirectAttributes redirectAttributes) {
         service.salvarNota(notaFiscal);
-        redirectAttributes.addFlashAttribute("success", "Nota fiscal cadastrada com sucesso!");
+        redirectAttributes.addFlashAttribute("success", "Nota fiscal cadastrada com sucesso!!");
         return "redirect:/notas";
     }
 
