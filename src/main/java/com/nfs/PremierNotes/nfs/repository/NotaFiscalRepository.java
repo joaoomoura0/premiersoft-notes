@@ -1,12 +1,12 @@
-package com.nfs.PremierNotes.repository;
+package com.nfs.PremierNotes.nfs.repository;
 
-import com.nfs.PremierNotes.models.NotaFiscalModel;
-import com.nfs.PremierNotes.models.TomadorModel;
+import com.nfs.PremierNotes.nfs.models.NotaFiscalModel;
+import com.nfs.PremierNotes.nfs.models.TomadorModel;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
+
 import java.util.List;
 
 @Repository

@@ -1,4 +1,4 @@
-package com.nfs.PremierNotes.controller;
+package com.nfs.PremierNotes.nfs.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

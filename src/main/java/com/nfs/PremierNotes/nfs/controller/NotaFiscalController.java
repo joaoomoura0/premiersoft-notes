@@ -1,10 +1,10 @@
-package com.nfs.PremierNotes.controller;
+package com.nfs.PremierNotes.nfs.controller;
 
-import com.nfs.PremierNotes.models.NotaFiscalModel;
-import com.nfs.PremierNotes.repository.NotaFiscalRepository;
-import com.nfs.PremierNotes.repository.TomadorRepository;
-import com.nfs.PremierNotes.service.NotaFiscalService;
-import com.nfs.PremierNotes.helper.ExcelHelper;
+import com.nfs.PremierNotes.nfs.models.NotaFiscalModel;
+import com.nfs.PremierNotes.nfs.repository.NotaFiscalRepository;
+import com.nfs.PremierNotes.nfs.repository.TomadorRepository;
+import com.nfs.PremierNotes.nfs.service.NotaFiscalService;
+import com.nfs.PremierNotes.nfs.helper.ExcelHelper;
 import org.apache.poi.EncryptedDocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.data.domain.Sort;
-import com.nfs.PremierNotes.models.TomadorModel;
+import com.nfs.PremierNotes.nfs.models.TomadorModel;
 
 import java.util.ArrayList;
 import java.util.List;

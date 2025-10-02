@@ -1,8 +1,8 @@
-package com.nfs.PremierNotes.service;
+package com.nfs.PremierNotes.nfs.service;
 
-import com.nfs.PremierNotes.models.NotaFiscalModel;
-import com.nfs.PremierNotes.models.TomadorModel;
-import com.nfs.PremierNotes.repository.NotaFiscalRepository;
+import com.nfs.PremierNotes.nfs.models.NotaFiscalModel;
+import com.nfs.PremierNotes.nfs.models.TomadorModel;
+import com.nfs.PremierNotes.nfs.repository.NotaFiscalRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;

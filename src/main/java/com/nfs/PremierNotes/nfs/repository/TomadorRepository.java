@@ -1,6 +1,6 @@
-package com.nfs.PremierNotes.repository;
+package com.nfs.PremierNotes.nfs.repository;
 
-import com.nfs.PremierNotes.models.TomadorModel;
+import com.nfs.PremierNotes.nfs.models.TomadorModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
