@@ -1,0 +1,116 @@
+package com.nfs.PremierNotes.colaboradores.models;
+
+import jakarta.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "colaboradores_seguro")
+public class ColaboradorSeguroModel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String nomeCompleto;
+
+    @Column(nullable = false)
+    private LocalDate dataNascimento;
+
+    @Column(nullable = false)
+    private LocalDate dataAdmissao;
+
+    @Column(nullable = false)
+    private String tipoContrato; // Ex: "PJ", "Funcionario", "Estagiario"
+
+    @Column(nullable = false, unique = true)
+    private String cpf;
+
+    @Column(nullable = false)
+    private boolean ativoNoSeguro; // true: Ativo, false: Inativo/Cancelado
+
+    // Construtor vazio (necessário para JPA)
+    public ColaboradorSeguroModel() {
+    }
+
+    // Construtor com todos os campos (opcional, mas útil)
+    public ColaboradorSeguroModel(String nomeCompleto, LocalDate dataNascimento, LocalDate dataAdmissao,
+                                  String tipoContrato, String cpf, boolean ativoNoSeguro) {
+        this.nomeCompleto = nomeCompleto;
+        this.dataNascimento = dataNascimento;
+        this.dataAdmissao = dataAdmissao;
+        this.tipoContrato = tipoContrato;
+        this.cpf = cpf;
+        this.ativoNoSeguro = ativoNoSeguro;
+    }
+
+    // Getters e Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNomeCompleto() {
+        return nomeCompleto;
+    }
+
+    public void setNomeCompleto(String nomeCompleto) {
+        this.nomeCompleto = nomeCompleto;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public LocalDate getDataAdmissao() {
+        return dataAdmissao;
+    }
+
+    public void setDataAdmissao(LocalDate dataAdmissao) {
+        this.dataAdmissao = dataAdmissao;
+    }
+
+    public String getTipoContrato() {
+        return tipoContrato;
+    }
+
+    public void setTipoContrato(String tipoContrato) {
+        this.tipoContrato = tipoContrato;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public boolean isAtivoNoSeguro() {
+        return ativoNoSeguro;
+    }
+
+    public void setAtivoNoSeguro(boolean ativoNoSeguro) {
+        this.ativoNoSeguro = ativoNoSeguro;
+    }
+
+    @Override
+    public String toString() {
+        return "ColaboradorSeguroModel{" +
+                "id=" + id +
+                ", nomeCompleto='" + nomeCompleto + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", dataAdmissao=" + dataAdmissao +
+                ", tipoContrato='" + tipoContrato + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", ativoNoSeguro=" + ativoNoSeguro +
+                '}';
+    }
+}
