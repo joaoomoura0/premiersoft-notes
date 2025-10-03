@@ -22,7 +22,7 @@ public class ColaboradorSeguroController {
 
     @GetMapping
     public String listarColaboradores(Model model) {
-        List<ColaboradorSeguroModel> colaboradores = seguroService.listarColaboradoresAtivos(); // Listar apenas ativos
+        List<ColaboradorSeguroModel> colaboradores = seguroService.listarColaboradoresAtivos();
         model.addAttribute("colaboradores", colaboradores);
         model.addAttribute("activePage", "seguro");
         return "seguro/listaColaboradores";
