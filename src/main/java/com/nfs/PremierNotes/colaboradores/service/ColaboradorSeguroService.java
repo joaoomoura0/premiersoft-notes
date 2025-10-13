@@ -62,7 +62,7 @@ public class ColaboradorSeguroService {
         Optional<ColaboradorSeguroModel> colaboradorOptional = colaboradorSeguroRepository.findById(id);
         if (colaboradorOptional.isPresent()) {
             ColaboradorSeguroModel colaborador = colaboradorOptional.get();
-            if (colaborador.isAtivoNoSeguro()) { // Só inativa se já não estiver inativo
+            if (colaborador.getAtivoNoSeguro()) { // Só inativa se já não estiver inativo
                 colaborador.setAtivoNoSeguro(false);
                 colaboradorSeguroRepository.save(colaborador);
                 return true;
@@ -75,7 +75,7 @@ public class ColaboradorSeguroService {
         Optional<ColaboradorSeguroModel> colaboradorOptional = colaboradorSeguroRepository.findById(id);
         if (colaboradorOptional.isPresent()) {
             ColaboradorSeguroModel colaborador = colaboradorOptional.get();
-            if (!colaborador.isAtivoNoSeguro()) {
+            if (!colaborador.getAtivoNoSeguro()) {
                 colaborador.setAtivoNoSeguro(true);
                 colaboradorSeguroRepository.save(colaborador);
                 return true;

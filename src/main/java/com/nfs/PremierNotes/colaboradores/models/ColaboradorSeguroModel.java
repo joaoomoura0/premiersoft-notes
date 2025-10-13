@@ -27,13 +27,13 @@ public class ColaboradorSeguroModel {
     private String cpf;
 
     @Column(nullable = false)
-    private boolean ativoNoSeguro;
+    private Boolean ativoNoSeguro;
 
     public ColaboradorSeguroModel() {
     }
 
     public ColaboradorSeguroModel(String nomeCompleto, LocalDate dataNascimento, LocalDate dataAdmissao,
-                                  String tipoContrato, String cpf, boolean ativoNoSeguro) {
+                                  String tipoContrato, String cpf, Boolean ativoNoSeguro) {
         this.nomeCompleto = nomeCompleto;
         this.dataNascimento = dataNascimento;
         this.dataAdmissao = dataAdmissao;
@@ -91,11 +91,11 @@ public class ColaboradorSeguroModel {
         this.cpf = cpf;
     }
 
-    public boolean isAtivoNoSeguro() {
+    public Boolean getAtivoNoSeguro() {
         return ativoNoSeguro;
     }
 
-    public void setAtivoNoSeguro(boolean ativoNoSeguro) {
+    public void setAtivoNoSeguro(Boolean ativoNoSeguro) {
         this.ativoNoSeguro = ativoNoSeguro;
     }
 

@@ -54,7 +54,7 @@ public class ColaboradorSeguroController {
         return "formColaborador";
     }
 
-    @PostMapping("/seguro/salvar")
+    @PostMapping("/salvar")
     public String salvarColaborador(@Valid @ModelAttribute("colaborador") ColaboradorSeguroModel colaborador,
                                     BindingResult result,
                                     RedirectAttributes redirectAttributes,
