@@ -40,6 +40,8 @@
 
     <button type="submit" class="btn btn-primary">Filtrar</button>
     <a href="/notas" class="btn btn-secondary">Limpar Filtros</a>
+
+    <a href="/home" class="btn btn-primary" style="margin-left: 5rem";>Voltar</a>
 </form>
 
 <div class="ordenacao-container">
@@ -51,9 +53,9 @@
     <a th:href="@{/notas(filtroTomador=${filtroTomador}, filtroStatus=${filtroStatus}, sort='asc')}"
        th:classappend="${currentSort == 'asc'} ? 'active' : ''"
        class="btn btn-sm btn-ordenacao">Mais Antigas</a>
-</div>
 
-<div class="ordenacao-container" style="margin-top: 10px;">
+    <h2 style="margin: 0 10px 0 10px; color: #e0e0e0"> <strong> - </strong></h2>
+
     <span>Filtrar por Ano:</span>
     <a th:href="@{/notas(sort=${currentSort})}"
        th:classappend="${currentAno == null} ? 'active' : ''"
