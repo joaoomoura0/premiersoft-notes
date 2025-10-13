@@ -1,10 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Lista de Colaboradores</title>
+    <link rel="stylesheet" href="/css/NFS.css">
+    <link rel="stylesheet" href="/css/listaColaboradores.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"/>
 </head>
 <body>
+<header>
+    <img src="/img/premier-logo.png" alt="Logo premier" class="header-logo">
+</header>
 
+<div th:if="${mensagemSucesso}" class="alert alert-success" role="alert">
+    <p th:text="${mensagemSucesso}"></p>
+</div>
+<div th:if="${mensagemErro}" class="alert alert-danger" role="alert">
+    <p th:text="${mensagemErro}"></p>
+</div>
+
+<div class="form-filtros">
+    <div class="filtro-botoes">
+        <span>Filtrar:</span>
+        <a th:href="@{/seguro}"
+           th:classappend="${filtro == null || filtro == 'ativos'} ? 'active' : ''"
+           class="btn btn-secondary">Ativos</a>
+        <a th:href="@{/seguro/inativos}"
+           th:classappend="${filtro == 'inativos'} ? 'active' : ''"
+           class="btn btn-secondary">Inativos</a>
+        <a th:href="@{/seguro/todos}"
+           th:classappend="${filtro == 'todos'} ? 'active' : ''"
+           class="btn btn-secondary">Todos</a>
+    </div>
+</div>
+
+<div class="botoes-container" style="display: flex; justify-content: space-between; ">
+    <a href="/seguro/novo" class="btn btn-primary">Cadastrar Novo Colaborador</a>
+    <a href="/home" class="btn btn-primary">Voltar</a>
+</div>
+
+<div class="qtd-notas">
+    <span>Total de Colaboradores: <strong th:text="${colaboradores.size()}"></strong></span>
+</div>
+
+<div class="table-container">
+    <table class="tabela-notas">
+        <thead>
+        <tr>
+            <th>Nome Completo</th>
+            <th>Data de Nascimento</th>
+            <th>Data de Admissão</th>
+            <th>Tipo de Contrato</th>
+            <th>CPF</th>
+            <th>Status no Seguro</th>
+            <th class="actions-cell">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="colaborador : ${colaboradores}">
+            <td th:text="${colaborador.nomeCompleto}"></td>
+            <td th:text="${#temporals.format(colaborador.dataNascimento, 'dd/MM/yyyy')}"></td>
+            <td th:text="${#temporals.format(colaborador.dataAdmissao, 'dd/MM/yyyy')}"></td>
+            <td th:text="${colaborador.tipoContrato}"></td>
+            <td th:text="${colaborador.cpf}"></td>
+            <td>
+                <span th:if="${colaborador.ativoNoSeguro}" class="status-ativo">ATIVO</span>
+                <span th:if="${!colaborador.ativoNoSeguro}" class="status-inativo">INATIVO</span>
+            </td>
+            <td class="actions-cell">
+                <a th:href="@{/seguro/editar/{id}(id=${colaborador.id})}" class="action-icon edit-icon" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <th:block th:if="${colaborador.ativoNoSeguro}">
+                    <form th:action="@{/seguro/inativar/{id}(id=${colaborador.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja inativar este colaborador?');">
+                        <button type="submit" class="action-icon delete-icon" title="Inativar Colaborador">
+                            <i class="fas fa-user-slash"></i>
+                        </button>
+                    </form>
+                </th:block>
+                <th:block th:if="${!colaborador.ativoNoSeguro}">
+                    <form th:action="@{/seguro/reativar/{id}(id=${colaborador.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja reativar este colaborador?');">
+                        <button type="submit" class="action-icon edit-icon" title="Reativar Colaborador">
+                            <i class="fas fa-user-check"></i>
+                        </button>
+                    </form>
+                    <form th:action="@{/seguro/remover/{id}(id=${colaborador.id})}" method="post" onsubmit="return confirm('ATENÇÃO: Esta ação removerá o colaborador permanentemente. Tem certeza?');">
+                        <button type="submit" class="action-icon delete-icon" title="Remover Permanentemente">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </th:block>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(colaboradores)}">
+            <td colspan="7" class="text-center">Nenhum colaborador encontrado.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
