@@ -51,9 +51,10 @@
     <a th:href="@{/notas(filtroTomador=${filtroTomador}, filtroStatus=${filtroStatus}, sort='asc')}"
        th:classappend="${currentSort == 'asc'} ? 'active' : ''"
        class="btn btn-sm btn-ordenacao">Mais Antigas</a>
+</div>
 
-    <span style="margin-left: 20px;">Filtrar por Ano:</span>
-    <!-- Botão para limpar o filtro de ano -->
+<div class="ordenacao-container" style="margin-top: 10px;">
+    <span>Filtrar por Ano:</span>
     <a th:href="@{/notas(sort=${currentSort})}"
        th:classappend="${currentAno == null} ? 'active' : ''"
        class="btn btn-sm btn-ordenacao">Todos</a>
