@@ -21,19 +21,17 @@ public class ColaboradorSeguroModel {
     private LocalDate dataAdmissao;
 
     @Column(nullable = false)
-    private String tipoContrato; // Ex: "PJ", "Funcionario", "Estagiario"
+    private String tipoContrato;
 
     @Column(nullable = false, unique = true)
     private String cpf;
 
     @Column(nullable = false)
-    private boolean ativoNoSeguro; // true: Ativo, false: Inativo/Cancelado
+    private boolean ativoNoSeguro;
 
-    // Construtor vazio (necessário para JPA)
     public ColaboradorSeguroModel() {
     }
 
-    // Construtor com todos os campos (opcional, mas útil)
     public ColaboradorSeguroModel(String nomeCompleto, LocalDate dataNascimento, LocalDate dataAdmissao,
                                   String tipoContrato, String cpf, boolean ativoNoSeguro) {
         this.nomeCompleto = nomeCompleto;

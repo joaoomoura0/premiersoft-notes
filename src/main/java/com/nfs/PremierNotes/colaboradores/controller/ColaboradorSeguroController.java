@@ -25,7 +25,7 @@ public class ColaboradorSeguroController {
         List<ColaboradorSeguroModel> colaboradores = seguroService.listarColaboradoresAtivos();
         model.addAttribute("colaboradores", colaboradores);
         model.addAttribute("activePage", "seguro");
-        return "seguro/listaColaboradores";
+        return "listaColaboradores";
     }
 
     @GetMapping("/todos")
@@ -33,8 +33,8 @@ public class ColaboradorSeguroController {
         List<ColaboradorSeguroModel> colaboradores = seguroService.listarTodosColaboradores();
         model.addAttribute("colaboradores", colaboradores);
         model.addAttribute("activePage", "seguro");
-        model.addAttribute("filtro", "todos"); // Para controle na view
-        return "seguro/listaColaboradores";
+        model.addAttribute("filtro", "todos");
+        return "listaColaboradores";
     }
 
     @GetMapping("/inativos")
@@ -42,8 +42,8 @@ public class ColaboradorSeguroController {
         List<ColaboradorSeguroModel> colaboradores = seguroService.listarColaboradoresInativos();
         model.addAttribute("colaboradores", colaboradores);
         model.addAttribute("activePage", "seguro");
-        model.addAttribute("filtro", "inativos"); // Para controle na view
-        return "seguro/listaColaboradores";
+        model.addAttribute("filtro", "inativos");
+        return "listaColaboradores";
     }
 
 
@@ -51,10 +51,10 @@ public class ColaboradorSeguroController {
     public String exibirFormularioNovoColaborador(Model model) {
         model.addAttribute("colaborador", new ColaboradorSeguroModel());
         model.addAttribute("activePage", "seguro");
-        return "seguro/formColaborador";
+        return "formColaborador";
     }
 
-    @PostMapping("/salvar")
+    @PostMapping("/seguro/salvar")
     public String salvarColaborador(@Valid @ModelAttribute("colaborador") ColaboradorSeguroModel colaborador,
                                     BindingResult result,
                                     RedirectAttributes redirectAttributes,
@@ -62,7 +62,7 @@ public class ColaboradorSeguroController {
 
         if (result.hasErrors()) {
             model.addAttribute("activePage", "seguro");
-            return "seguro/formColaborador";
+            return "formColaborador";
         }
 
         try {
@@ -72,7 +72,7 @@ public class ColaboradorSeguroController {
         } catch (IllegalArgumentException e) {
             model.addAttribute("mensagemErro", e.getMessage());
             model.addAttribute("activePage", "seguro");
-            return "seguro/formColaborador";
+            return "formColaborador";
         }
     }
 
@@ -82,7 +82,7 @@ public class ColaboradorSeguroController {
         if (colaboradorOptional.isPresent()) {
             model.addAttribute("colaborador", colaboradorOptional.get());
             model.addAttribute("activePage", "seguro");
-            return "seguro/formColaborador";
+            return "formColaborador";
         } else {
             redirectAttributes.addFlashAttribute("mensagemErro", "Colaborador não encontrado para edição.");
             return "redirect:/seguro";
