@@ -46,8 +46,8 @@
             <select id="tipoContrato" th:field="*{tipoContrato}" required>
                 <option value="">Selecione</option>
                 <option value="PJ">PJ</option>
-                <option value="Funcionario">Funcionário</option>
-                <option value="Estagiario">Estagiário</option>
+                <option value="Funcionario">FUNCIONÁRIO</option>
+                <option value="Estagiario">ESTAGIÁRIO</option>
             </select>
             <span th:if="${#fields.hasErrors('tipoContrato')}" th:errors="*{tipoContrato}" class="text-danger"></span>
         </div>
@@ -62,8 +62,8 @@
             <label for="ativoNoSeguro">Ativo no Seguro</label>
             <select id="ativoNoSeguro" th:field="*{ativoNoSeguro}" required>
                 <option value="">Selecione</option>
-                <option th:value="true">Sim</option>
-                <option th:value="false">Não</option>
+                <option th:value="true">SIM</option>
+                <option th:value="false">NÃO</option>
             </select>
             <span th:if="${#fields.hasErrors('ativoNoSeguro')}" th:errors="*{ativoNoSeguro}" class="text-danger"></span>
         </div>

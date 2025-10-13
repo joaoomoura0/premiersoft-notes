@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista de Colaboradores</title>
-    <link rel="stylesheet" href="/css/NFS.css">
     <link rel="stylesheet" href="/css/listaColaboradores.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -48,14 +47,14 @@
 </div>
 
 <div class="table-container">
-    <table class="tabela-notas">
+    <table class="tabela-colaboradores">
         <thead>
         <tr>
-            <th>Nome Completo</th>
+            <th>Nome</th>
+            <th>Cargo</th>
+            <th>CPF</th>
             <th>Data de Nascimento</th>
             <th>Data de Admissão</th>
-            <th>Tipo de Contrato</th>
-            <th>CPF</th>
             <th>Status no Seguro</th>
             <th class="actions-cell">Ações</th>
         </tr>
@@ -63,10 +62,10 @@
         <tbody>
         <tr th:each="colaborador : ${colaboradores}">
             <td th:text="${colaborador.nomeCompleto}"></td>
-            <td th:text="${#temporals.format(colaborador.dataNascimento, 'dd/MM/yyyy')}"></td>
-            <td th:text="${#temporals.format(colaborador.dataAdmissao, 'dd/MM/yyyy')}"></td>
             <td th:text="${colaborador.tipoContrato}"></td>
             <td th:text="${colaborador.cpf}"></td>
+            <td th:text="${#temporals.format(colaborador.dataNascimento, 'dd/MM/yyyy')}"></td>
+            <td th:text="${#temporals.format(colaborador.dataAdmissao, 'dd/MM/yyyy')}"></td>
             <td>
                 <span th:if="${colaborador.ativoNoSeguro}" class="status-ativo">ATIVO</span>
                 <span th:if="${!colaborador.ativoNoSeguro}" class="status-inativo">INATIVO</span>
