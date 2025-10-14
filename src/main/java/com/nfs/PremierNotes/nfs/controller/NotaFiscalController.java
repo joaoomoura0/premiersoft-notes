@@ -32,14 +32,14 @@ public class NotaFiscalController {
     @Autowired
     private TomadorRepository tomadorRepository;
 
-    @GetMapping("/cadastrar") // <--- NOVO MÉTODO OU ORDEM ALTERADA
+    @GetMapping("/cadastrar")
     public String showCadastroForm(Model model) {
         model.addAttribute("notaFiscal", new NotaFiscalModel());
         model.addAttribute("tomadores", tomadorRepository.findAll());
         return "cadastrar";
     }
 
-    @PostMapping("/cadastrar") // ADICIONE ESTE MÉTODO DE POST PARA CADASTRO MANUAL
+    @PostMapping("/cadastrar")
     public String cadastrarNota(@ModelAttribute NotaFiscalModel notaFiscal, RedirectAttributes redirectAttributes) {
         service.salvarNota(notaFiscal);
         redirectAttributes.addFlashAttribute("success", "Nota fiscal cadastrada com sucesso!!");

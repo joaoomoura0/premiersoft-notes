@@ -3,11 +3,13 @@ package com.nfs.PremierNotes.colaboradores.service;
 import com.nfs.PremierNotes.colaboradores.models.ColaboradorSeguroModel;
 import com.nfs.PremierNotes.colaboradores.repository.ColaboradorSeguroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ColaboradorSeguroService {
@@ -90,5 +92,29 @@ public class ColaboradorSeguroService {
             return true;
         }
         return false;
+    }
+
+    private ColaboradorSeguroRepository colaboradorRepository;
+
+    public List<String> getNomesCompletosDosColaboradores() {
+        return colaboradorRepository.findAll().stream()
+                .map(colaborador -> colaborador.getNomeCompleto())
+                .collect(Collectors.toList());
+    }
+
+    public List<ColaboradorSeguroModel> buscarColaboradoresPorNome(String nomeCompleto) {
+        return colaboradorRepository.findByNomeCompleto(nomeCompleto);
+    }
+
+    public List<ColaboradorSeguroModel> buscarColaboradoresPorNome(String nomeCompleto, Sort sort) {
+        return colaboradorRepository.findByNomeCompleto(nomeCompleto, sort);
+    }
+
+    public List<ColaboradorSeguroModel> buscarColaboradoresPorStatusAtivo(Boolean ativo, SpringDataWebProperties.Sort sort) {
+        return colaboradorRepository.findByAtivoNoSeguro(ativo, sort);
+    }
+
+    public List<ColaboradorSeguroModel> listarTodosColaboradores(Sort sort) {
+        return colaboradorRepository.findAll(sort);
     }
 }

@@ -3,6 +3,7 @@ package com.nfs.PremierNotes.colaboradores.controller;
 import com.nfs.PremierNotes.colaboradores.models.ColaboradorSeguroModel;
 import com.nfs.PremierNotes.colaboradores.service.ColaboradorSeguroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,8 @@ public class ColaboradorSeguroController {
 
     @Autowired
     private ColaboradorSeguroService seguroService;
+    @Autowired
+    private ColaboradorSeguroService colaboradorSeguroService;
 
     @GetMapping
     public String listarColaboradores(Model model) {
@@ -117,5 +120,44 @@ public class ColaboradorSeguroController {
             redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao remover colaborador. Não encontrado.");
         }
         return "redirect:/seguro";
+    }
+
+    // filtro colaborador
+
+    @GetMapping
+    public String listarColaboradoresSeguro(
+            @RequestParam(value = "filtroColaborador", required = false) String filtroColaborador,
+            @RequestParam(value = "filtroAtivo", required = false) Boolean filtroAtivo,
+            @RequestParam(defaultValue = "nomeCompleto") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            Model model) {
+
+        Sort.Direction direction = sortDirection.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sort = Sort.by(direction, sortBy);
+
+        List<ColaboradorSeguroModel> colaboradores;
+
+
+        if (filtroColaborador != null && !filtroColaborador.isEmpty()) {
+
+            colaboradores = colaboradorSeguroService.buscarColaboradoresPorNome(filtroColaborador, sort);
+        } else if (filtroAtivo != null) {
+
+            colaboradores = colaboradorSeguroService.buscarColaboradoresPorStatusAtivo(filtroAtivo, sort);
+        } else {
+
+            colaboradores = colaboradorSeguroService.listarTodosColaboradores(sort);
+        }
+
+        model.addAttribute("colaboradores", colaboradores);
+
+        List<String> nomeCompletosParaFiltro = colaboradorSeguroService.getNomesCompletosDosColaboradores();
+        model.addAttribute("nomeCompletos", nomeCompletosParaFiltro);
+        model.addAttribute("filtroColaborador", filtroColaborador);
+        model.addAttribute("filtroAtivo", filtroAtivo);
+        model.addAttribute("currentSortBy", sortBy);
+        model.addAttribute("currentSortDirection", sortDirection);
+
+        return "listaColaboradores";
     }
 }
