@@ -5,6 +5,7 @@ import com.nfs.PremierNotes.colaboradores.repository.ColaboradorSeguroRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
