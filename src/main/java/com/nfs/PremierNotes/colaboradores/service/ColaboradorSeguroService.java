@@ -3,7 +3,6 @@ package com.nfs.PremierNotes.colaboradores.service;
 import com.nfs.PremierNotes.colaboradores.models.ColaboradorSeguroModel;
 import com.nfs.PremierNotes.colaboradores.repository.ColaboradorSeguroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 
@@ -36,7 +35,7 @@ public class ColaboradorSeguroService {
 
     public ColaboradorSeguroModel salvarColaborador(ColaboradorSeguroModel colaborador) throws IllegalArgumentException {
 
-        if (colaborador.getId() == null) { // Novo colaborador
+        if (colaborador.getId() == null) {
             if (colaboradorSeguroRepository.findByCpf(colaborador.getCpf()).isPresent()) {
                 throw new IllegalArgumentException("CPF já cadastrado para outro colaborador.");
             }
@@ -95,27 +94,22 @@ public class ColaboradorSeguroService {
         return false;
     }
 
-    private ColaboradorSeguroRepository colaboradorRepository;
 
     public List<String> getNomesCompletosDosColaboradores() {
-        return colaboradorRepository.findAll().stream()
+        return colaboradorSeguroRepository.findAll().stream()
                 .map(colaborador -> colaborador.getNomeCompleto())
                 .collect(Collectors.toList());
     }
 
-    public List<ColaboradorSeguroModel> buscarColaboradoresPorNome(String nomeCompleto) {
-        return colaboradorRepository.findByNomeCompleto(nomeCompleto);
-    }
-
     public List<ColaboradorSeguroModel> buscarColaboradoresPorNome(String nomeCompleto, Sort sort) {
-        return colaboradorRepository.findByNomeCompleto(nomeCompleto, sort);
-    }
-
-    public List<ColaboradorSeguroModel> buscarColaboradoresPorStatusAtivo(Boolean ativo, SpringDataWebProperties.Sort sort) {
-        return colaboradorRepository.findByAtivoNoSeguro(ativo, sort);
+        return colaboradorSeguroRepository.findByNomeCompleto(nomeCompleto, sort);
     }
 
     public List<ColaboradorSeguroModel> listarTodosColaboradores(Sort sort) {
-        return colaboradorRepository.findAll(sort);
+        return colaboradorSeguroRepository.findAll(sort);
+    }
+
+    public List<ColaboradorSeguroModel> buscarColaboradoresPorStatusAtivo(Boolean ativo, Sort sort) {
+        return colaboradorSeguroRepository.findByAtivoNoSeguro(ativo, sort);
     }
 }
