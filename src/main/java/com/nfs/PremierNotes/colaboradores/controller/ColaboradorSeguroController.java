@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/seguro")
@@ -54,6 +56,27 @@ public class ColaboradorSeguroController {
         model.addAttribute("filtroAtivo", filtroAtivo);
         model.addAttribute("currentSortBy", sortBy);
         model.addAttribute("currentSortDirection", sortDirection);
+
+        return "listaColaboradores";
+    }
+
+    // filtro por cargo, arrumar
+
+    @GetMapping("/filtrar-por-cargo")
+    public String filtrarPorCargo(
+            @RequestParam(value = "filtroCargo", required = false) String filtroCargo,
+            Model model) {
+
+        List<ColaboradorSeguroModel> colaboradores;
+
+        if (filtroCargo != null && !filtroCargo.isEmpty()) {
+            colaboradores = colaboradorSeguroService.buscarPorCargo(filtroCargo, Sort.unsorted());
+        } else {
+            colaboradores = colaboradorSeguroService.listarTodosColaboradores(Sort.unsorted());
+        }
+
+        model.addAttribute("colaboradores", colaboradores);
+        model.addAttribute("filtroCargo", filtroCargo);
 
         return "listaColaboradores";
     }

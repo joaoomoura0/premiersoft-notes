@@ -27,12 +27,13 @@
                         th:text="${nomeCompleto}"
                         th:selected="${filtroColaborador == nomeCompleto}"></option>
             </select>
+
             <select name="filtroCargo" id="filtroCargo" class="select-filtro">
                 <option value="" selected>Selecione o Cargo</option>
                 <option th:each="tipoContrato : ${tipoContratos}"
                         th:value="${tipoContrato}"
                         th:text="${tipoContrato}"
-                        th:selected="${filtroContrato == tipoContrato}"></option>
+                        th:selected="${filtroCargo == tipoContrato}"></option>
             </select>
 
             <button type="submit" class="btn btn-primary">Filtrar</button>

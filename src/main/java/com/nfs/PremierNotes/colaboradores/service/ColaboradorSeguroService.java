@@ -94,7 +94,6 @@ public class ColaboradorSeguroService {
         return false;
     }
 
-
     public List<String> getNomesCompletosDosColaboradores() {
         return colaboradorSeguroRepository.findAll().stream()
                 .map(colaborador -> colaborador.getNomeCompleto())
@@ -111,5 +110,9 @@ public class ColaboradorSeguroService {
 
     public List<ColaboradorSeguroModel> buscarColaboradoresPorStatusAtivo(Boolean ativo, Sort sort) {
         return colaboradorSeguroRepository.findByAtivoNoSeguro(ativo, sort);
+    }
+
+    public List<ColaboradorSeguroModel> buscarPorCargo(String tipoContrato, Sort sort) {
+        return colaboradorSeguroRepository.findByTipoContrato(tipoContrato, sort);
     }
 }
