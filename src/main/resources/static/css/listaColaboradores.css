@@ -354,12 +354,15 @@ body > * {
     font-size: inherit;
     color: inherit;
 }
-.actions-cell .fa-solid, .actions-cell .fas { /* Ambos os prefixos para compatibilidade */
+.actions-cell .fa-solid, .actions-cell .fas, .actions-cell .bi {
     font-size: 1.1em;
 }
 
-/* Ajustes para a largura da coluna de ações na nova tabela de colaboradores */
+.actions-cell .bank-icon {
+    color: #1e7e34;
+}
+
 .tabela-colaboradores .actions-cell {
-    width: 1%; /* Tenta manter a coluna de ações o mais compacta possível */
-    min-width: 120px; /* Garante que haja espaço mínimo para os botões */
+    width: 1%;
+    min-width: 120px;
 }
