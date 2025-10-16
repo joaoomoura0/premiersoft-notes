@@ -17,18 +17,6 @@ public class ColaboradorSeguroService {
     @Autowired
     private ColaboradorSeguroRepository colaboradorSeguroRepository;
 
-    public List<ColaboradorSeguroModel> listarTodosColaboradores() {
-        return colaboradorSeguroRepository.findAll();
-    }
-
-    public List<ColaboradorSeguroModel> listarColaboradoresAtivos() {
-        return colaboradorSeguroRepository.findByAtivoNoSeguro(true);
-    }
-
-    public List<ColaboradorSeguroModel> listarColaboradoresInativos() {
-        return colaboradorSeguroRepository.findByAtivoNoSeguro(false);
-    }
-
     public Optional<ColaboradorSeguroModel> buscarColaboradorPorId(Long id) {
         return colaboradorSeguroRepository.findById(id);
     }
@@ -60,32 +48,6 @@ public class ColaboradorSeguroService {
         return colaboradorSeguroRepository.save(colaborador);
     }
 
-    public boolean inativarColaborador(Long id) {
-        Optional<ColaboradorSeguroModel> colaboradorOptional = colaboradorSeguroRepository.findById(id);
-        if (colaboradorOptional.isPresent()) {
-            ColaboradorSeguroModel colaborador = colaboradorOptional.get();
-            if (colaborador.getAtivoNoSeguro()) { // Só inativa se já não estiver inativo
-                colaborador.setAtivoNoSeguro(false);
-                colaboradorSeguroRepository.save(colaborador);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean reativarColaborador(Long id) {
-        Optional<ColaboradorSeguroModel> colaboradorOptional = colaboradorSeguroRepository.findById(id);
-        if (colaboradorOptional.isPresent()) {
-            ColaboradorSeguroModel colaborador = colaboradorOptional.get();
-            if (!colaborador.getAtivoNoSeguro()) {
-                colaborador.setAtivoNoSeguro(true);
-                colaboradorSeguroRepository.save(colaborador);
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean removerColaboradorFisicamente(Long id) {
         if (colaboradorSeguroRepository.existsById(id)) {
             colaboradorSeguroRepository.deleteById(id);
@@ -108,11 +70,11 @@ public class ColaboradorSeguroService {
         return colaboradorSeguroRepository.findAll(sort);
     }
 
-    public List<ColaboradorSeguroModel> buscarColaboradoresPorStatusAtivo(Boolean ativo, Sort sort) {
-        return colaboradorSeguroRepository.findByAtivoNoSeguro(ativo, sort);
-    }
-
     public List<ColaboradorSeguroModel> buscarPorCargo(String tipoContrato, Sort sort) {
         return colaboradorSeguroRepository.findByTipoContrato(tipoContrato, sort);
+    }
+
+    public List<String> getTiposContratoDosColaboradores() {
+        return colaboradorSeguroRepository.findDistinctTipoContrato();
     }
 }

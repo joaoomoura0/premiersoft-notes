@@ -23,6 +23,9 @@ public interface ColaboradorSeguroRepository extends JpaRepository<ColaboradorSe
     Optional<ColaboradorSeguroModel> findByCpf(String cpf);
     Optional<ColaboradorSeguroModel> findByCpfAndIdNot(String cpf, Long id);
 
+    @Query("SELECT DISTINCT c.tipoContrato FROM ColaboradorSeguroModel c ORDER BY c.tipoContrato")
+    List<String> findDistinctTipoContrato();
+
     @Query("SELECT c FROM ColaboradorSeguroModel c WHERE " +
             "(:nomeCompleto IS NULL OR LOWER(c.nomeCompleto) LIKE LOWER(CONCAT('%', :nomeCompleto, '%'))) AND " +
             "(:tipoContrato IS NULL OR LOWER(c.tipoContrato) LIKE LOWER(CONCAT('%', :tipoContrato, '%'))) AND " +
