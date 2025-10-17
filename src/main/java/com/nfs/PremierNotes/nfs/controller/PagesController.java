@@ -13,6 +13,6 @@ public class PagesController {
 
     @GetMapping("/notas/importar")
     public String importar() {
-        return "importar";
+        return "nfs/importar";
     }
 }
