@@ -1,5 +1,6 @@
 package com.nfs.PremierNotes.diarioOcorrencias.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nfs.PremierNotes.colaboradores.models.ColaboradorSeguroModel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +26,7 @@ import java.time.LocalDateTime;
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "colaborador_id", nullable = false)
+        @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
         @NotNull(message = "O colaborador é obrigatório.")
         private ColaboradorSeguroModel colaborador;
 

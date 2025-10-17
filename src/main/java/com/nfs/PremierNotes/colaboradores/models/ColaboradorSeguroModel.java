@@ -1,7 +1,10 @@
 package com.nfs.PremierNotes.colaboradores.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nfs.PremierNotes.diarioOcorrencias.model.DiarioOcorrenciaModel;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "colaboradores_seguro")
@@ -29,6 +32,10 @@ public class ColaboradorSeguroModel {
     @Column(nullable = false)
     private Boolean ativoNoSeguro;
 
+    @OneToMany(mappedBy = "colaborador", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<DiarioOcorrenciaModel> ocorrenciasDiarias;
+
     public ColaboradorSeguroModel() {
     }
 
@@ -42,7 +49,7 @@ public class ColaboradorSeguroModel {
         this.ativoNoSeguro = ativoNoSeguro;
     }
 
-    // Getters e Setters
+
     public Long getId() {
         return id;
     }
