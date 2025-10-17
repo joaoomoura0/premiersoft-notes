@@ -38,7 +38,7 @@ public class TomadorController {
         model.addAttribute("buscaAtual", busca);
         model.addAttribute("filtroAtivo", filtroAtivo);
 
-        return "gerenciar-tomadores";
+        return "nfs/gerenciar-tomadores";
     }
 
     @PostMapping("/atualizar")

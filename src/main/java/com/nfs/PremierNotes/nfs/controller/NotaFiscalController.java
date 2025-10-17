@@ -36,7 +36,7 @@ public class NotaFiscalController {
     public String showCadastroForm(Model model) {
         model.addAttribute("notaFiscal", new NotaFiscalModel());
         model.addAttribute("tomadores", tomadorRepository.findAll());
-        return "cadastrar";
+        return "nfs/cadastrar";
     }
 
     @PostMapping("/cadastrar")
@@ -109,7 +109,7 @@ public class NotaFiscalController {
         model.addAttribute("currentSort", sort);
         model.addAttribute("currentAno", ano);
 
-        return "NFS";
+        return "nfs/NFS";
     }
 
     @PostMapping("/atualizar-status/{id}")
@@ -131,7 +131,7 @@ public class NotaFiscalController {
             NotaFiscalModel nota = notaOptional.get();
             service.calcularDetalhesDePrazo(nota);
             model.addAttribute("nota", nota);
-            return "detalhes-nota";
+            return "nfs/detalhes-nota";
         } else {
             redirectAttributes.addFlashAttribute("error", "Nota fiscal com ID " + id + " não encontrada.");
             return "redirect:/notas";

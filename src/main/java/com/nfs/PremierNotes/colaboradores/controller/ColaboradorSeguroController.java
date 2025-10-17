@@ -13,8 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/seguro")
@@ -60,14 +58,14 @@ public class ColaboradorSeguroController {
         model.addAttribute("currentSortBy", sortBy);
         model.addAttribute("currentSortDirection", sortDirection);
 
-        return "listaColaboradores";
+        return "seguro/listaColaboradores";
     }
 
     @GetMapping("/novo")
     public String exibirFormularioNovoColaborador(Model model) {
         model.addAttribute("colaborador", new ColaboradorSeguroModel());
         model.addAttribute("activePage", "seguro");
-        return "formColaborador";
+        return "seguro/formColaborador";
     }
 
     @PostMapping("/salvar")
@@ -78,7 +76,7 @@ public class ColaboradorSeguroController {
 
         if (result.hasErrors()) {
             model.addAttribute("activePage", "seguro");
-            return "formColaborador";
+            return "seguro/formColaborador";
         }
 
         try {
@@ -88,7 +86,7 @@ public class ColaboradorSeguroController {
         } catch (IllegalArgumentException e) {
             model.addAttribute("mensagemErro", e.getMessage());
             model.addAttribute("activePage", "seguro");
-            return "formColaborador";
+            return "seguro/formColaborador";
         }
     }
 
@@ -98,7 +96,7 @@ public class ColaboradorSeguroController {
         if (colaboradorOptional.isPresent()) {
             model.addAttribute("colaborador", colaboradorOptional.get());
             model.addAttribute("activePage", "seguro");
-            return "formColaborador";
+            return "seguro/formColaborador";
         } else {
             redirectAttributes.addFlashAttribute("mensagemErro", "Colaborador não encontrado para edição.");
             return "redirect:/seguro";
