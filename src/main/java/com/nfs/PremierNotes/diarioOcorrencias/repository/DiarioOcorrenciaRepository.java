@@ -3,6 +3,8 @@ package com.nfs.PremierNotes.diarioOcorrencias.repository;
 import com.nfs.PremierNotes.diarioOcorrencias.model.DiarioOcorrenciaModel;
 import com.nfs.PremierNotes.diarioOcorrencias.model.StatusOcorrencia;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,4 +16,9 @@ public interface DiarioOcorrenciaRepository extends JpaRepository<DiarioOcorrenc
     List<DiarioOcorrenciaModel> findByColaborador_NomeCompletoContainingIgnoreCase(String nome);
     List<DiarioOcorrenciaModel> findByStatus(StatusOcorrencia status);
 
+    @Query("SELECT o FROM DiarioOcorrenciaModel o JOIN FETCH o.colaborador c WHERE o.data BETWEEN :dataInicio AND :dataFim")
+    List<DiarioOcorrenciaModel> findByDataBetweenFetchColaborador(@Param("dataInicio") LocalDate dataInicio, @Param("dataFim") LocalDate dataFim);
+
+    @Query("SELECT o FROM DiarioOcorrenciaModel o JOIN FETCH o.colaborador c WHERE o.data = :data")
+    List<DiarioOcorrenciaModel> findByDataFetchColaborador(@Param("data") LocalDate data);
 }

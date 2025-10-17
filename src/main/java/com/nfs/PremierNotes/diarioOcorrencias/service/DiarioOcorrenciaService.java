@@ -40,12 +40,12 @@ public class DiarioOcorrenciaService {
         LocalDate dataInicio = anoMes.atDay(1);
         LocalDate dataFim = anoMes.atEndOfMonth();
 
-        return repository.findByDataBetween(dataInicio, dataFim);
+        return repository.findByDataBetweenFetchColaborador(dataInicio, dataFim);
     }
 
     public List<DiarioOcorrenciaModel> buscarOcorrenciasDoDia(String dataString) {
         LocalDate data = LocalDate.parse(dataString, DateTimeFormatter.ISO_LOCAL_DATE);
-        return repository.findByData(data);
+        return repository.findByDataFetchColaborador(data);
     }
 
     public List<DiarioOcorrenciaModel> buscarOcorrenciasPorStatus(StatusOcorrencia status) {
