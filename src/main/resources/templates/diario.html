@@ -26,7 +26,13 @@
 <!-- Estrutura do Sidebar e Main Content (copiada do seu modelo home.html) -->
 <button class="menu-toggle" id="menu-toggle">☰</button>
 <aside class="sidebar" id="sidebar">
-    <!-- ... Seu conteúdo do Sidebar ... -->
+            <div class="sidebar-logo">
+                <img src="/img/premier-logo.png" alt="Logo premier">
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item"><a href="/diario">Criar uma ocorrência</a></li>
+                <li class="sidebar-nav-item"><a href="/home">Voltar ao Home</a></li>
+            </ul>
 </aside>
 
 <main class="main-content" id="main-content">
@@ -87,7 +93,6 @@
                     <label for="colaboradorId">Colaborador:</label>
                     <select id="colaboradorId" th:field="*{colaborador.id}" class="select-filtro" required>
                         <option value="">-- Selecione um Colaborador --</option>
-                        <!-- colabObj: objeto completo, colaborador: lista de colaboradores (suposição) -->
                         <option th:each="colab : ${colaboradores}"
                                 th:value="${colab.id}"
                                 th:text="${colab.nomeCompleto}"></option>
@@ -97,7 +102,7 @@
                 <div class="form-group">
                     <label for="tipo">Tipo:</label>
                     <select id="tipo" th:field="*{tipo}" class="select-filtro" required>
-                        <option value="">-- Selecione o Tipo --</option>
+                        <option value=""> Selecione o Tipo </option>
                         <option th:each="t : ${tipos}"
                                 th:value="${t}"
                                 th:text="${t}"></option>

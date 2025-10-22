@@ -31,13 +31,13 @@ import java.time.LocalDateTime;
         private ColaboradorSeguroModel colaborador;
 
 
-            @Enumerated(EnumType.STRING)
-            @NotNull(message = "O tipo de ocorrência é obrigatório.")
-            private TipoOcorrencia tipo;
+        @Enumerated(EnumType.STRING)
+        @Column(nullable = false, length = 50)
+        private TipoOcorrencia tipo;
 
-            @Enumerated(EnumType.STRING)
-            @NotNull
-            private StatusOcorrencia status;
+        @Enumerated(EnumType.STRING)
+        @Column(nullable = false, length = 50)
+        private StatusOcorrencia status;
 
 
         @Size(max = 1000, message = "A descrição não pode exceder 1000 caracteres.")

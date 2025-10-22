@@ -7,6 +7,7 @@ import com.nfs.PremierNotes.diarioOcorrencias.model.TipoOcorrencia;
 import com.nfs.PremierNotes.diarioOcorrencias.service.DiarioOcorrenciaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,9 +29,9 @@ public class DiarioOcorrenciaController {
     @GetMapping
     public String exibirDiario(Model model) {
 
+        model.addAttribute("colaboradores", colaboradorService.listarTodosColaboradores(Sort.by("nomeCompleto").ascending()));
         model.addAttribute("tipos", TipoOcorrencia.values());
         model.addAttribute("statusValues", StatusOcorrencia.values());
-
         model.addAttribute("ocorrencia", new DiarioOcorrenciaModel());
 
         return "diario";
