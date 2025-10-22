@@ -58,16 +58,6 @@
             <span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label for="ativoNoSeguro">Ativo no Seguro</label>
-            <select id="ativoNoSeguro" th:field="*{ativoNoSeguro}" required>
-                <option value="">Selecione</option>
-                <option th:value="true">SIM</option>
-                <option th:value="false">NÃO</option>
-            </select>
-            <span th:if="${#fields.hasErrors('ativoNoSeguro')}" th:errors="*{ativoNoSeguro}" class="text-danger"></span>
-        </div>
-
         <div class="button-group">
             <button type="submit">Salvar Colaborador</button>
             <a th:href="@{/seguro}" class="button-secondary">Voltar</a>
