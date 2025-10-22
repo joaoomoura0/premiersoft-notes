@@ -172,8 +172,11 @@ function editOccurrence(id) {
             document.getElementById('status').value = ocorrencia.status;
             document.getElementById('descricao').value = ocorrencia.descricao;
 
-            if ($.fn.select2) {
-                $('#colaboradorId').val(ocorrencia.colaborador.id).trigger('change');
+            if (window.jQuery && $.fn.select2) { // Incluí window.jQuery para ser mais seguro
+                // 1. Define o valor no campo de seleção
+                $('#colaboradorId').val(ocorrencia.colaborador.id);
+                // 2. Aciona o evento de mudança exigido pelo Select2
+                $('#colaboradorId').trigger('change');
             }
 
             document.getElementById('occurrenceFormContainer').style.display = 'block';
