@@ -226,3 +226,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderCalendar();
 });
+
+const today = new Date();
+const todayDay = today.getDate();
+const todayMonth = today.getMonth();
+const todayYear = today.getFullYear();
+
+if (todayMonth === currentDate.getMonth() && todayYear === currentDate.getFullYear()) {
+    const todayCell = document.querySelector(`.day-cell[data-day="${todayDay}"]`);
+    if (todayCell) todayCell.classList.add('today');
+}

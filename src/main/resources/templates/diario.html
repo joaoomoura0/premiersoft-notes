@@ -17,7 +17,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <!-- O DEFER GARANTE QUE O SCRIPT RODA SOMENTE APÓS TODO O HTML (DOM) SER CONSTRUÍDO -->
     <script src="/js/diario.js" defer></script>
 
 </head>
@@ -69,54 +68,54 @@
 </main>
 
 <div id="occurrenceModal" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
+    <div class="modal-content animated-modal">
         <div class="modal-header">
             <h3 id="modalTitle">Ocorrências em DD/MM/AAAA</h3>
-            <span class="close-btn">&times;</span>
+            <span class="close-btn"><i class="fa-solid fa-xmark"></i></span>
         </div>
 
-        <div id="occurrenceListContainer">
-            <h4>Ocorrências Registradas</h4>
-            <div id="occurrenceList">
-                <p id="noOccurrencesMessage" style="font-style: italic;">Nenhuma ocorrência registrada.</p>
+        <div id="occurrenceListContainer" class="modal-section">
+            <h4><i class="fa-regular fa-calendar-check"></i> Ocorrências Registradas</h4>
+            <div id="occurrenceList" class="occurrence-list">
+                <p id="noOccurrencesMessage" class="no-occurrence">Nenhuma ocorrência registrada.</p>
             </div>
-            <button id="openFormBtn" class="btn btn-primary btn-sm mt-3">Registrar Nova Ocorrência</button>
+            <button id="openFormBtn" class="btn btn-primary mt-3 full-width-btn">
+                <i class="fa-solid fa-plus"></i> Registrar Nova Ocorrência
+            </button>
         </div>
 
-        <div id="occurrenceFormContainer" style="display: none;">
-            <h4>Detalhes da Ocorrência</h4>
+        <div id="occurrenceFormContainer" style="display: none;" class="modal-section">
+            <h4><i class="fa-solid fa-pen-to-square"></i> Detalhes da Ocorrência</h4>
             <form id="occurrenceForm" th:action="@{/diario/salvar}" method="post" th:object="${ocorrencia}">
                 <input type="hidden" id="ocorrenciaId" th:field="*{id}">
-                <input type="hidden" id="ocorrenciaData" th:field="*{data}"> <!-- Preenchido via JS -->
+                <input type="hidden" id="ocorrenciaData" th:field="*{data}">
 
-                <div class="form-group">
-                    <label for="colaboradorId">Colaborador:</label>
-                    <select id="colaboradorId" th:field="*{colaborador.id}" class="select-filtro" required>
-                        <option value="">-- Selecione um Colaborador --</option>
-                        <option th:each="colab : ${colaboradores}"
-                                th:value="${colab.id}"
-                                th:text="${colab.nomeCompleto}"></option>
-                    </select>
-                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="colaboradorId">Colaborador:</label>
+                        <select id="colaboradorId" th:field="*{colaborador.id}" class="select-filtro" required>
+                            <option value="">-- Selecione --</option>
+                            <option th:each="colab : ${colaboradores}"
+                                    th:value="${colab.id}"
+                                    th:text="${colab.nomeCompleto}"></option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label for="tipo">Tipo:</label>
-                    <select id="tipo" th:field="*{tipo}" class="select-filtro" required>
-                        <option value=""> Selecione o Tipo </option>
-                        <option th:each="t : ${tipos}"
-                                th:value="${t}"
-                                th:text="${t}"></option>
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <label for="tipo">Tipo:</label>
+                        <select id="tipo" th:field="*{tipo}" class="select-filtro" required>
+                            <option value=""> Selecione </option>
+                            <option th:each="t : ${tipos}" th:value="${t}" th:text="${t}"></option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label for="status">Status:</label>
-                    <select id="status" th:field="*{status}" class="select-filtro" required>
-                        <option value="">-- Selecione o Status --</option>
-                        <option th:each="s : ${statusValues}"
-                                th:value="${s}"
-                                th:text="${s}"></option>
-                    </select>
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select id="status" th:field="*{status}" class="select-filtro" required>
+                            <option value="">-- Selecione --</option>
+                            <option th:each="s : ${statusValues}" th:value="${s}" th:text="${s}"></option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -125,13 +124,14 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Salvar Ocorrência</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
                     <button type="button" id="cancelFormBtn" class="btn btn-secondary">Cancelar</button>
-                    <button type="button" id="deleteOcurrenceBtn" class="btn btn-danger" style="display: none;">Excluir</button>
+                    <button type="button" id="deleteOcurrenceBtn" class="btn btn-danger" style="display: none;">
+                        <i class="fa-solid fa-trash"></i> Excluir
+                    </button>
                 </div>
             </form>
         </div>
-
     </div>
 </div>
 
