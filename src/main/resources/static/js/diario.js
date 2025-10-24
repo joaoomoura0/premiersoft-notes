@@ -242,4 +242,25 @@ document.addEventListener('DOMContentLoaded', function(){
         menuToggle.addEventListener('click', ()=>{ sidebar.classList.toggle('active'); mainContent.classList.toggle('shifted'); });
     }
     renderCalendar();
+
+    const origemSelect = document.getElementById('origemTipo');
+    const clockifyContainer = document.getElementById('clockifyClientesContainer');
+    const clockifySelect = document.getElementById('clockifyCliente');
+
+    if (origemSelect && clockifyContainer && clockifySelect) {
+        function toggleClockify() {
+            if (origemSelect.value === 'Clockify') {
+                clockifyContainer.style.display = 'block';
+                clockifySelect.required = true;
+            } else {
+                clockifyContainer.style.display = 'none';
+                clockifySelect.required = false;
+                clockifySelect.value = '';
+            }
+        }
+
+        origemSelect.addEventListener('change', toggleClockify);
+        toggleClockify(); // inicializa correto no load
+    }
 });
+

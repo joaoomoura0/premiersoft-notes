@@ -88,20 +88,59 @@
                     <input type="hidden" id="ocorrenciaId" th:field="*{id}">
                     <input type="hidden" id="ocorrenciaData" th:field="*{data}">
 
+
+                    <div class="colaborador-account" style="display: flex; gap: 20px; align-items: flex-start;">
+                        <div class="form-group">
+                            <label for="colaboradorId"><i class="fas fa-user"></i> Colaborador:</label>
+                            <select id="colaboradorId" th:field="*{colaborador.id}" class="select-filtro" required>
+                                <option value=""> Selecione um Colaborador </option>
+                                <option th:each="colab : ${colaboradores}" th:value="${colab.id}" th:text="${colab.nomeCompleto}"></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="account"><i class="fas fa-user"></i> Account:</label>
+                            <select id="account" name="account" class="select-filtro" required>
+                                <option value=""> Selecione uma Account </option>
+                                <option th:each="acc : ${accounts}" th:value="${acc}" th:text="${acc}"></option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        <label for="colaboradorId"><i class="fas fa-user"></i> Colaborador:</label>
-                        <select id="colaboradorId" th:field="*{colaborador.id}" class="select-filtro" required>
-                            <option value="">-- Selecione um Colaborador --</option>
-                            <option th:each="colab : ${colaboradores}"
-                                    th:value="${colab.id}"
-                                    th:text="${colab.nomeCompleto}"></option>
-                        </select>
+                        <div class="form-group">
+                            <label for="origemTipo"><i class="fas fa-building"></i> Origem:</label>
+                            <select id="origemTipo" name="origemTipo" class="select-filtro" required>
+                                <option value=""> Selecione a Origem </option>
+                                <option value="TimeTracker">TimeTracker</option>
+                                <option value="Clockify">Clockify</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="clockifyClientesContainer" style="display: none;">
+                            <label for="clockifyCliente"><i class="fas fa-building"></i> Cliente Clockify:</label>
+                            <select id="clockifyCliente" name="clockifyCliente" class="select-filtro">
+                                <option value=""> Selecione o Cliente </option>
+                                <option value="AB-InBev">AB-InBev</option>
+                                <option value="Cheesecake Labs">Cheesecake Labs</option>
+                                <option value="COAMO">COAMO</option>
+                                <option value="Contabilizei">Contabilizei</option>
+                                <option value="Credisis">Credisis</option>
+                                <option value="Grupo Potencial">Grupo Potencial</option>
+                                <option value="Iconic Hearts">Iconic Hearts</option>
+                                <option value="Philips">Philips</option>
+                                <option value="Serasa">Serasa</option>
+                                <option value="Sicoob SC/RS">Sicoob SC/RS</option>
+                                <option value="Studio Z">Studio Z</option>
+                                <option value="Tonic.ai">Tonic.ai</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="tipo"><i class="fas fa-tag"></i> Tipo:</label>
                         <select id="tipo" th:field="*{tipo}" class="select-filtro" required>
-                            <option value="">-- Selecione o Tipo --</option>
+                            <option value=""> Selecione o Tipo </option>
                             <option th:each="t : ${tipos}" th:value="${t}" th:text="${t}"></option>
                         </select>
                     </div>
@@ -109,7 +148,7 @@
                     <div class="form-group">
                         <label for="status"><i class="fas fa-flag"></i> Status:</label>
                         <select id="status" th:field="*{status}" class="select-filtro" required>
-                            <option value="">-- Selecione o Status --</option>
+                            <option value=""> Selecione o Status </option>
                             <option th:each="s : ${statusValues}" th:value="${s}" th:text="${s}"></option>
                         </select>
                     </div>
@@ -135,7 +174,5 @@
         </div>
     </div>
 </div>
-
-
 </body>
 </html>
