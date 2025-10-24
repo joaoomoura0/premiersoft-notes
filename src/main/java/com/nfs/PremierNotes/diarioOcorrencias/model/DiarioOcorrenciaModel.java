@@ -45,4 +45,10 @@ import java.time.LocalDateTime;
         private String descricao;
 
         private LocalDateTime dataRegistro;
+
+        @Column(nullable = false, length = 50)
+        private String account; // Bia, Jess ou Tau
+
+        @Column(nullable = false, length = 100)
+        private String origem; // TimeTracker ou Clockify + cliente
     }

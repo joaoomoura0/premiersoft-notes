@@ -34,6 +34,23 @@ public class DiarioOcorrenciaController {
         model.addAttribute("statusValues", StatusOcorrencia.values());
         model.addAttribute("ocorrencia", new DiarioOcorrenciaModel());
 
+        model.addAttribute("accounts", List.of("Bia", "Jess", "Tau"));
+        model.addAttribute("origens", List.of(
+                "TimeTracker",
+                "AB-InBev",
+                "Cheesecake Labs",
+                "COAMO",
+                "Contabilizei",
+                "Credisis",
+                "Grupo Potencial",
+                "Iconic Hearts",
+                "Philips",
+                "Serasa",
+                "Sicoob SC/RS",
+                "Studio Z",
+                "Tonic.ai"
+        ));
+
         return "diario";
     }
 
