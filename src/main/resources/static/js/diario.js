@@ -13,7 +13,6 @@ function formatDate(date) {
     return `${y}-${m}-${d}`;
 }
 
-// Lógica do Calendário e Renderização
 function renderCalendar() {
     const month = currentDate.getMonth();
     const year = currentDate.getFullYear();
