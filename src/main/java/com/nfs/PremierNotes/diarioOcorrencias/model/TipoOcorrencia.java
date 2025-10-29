@@ -3,16 +3,13 @@ package com.nfs.PremierNotes.diarioOcorrencias.model;
     public enum TipoOcorrencia {
         AFASTAMENTO("Afastamento"),
         ATESTADO("Atestado"),
-        HORAS_EXTRAS_COMPENSADAS("Horas Extras Compensadas"),
-        ERRO_APONTAMENTO("Erro de Apontamento"),
-        ESQUECIMENTO("Esquecimento de Apontamento"),
+        ERRO_APONTAMENTO("Erro de apontamento"),
+        ESQUECIMENTO("Esquecimento"),
         FERIAS("Férias"),
         FOLGA("Folga"),
-        NAO_ATUOU("Não Atuou"),
+        NAO_ATUOU("Não atuou"),
         ONBOARDING("Onboarding"),
-        SAIDA_ANTECIPADA("Saída Antecipada"),
-        TRABALHOU_EM_OUTRO_PROJETO("Trabalhou em Outro Projeto"),
-        TROCA_FERIADO("Troca de Feriado");
+        OUTRO ("Outro");
 
         private final String descricao;
 
