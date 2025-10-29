@@ -30,7 +30,6 @@ import java.time.LocalDateTime;
         @NotNull(message = "O colaborador é obrigatório.")
         private ColaboradorSeguroModel colaborador;
 
-
         @Enumerated(EnumType.STRING)
         @Column(nullable = false, length = 50)
         private TipoOcorrencia tipo;
@@ -39,7 +38,6 @@ import java.time.LocalDateTime;
         @Column(nullable = false, length = 50)
         private StatusOcorrencia status;
 
-
         @Size(max = 1000, message = "A descrição não pode exceder 1000 caracteres.")
         @Column(columnDefinition = "TEXT")
         private String descricao;
@@ -47,8 +45,8 @@ import java.time.LocalDateTime;
         private LocalDateTime dataRegistro;
 
         @Column(nullable = false, length = 50)
-        private String account; // Bia, Jess ou Tau
+        private String account;
 
         @Column(nullable = false, length = 100)
-        private String origem; // TimeTracker ou Clockify + cliente
+        private String origem;
     }

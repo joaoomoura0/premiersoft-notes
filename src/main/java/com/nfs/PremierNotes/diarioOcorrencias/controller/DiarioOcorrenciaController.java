@@ -75,6 +75,10 @@ public class DiarioOcorrenciaController {
     @PostMapping("/salvar")
     public String salvarOcorrencia(@ModelAttribute("ocorrencia") @Valid DiarioOcorrenciaModel ocorrencia, BindingResult result, RedirectAttributes attributes, Model model) {
 
+        if (ocorrencia.getOrigem() == null || ocorrencia.getOrigem().isEmpty()) {
+            ocorrencia.setOrigem("DIARIO_WEB");
+        }
+
         if (result.hasErrors()) {
             attributes.addFlashAttribute("mensagemErro", "Falha de validação! Verifique os campos.");
             return "redirect:/diario";
