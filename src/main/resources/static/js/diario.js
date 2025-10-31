@@ -62,8 +62,8 @@ document.addEventListener('click', function(e){
         return;
     }
 
-    if(e.target.closest('.close-btn')){
-        closeModal();
+    if(e.target.closest('.btn-back-list')){
+        showOccurrenceList();
         return;
     }
 
@@ -82,10 +82,17 @@ document.addEventListener('click', function(e){
         return;
     }
 
-    if(e.target.closest('.btn-back-list')){
-        showOccurrenceList();
+    const closeBtn = e.target.closest('.close-btn');
+    if(closeBtn){
+        if (closeBtn.closest('#occurrenceModal')) {
+            closeModal();
+
+        } else if (closeBtn.closest('#periodOccurrenceModal')) {
+            closePeriodModal();
+        }
         return;
     }
+
 });
 
 const prevBtn = document.getElementById('prevMonth');
@@ -129,6 +136,30 @@ function openDayModal(dateString){
 
     const dailyOccurrences = currentOccurrences.filter(o => o.data === dateString);
     occurrenceList.innerHTML = '';
+
+    let searchContainer = document.getElementById('searchContainer');
+
+    if (!searchContainer) {
+        searchContainer = document.createElement('div');
+        searchContainer.id = 'searchContainer';
+        searchContainer.innerHTML = `
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="searchColaborador">
+                    <i class="fas fa-search"></i> Pesquisar Colaborador:
+                </label>
+                <input type="text" id="searchColaborador" 
+                       placeholder="Digite o nome do Colaborador..." 
+                       style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+        `;
+        occurrenceList.before(searchContainer);
+    } else {
+
+        searchContainer.style.display = 'block';
+
+        const searchInput = document.getElementById('searchColaborador');
+        if (searchInput) searchInput.value = '';
+    }
 
     if(dailyOccurrences.length > 0){
         if(noOccurrencesMessage) noOccurrencesMessage.style.display = 'none';
@@ -196,6 +227,13 @@ function openDayModal(dateString){
     }
 
     modalElement.style.display = 'flex';
+
+    const searchInput = document.getElementById('searchColaborador');
+    if (searchInput) {
+        searchInput.removeEventListener('input', filterOccurrences);
+        searchInput.addEventListener('input', filterOccurrences);
+        filterOccurrences();
+    }
 }
 
 function getStatusClass(status) {
@@ -215,14 +253,23 @@ function truncateText(text, maxLength) {
 }
 
 function viewOccurrenceDetails(id) {
+    console.log('viewOccurrenceDetails chamado para ID:', id);
+
     fetch(`/diario/api/detalhe/${id}`)
-        .then(r => r.ok ? r.json() : Promise.reject('Erro ao carregar detalhes'))
+        .then(r => {
+            if (!r.ok) {
+                console.error('ERRO HTTP:', r.status, r.statusText);
+                throw new Error('Erro ao carregar detalhes: Status ' + r.status);
+            }
+            return r.json();
+        })
         .then(ocorrencia => {
+            console.log('Dados da Ocorrência Recebidos:', ocorrencia); // Novo log de sucesso
             showOccurrenceDetail(ocorrencia);
         })
         .catch(e => {
-            console.error(e);
-            alert('Não foi possível carregar os detalhes da ocorrência.');
+            console.error('Falha ao processar a ocorrência:', e);
+            alert('Não foi possível carregar os detalhes da ocorrência. Verifique o console.');
         });
 }
 
@@ -234,10 +281,18 @@ function showOccurrenceDetail(ocorrencia) {
     if(formContainer) formContainer.style.display = 'none';
 
     let detailContainer = document.getElementById('occurrenceDetailContainer');
+
+    const occurrenceModalBody = document.querySelector('#occurrenceModal .modal-body');
+
     if (!detailContainer) {
         detailContainer = document.createElement('div');
         detailContainer.id = 'occurrenceDetailContainer';
-        document.querySelector('.modal-body').appendChild(detailContainer);
+        if (occurrenceModalBody) {
+            occurrenceModalBody.appendChild(detailContainer);
+        } else {
+            console.error('O corpo do modal de ocorrência não foi encontrado.');
+            return;
+        }
     }
 
     const statusClass = getStatusClass(ocorrencia.status);
@@ -442,39 +497,168 @@ function deleteOccurrence(){
         });
 }
 
+const periodModalElement = document.getElementById('periodOccurrenceModal');
+
+function closePeriodModal() {
+    if (periodModalElement) {
+        periodModalElement.style.display = 'none';
+        const form = document.getElementById('periodForm');
+        if (form) form.reset();
+
+        if(window.jQuery && $.fn.select2){
+            $('#periodForm .select-filtro').val('').trigger('change');
+            toggleClockifyPeriodo();
+        }
+    }
+}
+
+function toggleClockifyPeriodo() {
+    const origemSelect = document.getElementById('origemTipoPeriodo');
+    const clockifyContainer = document.getElementById('clockifyClientesPeriodoContainer');
+    const clockifySelect = document.getElementById('clockifyClientePeriodo');
+
+    if (origemSelect && clockifyContainer && clockifySelect) {
+        if (origemSelect.value === 'Clockify') {
+            clockifyContainer.style.display = 'block';
+            clockifySelect.required = true;
+        } else {
+            clockifyContainer.style.display = 'none';
+            clockifySelect.required = false;
+            if(window.jQuery && $.fn.select2){
+                $(clockifySelect).val('').trigger('change');
+            } else {
+                clockifySelect.value = '';
+            }
+        }
+    }
+}
+
+function openPeriodModal() {
+    const modal = document.getElementById('periodOccurrenceModal');
+    if (modal) {
+        modal.style.display = 'flex'; // Abre o modal
+        // Certifica-se de que o campo do Clockify está no estado correto
+        toggleClockifyPeriodo();
+
+        // Se estiver usando Select2, re-inicializa os selects para garantir
+        if(window.jQuery && $.fn.select2){
+            $('#periodForm .select-filtro').each(function(){
+                // Se ainda não estiver inicializado ou para garantir que o dropdownParent funcione
+                if(!$(this).data('select2')){
+                    $(this).select2({
+                        dropdownParent: $('#periodOccurrenceModal'),
+                        width: 'resolve'
+                    });
+                }
+            });
+        }
+    }
+}
+
+function filterOccurrences() {
+    const searchInput = document.getElementById('searchColaborador');
+    if (!searchInput) return;
+
+    const filterText = searchInput.value.toLowerCase();
+    const occurrenceCards = document.querySelectorAll('#occurrenceList .occurrence-card');
+
+    occurrenceCards.forEach(card => {
+        // Encontra o nome do colaborador dentro do card.
+        // O nome está no <span> do Colaborador:
+        // <span><strong>Colaborador:</strong> ${o.colaborador?.nomeCompleto || 'N/A'}</span>
+        const collaboratorSpan = card.querySelector('.occurrence-info span');
+
+        // Assume que o primeiro <span> de .occurrence-info contém o nome.
+        if (collaboratorSpan && collaboratorSpan.textContent.includes('Colaborador:')) {
+            const fullText = collaboratorSpan.textContent;
+            // Extrai apenas o nome, removendo "Colaborador:" e espaços
+            const collaboratorName = fullText.substring(fullText.indexOf(':') + 1).trim().toLowerCase();
+
+            if (collaboratorName.includes(filterText)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        } else {
+            // Se o formato interno for inesperado, pelo menos mostre o card se não houver filtro.
+            card.style.display = filterText === '' ? 'block' : 'none';
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function(){
+
     if(window.jQuery && $.fn.select2){
-        $('.select-filtro').each(function(){
-            if(!$(this).hasClass('select2-hidden-accessible')){
-                $(this).select2({ dropdownParent: $('#occurrenceModal') });
+
+        $('#occurrenceModal .select-filtro:not(#colaboradorId)').each(function(){
+            if(!$(this).data('select2')){
+                $(this).select2({
+                    dropdownParent: $('#occurrenceModal'),
+                    width: 'resolve'
+                });
+            }
+        });
+
+        $('#periodOccurrenceModal .select-filtro').each(function(){
+            if(!$(this).data('select2')){
+                $(this).select2({
+                    dropdownParent: $('#periodOccurrenceModal'),
+                    width: 'resolve'
+                });
             }
         });
     }
+
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('main-content');
     if(menuToggle && sidebar && mainContent){
         menuToggle.addEventListener('click', ()=>{ sidebar.classList.toggle('active'); mainContent.classList.toggle('shifted'); });
     }
+
     renderCalendar();
+
 
     const origemSelect = document.getElementById('origemTipo');
     const clockifyContainer = document.getElementById('clockifyClientesContainer');
-    const clockifySelect = document.getElementById('clockifyCliente');
 
-    if (origemSelect && clockifyContainer && clockifySelect) {
+    if (origemSelect && clockifyContainer) {
+
         function toggleClockify() {
+            const clockifySelect = document.getElementById('clockifyCliente');
             if (origemSelect.value === 'Clockify') {
                 clockifyContainer.style.display = 'block';
-                clockifySelect.required = true;
+                if(clockifySelect) clockifySelect.required = true;
             } else {
                 clockifyContainer.style.display = 'none';
-                clockifySelect.required = false;
-                clockifySelect.value = '';
+                if(clockifySelect) {
+                    clockifySelect.required = false;
+                    clockifySelect.value = '';
+                }
             }
         }
 
         $(origemSelect).on('change.select2', toggleClockify);
         toggleClockify();
     }
+
+
+    const origemPeriodoSelect = document.getElementById('origemTipoPeriodo');
+
+    if (origemPeriodoSelect) {
+        $(origemPeriodoSelect).on('change.select2', toggleClockifyPeriodo);
+        toggleClockifyPeriodo();
+    }
+
+    const openPeriodModalBtn = document.getElementById('openPeriodModalBtnSidebar');
+    if (openPeriodModalBtn) {
+        openPeriodModalBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openPeriodModal();
+        });
+    }
+
+    document.querySelectorAll('.close-btn-period').forEach(btn => {
+        btn.addEventListener('click', closePeriodModal);
+    });
 });
