@@ -8,12 +8,14 @@ import com.nfs.PremierNotes.diarioOcorrencias.service.DiarioOcorrenciaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -56,8 +58,12 @@ public class DiarioOcorrenciaController {
 
     @GetMapping("/api/mes")
     @ResponseBody
-    public List<DiarioOcorrenciaModel> getOcorrenciasDoMes(@RequestParam int mes, @RequestParam int ano) {
-        return diarioService.buscarOcorrenciasDoMes(mes, ano);
+    public List<DiarioOcorrenciaModel> getOcorrenciasDoMes(
+            @RequestParam int mes,
+            @RequestParam int ano,
+            @RequestParam(required = false) TipoOcorrencia tipo) {
+
+        return diarioService.buscarOcorrenciasDoMes(mes, ano, tipo);
     }
 
     @GetMapping("/api/dia")
@@ -105,5 +111,35 @@ public class DiarioOcorrenciaController {
         return "redirect:/diario";
     }
 
-    // ... Endpoints para Edição e Inativação/Resolução
+    @PostMapping("/salvar-periodo")
+    public String salvarOcorrenciaPorPeriodo(
+            @RequestParam Long colaboradorId,
+            @RequestParam TipoOcorrencia tipo,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio, // Conversão de String para LocalDate
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,     // Conversão de String para LocalDate
+            @RequestParam StatusOcorrencia status,
+            @RequestParam String descricao,
+            @RequestParam String account,
+            @RequestParam String origemTipo,
+            // @RequestParam(required = false) torna o campo opcional, pois só é enviado se a origem for Clockify
+            @RequestParam(required = false) String clockifyCliente,
+            RedirectAttributes attributes
+    ) {
+
+        try {
+            diarioService.salvarOcorrenciaPorPeriodo(
+                    colaboradorId, tipo, dataInicio, dataFim, status,
+                    descricao, account, origemTipo, clockifyCliente
+            );
+            attributes.addFlashAttribute("mensagemSucesso",
+                    "Ocorrências registradas com sucesso para o período de " + dataInicio + " a " + dataFim + "!");
+
+        } catch (IllegalArgumentException e) {
+            attributes.addFlashAttribute("mensagemErro", "Falha ao registrar ocorrências: " + e.getMessage());
+        } catch (Exception e) {
+            attributes.addFlashAttribute("mensagemErro", "Erro interno ao processar o período.");
+        }
+
+        return "redirect:/diario";
+    }
 }

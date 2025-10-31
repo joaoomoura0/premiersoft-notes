@@ -2,6 +2,7 @@ package com.nfs.PremierNotes.diarioOcorrencias.repository;
 
 import com.nfs.PremierNotes.diarioOcorrencias.model.DiarioOcorrenciaModel;
 import com.nfs.PremierNotes.diarioOcorrencias.model.StatusOcorrencia;
+import com.nfs.PremierNotes.diarioOcorrencias.model.TipoOcorrencia;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +16,17 @@ public interface DiarioOcorrenciaRepository extends JpaRepository<DiarioOcorrenc
     List<DiarioOcorrenciaModel> findByData(LocalDate data);
     List<DiarioOcorrenciaModel> findByColaborador_NomeCompletoContainingIgnoreCase(String nome);
     List<DiarioOcorrenciaModel> findByStatus(StatusOcorrencia status);
+
+
+    @Query("SELECT o FROM DiarioOcorrenciaModel o JOIN FETCH o.colaborador c " +
+            "WHERE o.data BETWEEN :dataInicio AND :dataFim " +
+            "AND (:tipo IS NULL OR o.tipo = :tipo)") // <--- NOVO TRECHO DE FILTRO
+    List<DiarioOcorrenciaModel> findByDataBetweenAndTipoFetchColaborador(
+            @Param("dataInicio") LocalDate dataInicio,
+            @Param("dataFim") LocalDate dataFim,
+            @Param("tipo") TipoOcorrencia tipo
+    );
+
 
     @Query("SELECT o FROM DiarioOcorrenciaModel o JOIN FETCH o.colaborador c WHERE o.data BETWEEN :dataInicio AND :dataFim")
     List<DiarioOcorrenciaModel> findByDataBetweenFetchColaborador(@Param("dataInicio") LocalDate dataInicio, @Param("dataFim") LocalDate dataFim);
