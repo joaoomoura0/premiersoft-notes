@@ -641,12 +641,12 @@ function filterOccurrences() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
 
-    if(window.jQuery && $.fn.select2){
+    if (window.jQuery && $.fn.select2) {
 
-        $('#occurrenceModal .select-filtro:not(#colaboradorId)').each(function(){
-            if(!$(this).data('select2')){
+        $('#occurrenceModal .select-filtro:not(#colaboradorId)').each(function () {
+            if (!$(this).data('select2')) {
                 $(this).select2({
                     dropdownParent: $('#occurrenceModal'),
                     width: 'resolve'
@@ -654,8 +654,8 @@ document.addEventListener('DOMContentLoaded', function(){
             }
         });
 
-        $('#periodOccurrenceModal .select-filtro').each(function(){
-            if(!$(this).data('select2')){
+        $('#periodOccurrenceModal .select-filtro').each(function () {
+            if (!$(this).data('select2')) {
                 $(this).select2({
                     dropdownParent: $('#periodOccurrenceModal'),
                     width: 'resolve'
@@ -667,52 +667,45 @@ document.addEventListener('DOMContentLoaded', function(){
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('main-content');
-    if(menuToggle && sidebar && mainContent){
-        menuToggle.addEventListener('click', ()=>{ sidebar.classList.toggle('active'); mainContent.classList.toggle('shifted'); });
+    if (menuToggle && sidebar && mainContent) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            mainContent.classList.toggle('shifted');
+        });
     }
 
     renderCalendar();
 
+    // ---------- CLOCKIFY NO MODAL DE PERÍODO ----------
+    function toggleClockifyPeriodo() {
+        const origemSelect = document.getElementById('origemTipoPeriodo');
+        const clockifyContainer = document.getElementById('clockifyClientesPeriodoContainer');
+        const clockifySelect = document.getElementById('clockifyClientePeriodo');
 
-    const origemSelect = document.getElementById('origemTipoPeriodo');
-    const clockifyContainer = document.getElementById('clockifyClientesContainer');
+        if (!origemSelect || !clockifyContainer) return;
 
-    if (origemSelect && clockifyContainer) {
-
-        function toggleClockify() {
-            const origemSelect = document.getElementById('origemTipoPeriodo');
-            const clockifyContainer = document.getElementById('clockifyClientesPeriodoContainer');
-            const clockifySelect = document.getElementById('clockifyClientePeriodo');
-
-            if (!origemSelect || !clockifyContainer) return;
-
-            if (origemSelect.value === 'Clockify') {
-                clockifyContainer.style.display = 'block';
-                if (clockifySelect) clockifySelect.required = true;
-            } else {
-                clockifyContainer.style.display = 'none';
-                if (clockifySelect) {
-                    clockifySelect.required = false;
-                    clockifySelect.value = '';
-                }
+        if (origemSelect.value === 'Clockify') {
+            clockifyContainer.style.display = 'block';
+            if (clockifySelect) clockifySelect.required = true;
+        } else {
+            clockifyContainer.style.display = 'none';
+            if (clockifySelect) {
+                clockifySelect.required = false;
+                clockifySelect.value = '';
             }
         }
-
-        $(origemSelect).on('change.select2', toggleClockify);
-        toggleClockify();
     }
 
-
     const origemPeriodoSelect = document.getElementById('origemTipoPeriodo');
-
     if (origemPeriodoSelect) {
         $(origemPeriodoSelect).on('change.select2', toggleClockifyPeriodo);
         toggleClockifyPeriodo();
     }
 
+    // ---------- ABRIR E FECHAR MODAL DE PERÍODO ----------
     const openPeriodModalBtn = document.getElementById('openPeriodModalBtnSidebar');
     if (openPeriodModalBtn) {
-        openPeriodModalBtn.addEventListener('click', function(e) {
+        openPeriodModalBtn.addEventListener('click', function (e) {
             e.preventDefault();
             openPeriodModal();
         });
