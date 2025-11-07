@@ -23,6 +23,10 @@ public class ColaboradorSeguroService {
 
     public ColaboradorSeguroModel salvarColaborador(ColaboradorSeguroModel colaborador) throws IllegalArgumentException {
 
+        if (colaborador.getTipoContrato() != null) {
+            colaborador.setTipoContrato(colaborador.getTipoContrato().toUpperCase());
+        }
+
         if (colaborador.getId() == null) {
             if (colaboradorSeguroRepository.findByCpf(colaborador.getCpf()).isPresent()) {
                 throw new IllegalArgumentException("CPF já cadastrado para outro colaborador.");

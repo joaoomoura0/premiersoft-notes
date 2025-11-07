@@ -6,9 +6,19 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "colaboradores_seguro")
 public class ColaboradorSeguroModel {
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(nullable = false)
+    private LocalDate dataNascimento;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(nullable = false)
+    private LocalDate dataAdmissao;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,12 +26,6 @@ public class ColaboradorSeguroModel {
 
     @Column(nullable = false)
     private String nomeCompleto;
-
-    @Column(nullable = false)
-    private LocalDate dataNascimento;
-
-    @Column(nullable = false)
-    private LocalDate dataAdmissao;
 
     @Column(nullable = false)
     private String tipoContrato;

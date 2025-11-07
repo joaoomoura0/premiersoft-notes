@@ -83,7 +83,6 @@
 			<version>5.2.3</version>
 		</dependency>
 
-		<!-- Apache POI para arquivos Excel XLSX (formato Office Open XML) -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
