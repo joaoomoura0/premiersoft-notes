@@ -641,6 +641,25 @@ function filterOccurrences() {
     });
 }
 
+function toggleClockify() {
+    const origemSelect = document.getElementById('origemTipoPeriodo');
+    const clockifyContainer = document.getElementById('clockifyClientesPeriodoContainer');
+    const clockifySelect = document.getElementById('clockifyClientePeriodo');
+
+    if (!origemSelect || !clockifyContainer) return;
+
+    if (origemSelect.value === 'Clockify') {
+        clockifyContainer.style.display = 'block';
+        if (clockifySelect) clockifySelect.required = true;
+    } else {
+        clockifyContainer.style.display = 'none';
+        if (clockifySelect) {
+            clockifySelect.required = false;
+            clockifySelect.value = '';
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
 
     if (window.jQuery && $.fn.select2) {
@@ -676,33 +695,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     renderCalendar();
 
-    // ---------- CLOCKIFY NO MODAL DE PERÍODO ----------
-    function toggleClockifyPeriodo() {
-        const origemSelect = document.getElementById('origemTipoPeriodo');
-        const clockifyContainer = document.getElementById('clockifyClientesPeriodoContainer');
-        const clockifySelect = document.getElementById('clockifyClientePeriodo');
-
-        if (!origemSelect || !clockifyContainer) return;
-
-        if (origemSelect.value === 'Clockify') {
-            clockifyContainer.style.display = 'block';
-            if (clockifySelect) clockifySelect.required = true;
-        } else {
-            clockifyContainer.style.display = 'none';
-            if (clockifySelect) {
-                clockifySelect.required = false;
-                clockifySelect.value = '';
-            }
-        }
-    }
-
+    // 🔄 chama o toggleClockify (não toggleClockifyPeriodo)
     const origemPeriodoSelect = document.getElementById('origemTipoPeriodo');
     if (origemPeriodoSelect) {
-        $(origemPeriodoSelect).on('change.select2', toggleClockifyPeriodo);
-        toggleClockifyPeriodo();
+        $(origemPeriodoSelect).on('change.select2', toggleClockify);
+        toggleClockify();
     }
 
-    // ---------- ABRIR E FECHAR MODAL DE PERÍODO ----------
     const openPeriodModalBtn = document.getElementById('openPeriodModalBtnSidebar');
     if (openPeriodModalBtn) {
         openPeriodModalBtn.addEventListener('click', function (e) {
@@ -715,3 +714,4 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.addEventListener('click', closePeriodModal);
     });
 });
+
