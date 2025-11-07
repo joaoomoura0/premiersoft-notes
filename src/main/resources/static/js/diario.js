@@ -264,7 +264,10 @@ function viewOccurrenceDetails(id) {
             return r.json();
         })
         .then(ocorrencia => {
-            console.log('Dados da Ocorrência Recebidos:', ocorrencia); // Novo log de sucesso
+
+            console.log('Ocorrência carregada:', ocorrencia);
+
+            console.log('Dados da Ocorrência Recebidos:', ocorrencia);
             showOccurrenceDetail(ocorrencia);
         })
         .catch(e => {
@@ -404,6 +407,19 @@ function closeModal(){
     const form = document.getElementById('occurrenceForm');
     if(form) form.reset();
 
+    const fieldsToEnable = ['colaboradorId', 'account', 'origemTipoPeriodo', 'clockifyCliente', 'tipo', 'status', 'descricao'];
+    fieldsToEnable.forEach(id => {
+        const field = document.getElementById(id);
+        if(field) field.disabled = false;
+    });
+
+    $('#colaboradorId').prop('disabled', false).trigger('change');
+    $('#account').prop('disabled', false).trigger('change');
+    $('#origemTipoPeriodo').prop('disabled', false).trigger('change');
+    $('#clockifyCliente').prop('disabled', false).trigger('change');
+    $('#tipo').prop('disabled', false).trigger('change');
+    $('#status').prop('disabled', false).trigger('change');
+
     const detailContainer = document.getElementById('occurrenceDetailContainer');
     if(detailContainer) detailContainer.style.display = 'none';
 }
@@ -413,6 +429,20 @@ function openForm(){
     if(idField) idField.value = '';
     const form = document.getElementById('occurrenceForm');
     if(form) form.reset();
+
+    const fieldsToEnable = ['colaboradorId', 'account', 'origemTipoPeriodo', 'clockifyCliente', 'tipo', 'status', 'descricao'];
+    fieldsToEnable.forEach(id => {
+        const field = document.getElementById(id);
+        if(field) field.disabled = false;
+    });
+
+    $('#colaboradorId').prop('disabled', false).trigger('change');
+    $('#account').prop('disabled', false).trigger('change');
+    $('#origemTipo').prop('disabled', false).trigger('change');
+    $('#clockifyCliente').prop('disabled', false).trigger('change');
+    $('#tipo').prop('disabled', false).trigger('change');
+    $('#status').prop('disabled', false).trigger('change');
+
     const formContainer = document.getElementById('occurrenceFormContainer');
     const listContainer = document.getElementById('occurrenceListContainer');
     const detailContainer = document.getElementById('occurrenceDetailContainer');
@@ -432,7 +462,7 @@ function cancelForm(){
     if(listContainer) listContainer.style.display = 'block';
 }
 
-function editOccurrence(id){
+function editOccurrence(id) {
     fetch(`/diario/api/detalhe/${id}`)
         .then(r => r.ok ? r.json() : Promise.reject('Erro ao carregar detalhes'))
         .then(ocorrencia => {
@@ -440,44 +470,69 @@ function editOccurrence(id){
             const dataField = document.getElementById('ocorrenciaData');
             const colaboradorField = document.getElementById('colaboradorId');
             const accountField = document.getElementById('account');
-            const origemField = document.getElementById('origemTipo');
+            const origemField = document.getElementById('origemTipo'); // ✅ campo correto
             const clockifyField = document.getElementById('clockifyCliente');
             const tipoField = document.getElementById('tipo');
             const statusField = document.getElementById('status');
             const descricaoField = document.getElementById('descricao');
 
-            if(idField) idField.value = ocorrencia.id;
-            if(dataField) dataField.value = ocorrencia.data;
-            if(colaboradorField) colaboradorField.value = ocorrencia.colaborador?.id || '';
-            if(accountField) accountField.value = ocorrencia.account || '';
-            if(origemField) origemField.value = ocorrencia.origemTipo || '';
-            if(clockifyField) clockifyField.value = ocorrencia.clockifyCliente || '';
-            if(tipoField) tipoField.value = ocorrencia.tipo || '';
-            if(statusField) statusField.value = ocorrencia.status || '';
-            if(descricaoField) descricaoField.value = ocorrencia.descricao || '';
+            if (idField) idField.value = ocorrencia.id;
+            if (dataField) dataField.value = ocorrencia.data;
+            if (colaboradorField) colaboradorField.value = ocorrencia.colaborador?.id || '';
+            if (accountField) accountField.value = ocorrencia.account || '';
+            if (origemField) origemField.value = ocorrencia.origemTipo || '';
+            if (clockifyField) clockifyField.value = ocorrencia.clockifyCliente || '';
+            if (tipoField) tipoField.value = ocorrencia.tipo || '';
+            if (statusField) statusField.value = ocorrencia.status || '';
+            if (descricaoField) descricaoField.value = ocorrencia.descricao || '';
 
-            if(window.jQuery && $.fn.select2){
+            if (window.jQuery && $.fn.select2) {
                 $('#colaboradorId').val(ocorrencia.colaborador?.id || '').trigger('change');
                 $('#account').val(ocorrencia.account || '').trigger('change');
-                $('#origemTipo').val(ocorrencia.origemTipo || '').trigger('change');
-                $('#clockifyCliente').val(ocorrencia.clockifyCliente || '').trigger('change');
+                $('#tipo').val(ocorrencia.tipo || '').trigger('change');
+                $('#status').val(ocorrencia.status || '').trigger('change');
+
+                // 🔥 garante que o Select2 da origem renderizou antes de setar
+                setTimeout(() => {
+                    $('#origemTipo').val(ocorrencia.origemTipo || '').trigger('change');
+                    $('#clockifyCliente').val(ocorrencia.clockifyCliente || '').trigger('change');
+
+                    // ✅ agora sim chama o toggleClockify sem quebrar o form
+                    toggleClockify();
+
+                    // 🔒 bloqueia os campos após o valor estar certo
+                    $('#colaboradorId, #account, #origemTipo, #clockifyCliente, #tipo')
+                        .prop('disabled', true)
+                        .trigger('change');
+                    $('#status').prop('disabled', false);
+                }, 200);
             }
+
+            // ✅ chama toggleClockify depois de definir o valor da origem
+            // toggleClockify();
+
+            // agora sim desabilita os selects
+            $('#colaboradorId, #account, #origemTipo, #clockifyCliente, #tipo')
+                .prop('disabled', true)
+                .trigger('change');
+            $('#status').prop('disabled', false);
 
             const formContainer = document.getElementById('occurrenceFormContainer');
             const listContainer = document.getElementById('occurrenceListContainer');
             const detailContainer = document.getElementById('occurrenceDetailContainer');
             const deleteBtn = document.getElementById('deleteOcurrenceBtn');
 
-            if(formContainer) formContainer.style.display = 'block';
-            if(listContainer) listContainer.style.display = 'none';
-            if(detailContainer) detailContainer.style.display = 'none';
-            if(deleteBtn) deleteBtn.style.display = 'block';
+            if (formContainer) formContainer.style.display = 'block';
+            if (listContainer) listContainer.style.display = 'none';
+            if (detailContainer) detailContainer.style.display = 'none';
+            if (deleteBtn) deleteBtn.style.display = 'block';
         })
         .catch(e => {
             console.error(e);
             alert('Não foi possível carregar os detalhes para edição.');
         });
 }
+
 
 function deleteOccurrence(){
     const id = document.getElementById('ocorrenciaId')?.value;
@@ -619,19 +674,24 @@ document.addEventListener('DOMContentLoaded', function(){
     renderCalendar();
 
 
-    const origemSelect = document.getElementById('origemTipo');
+    const origemSelect = document.getElementById('origemTipoPeriodo');
     const clockifyContainer = document.getElementById('clockifyClientesContainer');
 
     if (origemSelect && clockifyContainer) {
 
         function toggleClockify() {
-            const clockifySelect = document.getElementById('clockifyCliente');
+            const origemSelect = document.getElementById('origemTipoPeriodo');
+            const clockifyContainer = document.getElementById('clockifyClientesPeriodoContainer');
+            const clockifySelect = document.getElementById('clockifyClientePeriodo');
+
+            if (!origemSelect || !clockifyContainer) return;
+
             if (origemSelect.value === 'Clockify') {
                 clockifyContainer.style.display = 'block';
-                if(clockifySelect) clockifySelect.required = true;
+                if (clockifySelect) clockifySelect.required = true;
             } else {
                 clockifyContainer.style.display = 'none';
-                if(clockifySelect) {
+                if (clockifySelect) {
                     clockifySelect.required = false;
                     clockifySelect.value = '';
                 }
