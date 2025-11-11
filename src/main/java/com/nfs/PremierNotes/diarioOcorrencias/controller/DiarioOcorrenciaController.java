@@ -82,7 +82,7 @@ public class DiarioOcorrenciaController {
     public String salvarOcorrencia(@ModelAttribute("ocorrencia") @Valid DiarioOcorrenciaModel ocorrencia, BindingResult result, RedirectAttributes attributes, Model model) {
 
         if (ocorrencia.getOrigem() == null || ocorrencia.getOrigem().isEmpty()) {
-            ocorrencia.setOrigem("DIARIO_WEB");
+            ocorrencia.setOrigem("TimeTracker");
         }
 
         if (result.hasErrors()) {
