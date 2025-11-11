@@ -453,6 +453,7 @@
 
         const deleteBtn = document.getElementById('deleteOcurrenceBtn');
         if(deleteBtn) deleteBtn.style.display = 'none';
+
     }
 
     function cancelForm(){
@@ -609,13 +610,10 @@
         const modal = document.getElementById('periodOccurrenceModal');
         if (modal) {
             modal.style.display = 'flex'; // Abre o modal
-            // Certifica-se de que o campo do Clockify está no estado correto
             toggleClockifyPeriodo();
 
-            // Se estiver usando Select2, re-inicializa os selects para garantir
             if(window.jQuery && $.fn.select2){
                 $('#periodForm .select-filtro').each(function(){
-                    // Se ainda não estiver inicializado ou para garantir que o dropdownParent funcione
                     if(!$(this).data('select2')){
                         $(this).select2({
                             dropdownParent: $('#periodOccurrenceModal'),
@@ -635,15 +633,11 @@
         const occurrenceCards = document.querySelectorAll('#occurrenceList .occurrence-card');
 
         occurrenceCards.forEach(card => {
-            // Encontra o nome do colaborador dentro do card.
-            // O nome está no <span> do Colaborador:
-            // <span><strong>Colaborador:</strong> ${o.colaborador?.nomeCompleto || 'N/A'}</span>
+
             const collaboratorSpan = card.querySelector('.occurrence-info span');
 
-            // Assume que o primeiro <span> de .occurrence-info contém o nome.
             if (collaboratorSpan && collaboratorSpan.textContent.includes('Colaborador:')) {
                 const fullText = collaboratorSpan.textContent;
-                // Extrai apenas o nome, removendo "Colaborador:" e espaços
                 const collaboratorName = fullText.substring(fullText.indexOf(':') + 1).trim().toLowerCase();
 
                 if (collaboratorName.includes(filterText)) {
@@ -652,7 +646,6 @@
                     card.style.display = 'none';
                 }
             } else {
-                // Se o formato interno for inesperado, pelo menos mostre o card se não houver filtro.
                 card.style.display = filterText === '' ? 'block' : 'none';
             }
         });
@@ -714,7 +707,9 @@
 
         const origemSelect = document.getElementById('origemTipo');
         if (origemSelect) {
-            origemSelect.addEventListener('change', toggleClockify);
+
+            $(origemSelect).on('change.select2', toggleClockify);
+
             toggleClockify();
         }
 
@@ -745,7 +740,7 @@
                     const origemSelect = document.getElementById('origemTipo');
                     if (origemSelect) {
                         origemSelect.addEventListener('change', toggleClockify);
-                        toggleClockify(); // força verificação na abertura
+                        toggleClockify();
                     }
                 }
             });
@@ -760,7 +755,7 @@
                     const origemSelect = document.getElementById('origemTipo');
                     if (origemSelect) {
                         origemSelect.addEventListener('change', toggleClockify);
-                        toggleClockify(); // força exibição correta logo que o form abre
+                        toggleClockify();
                     }
                 }, 200);
             });
