@@ -97,7 +97,7 @@
                 <div class="form-clockify" style="display: flex; align-items: flex-end; gap: 16px;">
                     <div class="form-group">
                         <label for="origemTipoPeriodo"><i class="fas fa-building"></i> Origem:</label>
-                        <select id="origemTipoPeriodo" name="origem" class="select-filtro" required>
+                        <select id="origemTipoPeriodo" name="origemTipo" class="select-filtro" required>
                             <option value=""> Selecione a Origem </option>
                             <option value="TimeTracker">TimeTracker</option>
                             <option value="Clockify">Clockify</option>
@@ -228,7 +228,7 @@
 
                             <div class="form-group" id="clockifyClientesContainer" style="flex: 1; display: none;">
                                 <label for="clockifyCliente"><i class="fas fa-building"></i> Cliente Clockify:</label>
-                                <select id="clockifyCliente" name="clockifyCliente" class="select-filtro">
+                                <select id="clockifyCliente" th:field="*{clockifyCliente}" class="select-filtro">
                                     <option value=""> Selecione o Cliente </option>
                                     <option value="AB-InBev">AB-InBev</option>
                                     <option value="Cheesecake Labs">Cheesecake Labs</option>

@@ -49,4 +49,7 @@ import java.time.LocalDateTime;
 
         @Column(nullable = false, length = 100)
         private String origem;
+
+        @Column(length = 100)
+        private String clockifyCliente;
     }

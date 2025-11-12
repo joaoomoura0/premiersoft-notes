@@ -505,22 +505,23 @@
                     $('#account').val(ocorrencia.account || '').trigger('change');
 
                     $('#origemTipo').val(origemValue).trigger('change');
+
+                    try {
+                        toggleClockify();
+                    } catch (e) {
+                        console.warn('toggleClockify não disponível:', e);
+                    }
+
                     $('#clockifyCliente').val(clockifyValue).trigger('change');
 
                     $('#tipo').val(ocorrencia.tipo || '').trigger('change');
                     $('#status').val(ocorrencia.status || '').trigger('change');
+
+                    $('#clockifyCliente').val(clockifyValue).trigger('change');
+                    $('#tipo').val(ocorrencia.tipo || '').trigger('change');
+                    $('#status').val(ocorrencia.status || '').trigger('change');
+
                 } else {
-                }
-
-                try {
-                    toggleClockify();
-                } catch (e) {
-                    console.warn('toggleClockify não disponível:', e);
-                }
-                try {
-                    toggleClockifyPeriodo();
-                } catch (e) {
-
                 }
 
                 if (window.jQuery && $.fn.select2) {
