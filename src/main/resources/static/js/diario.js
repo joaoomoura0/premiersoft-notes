@@ -609,7 +609,7 @@
     function openPeriodModal() {
         const modal = document.getElementById('periodOccurrenceModal');
         if (modal) {
-            modal.style.display = 'flex'; // Abre o modal
+            modal.style.display = 'flex';
             toggleClockifyPeriodo();
 
             if(window.jQuery && $.fn.select2){
@@ -715,8 +715,8 @@
 
         const origemPeriodoSelect = document.getElementById('origemTipoPeriodo');
         if (origemPeriodoSelect) {
-            $(origemPeriodoSelect).on('change.select2', toggleClockify);
-            toggleClockify();
+            $(origemPeriodoSelect).on('change.select2', toggleClockifyPeriodo);
+            toggleClockifyPeriodo();
         }
 
         const openPeriodModalBtn = document.getElementById('openPeriodModalBtnSidebar');
