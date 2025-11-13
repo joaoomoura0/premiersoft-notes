@@ -694,6 +694,25 @@
             });
         }
 
+        const form = document.getElementById('occurrenceForm');
+        if (form) {
+            form.addEventListener('submit', function () {
+                // reabilita os selects obrigatórios para que sejam enviados ao backend
+                ['colaboradorId','account','origemTipo','clockifyCliente','tipo','status','descricao','ocorrenciaData','ocorrenciaId']
+                    .forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.disabled = false;
+                    });
+
+                // se usar select2, para garantir que o valor real esteja no select nativo:
+                if (window.jQuery && $.fn.select2) {
+                    $('#colaboradorId, #account, #origemTipo, #clockifyCliente, #tipo, #status').each(function(){
+                        $(this).prop('disabled', false);
+                    });
+                }
+            });
+        }
+
         const menuToggle = document.getElementById('menu-toggle');
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('main-content');
