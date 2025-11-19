@@ -44,7 +44,7 @@ public class ColaboradorSeguroModel {
     private String account = "Sistema";
 
     @Column(nullable = false)
-    private String origem = "TimeTracker"; // ou "Sistema"
+    private String origem = "TimeTracker";
 
     public ColaboradorSeguroModel() {
     }
