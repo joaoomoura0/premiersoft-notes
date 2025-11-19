@@ -24,7 +24,7 @@ public class DiarioOcorrenciaService {
     @Autowired
     private ColaboradorSeguroService colaboradorService;
 
-    @Transactional // Garante que, se falhar em uma data, todas sejam revertidas.
+    @Transactional
     public void salvarOcorrenciaPorPeriodo(Long colaboradorId, TipoOcorrencia tipo,
                                            LocalDate dataInicio, LocalDate dataFim,
                                            StatusOcorrencia status, String descricao,
@@ -32,9 +32,6 @@ public class DiarioOcorrenciaService {
 
         if (dataInicio.isAfter(dataFim)) {
             throw new IllegalArgumentException("A data de início não pode ser posterior à data de fim.");
-        }
-        if (dataFim.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("A data de fim não pode ser futura.");
         }
 
         ColaboradorSeguroModel colaborador = colaboradorService.buscarColaboradorPorId(colaboradorId)
@@ -102,9 +99,6 @@ public class DiarioOcorrenciaService {
     }
 
     private void validarOcorrencia(DiarioOcorrenciaModel ocorrencia) {
-        if (ocorrencia.getData() == null || ocorrencia.getData().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("A data da ocorrência é inválida (não pode ser futura).");
-        }
 
         if (ocorrencia.getColaborador() == null || ocorrencia.getColaborador().getId() == null) {
             throw new IllegalArgumentException("O colaborador deve ser selecionado.");

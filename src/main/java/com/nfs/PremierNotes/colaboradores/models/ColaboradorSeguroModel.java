@@ -40,6 +40,12 @@ public class ColaboradorSeguroModel {
     @JsonIgnore
     private List<DiarioOcorrenciaModel> ocorrenciasDiarias;
 
+    @Column(nullable = false)
+    private String account = "Sistema";
+
+    @Column(nullable = false)
+    private String origem = "TimeTracker"; // ou "Sistema"
+
     public ColaboradorSeguroModel() {
     }
 
