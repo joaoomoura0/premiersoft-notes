@@ -33,9 +33,6 @@ public class ColaboradorSeguroModel {
     @Column(nullable = false, unique = true)
     private String cpf;
 
-    @Column(nullable = false)
-    private Boolean ativoNoSeguro;
-
     @OneToMany(mappedBy = "colaborador", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<DiarioOcorrenciaModel> ocorrenciasDiarias;
@@ -50,13 +47,12 @@ public class ColaboradorSeguroModel {
     }
 
     public ColaboradorSeguroModel(String nomeCompleto, LocalDate dataNascimento, LocalDate dataAdmissao,
-                                  String tipoContrato, String cpf, Boolean ativoNoSeguro) {
+                                  String tipoContrato, String cpf) {
         this.nomeCompleto = nomeCompleto;
         this.dataNascimento = dataNascimento;
         this.dataAdmissao = dataAdmissao;
         this.tipoContrato = tipoContrato;
         this.cpf = cpf;
-        this.ativoNoSeguro = ativoNoSeguro;
     }
 
 
@@ -108,14 +104,6 @@ public class ColaboradorSeguroModel {
         this.cpf = cpf;
     }
 
-    public Boolean getAtivoNoSeguro() {
-        return ativoNoSeguro;
-    }
-
-    public void setAtivoNoSeguro(Boolean ativoNoSeguro) {
-        this.ativoNoSeguro = ativoNoSeguro;
-    }
-
     @Override
     public String toString() {
         return "ColaboradorSeguroModel{" +
@@ -125,7 +113,6 @@ public class ColaboradorSeguroModel {
                 ", dataAdmissao=" + dataAdmissao +
                 ", tipoContrato='" + tipoContrato + '\'' +
                 ", cpf='" + cpf + '\'' +
-                ", ativoNoSeguro=" + ativoNoSeguro +
                 '}';
     }
 }

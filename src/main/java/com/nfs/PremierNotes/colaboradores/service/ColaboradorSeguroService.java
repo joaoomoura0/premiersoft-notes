@@ -45,10 +45,6 @@ public class ColaboradorSeguroService {
             throw new IllegalArgumentException("Data de Admissão inválida.");
         }
 
-        if (colaborador.getId() == null) {
-            colaborador.setAtivoNoSeguro(true);
-        }
-
         return colaboradorSeguroRepository.save(colaborador);
     }
 
