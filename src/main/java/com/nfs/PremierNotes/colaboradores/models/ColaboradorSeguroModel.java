@@ -46,6 +46,8 @@ public class ColaboradorSeguroModel {
     public ColaboradorSeguroModel() {
     }
 
+
+
     public ColaboradorSeguroModel(String nomeCompleto, LocalDate dataNascimento, LocalDate dataAdmissao,
                                   String tipoContrato, String cpf) {
         this.nomeCompleto = nomeCompleto;

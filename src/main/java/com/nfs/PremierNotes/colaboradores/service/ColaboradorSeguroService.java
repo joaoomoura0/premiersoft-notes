@@ -77,4 +77,13 @@ public class ColaboradorSeguroService {
     public List<String> getTiposContratoDosColaboradores() {
         return colaboradorSeguroRepository.findDistinctTipoContrato();
     }
-}
+
+    // adicionando colaboradores
+
+        @Autowired
+        private ColaboradorSeguroRepository repository;
+
+        public void salvarTodos(List<ColaboradorSeguroModel> colaboradores) {
+            repository.saveAll(colaboradores);
+        }
+    }

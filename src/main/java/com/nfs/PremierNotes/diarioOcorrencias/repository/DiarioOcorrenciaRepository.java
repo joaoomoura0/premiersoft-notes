@@ -1,5 +1,6 @@
 package com.nfs.PremierNotes.diarioOcorrencias.repository;
 
+import com.nfs.PremierNotes.colaboradores.models.ColaboradorSeguroModel;
 import com.nfs.PremierNotes.diarioOcorrencias.model.DiarioOcorrenciaModel;
 import com.nfs.PremierNotes.diarioOcorrencias.model.StatusOcorrencia;
 import com.nfs.PremierNotes.diarioOcorrencias.model.TipoOcorrencia;
@@ -16,6 +17,10 @@ public interface DiarioOcorrenciaRepository extends JpaRepository<DiarioOcorrenc
     List<DiarioOcorrenciaModel> findByData(LocalDate data);
     List<DiarioOcorrenciaModel> findByColaborador_NomeCompletoContainingIgnoreCase(String nome);
     List<DiarioOcorrenciaModel> findByStatus(StatusOcorrencia status);
+
+    public interface ColaboradorSeguroRepository extends JpaRepository<ColaboradorSeguroModel, Long> {
+    }
+
 
 
     @Query("SELECT o FROM DiarioOcorrenciaModel o JOIN FETCH o.colaborador c " +

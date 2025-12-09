@@ -1,5 +1,6 @@
 package com.nfs.PremierNotes.diarioOcorrencias.controller;
 
+import com.nfs.PremierNotes.colaboradores.models.ColaboradorSeguroModel;
 import com.nfs.PremierNotes.colaboradores.service.ColaboradorSeguroService;
 import com.nfs.PremierNotes.diarioOcorrencias.model.DiarioOcorrenciaModel;
 import com.nfs.PremierNotes.diarioOcorrencias.model.StatusOcorrencia;
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -145,5 +147,21 @@ public class DiarioOcorrenciaController {
         }
 
         return "redirect:/diario";
+    }
+
+    // adicionar colaboradores
+
+    @RestController
+    @RequestMapping("/importar")
+    public class ImportacaoController {
+
+        @Autowired
+        private ColaboradorSeguroService service;
+
+        @PostMapping("/colaboradores")
+        public ResponseEntity<String> importar(@RequestBody List<ColaboradorSeguroModel> colaboradores) {
+            service.salvarTodos(colaboradores);
+            return ResponseEntity.ok("Importado com sucesso!");
+        }
     }
 }
