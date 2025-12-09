@@ -148,20 +148,4 @@ public class DiarioOcorrenciaController {
 
         return "redirect:/diario";
     }
-
-    // adicionar colaboradores
-
-    @RestController
-    @RequestMapping("/importar")
-    public class ImportacaoController {
-
-        @Autowired
-        private ColaboradorSeguroService service;
-
-        @PostMapping("/colaboradores")
-        public ResponseEntity<String> importar(@RequestBody List<ColaboradorSeguroModel> colaboradores) {
-            service.salvarTodos(colaboradores);
-            return ResponseEntity.ok("Importado com sucesso!");
-        }
-    }
 }
