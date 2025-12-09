@@ -3,6 +3,7 @@ package com.nfs.PremierNotes.colaboradores.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nfs.PremierNotes.colaboradores.models.ColaboradorSeguroModel;
+import com.nfs.PremierNotes.colaboradores.repository.ColaboradorSeguroRepository;
 import com.nfs.PremierNotes.colaboradores.service.ColaboradorSeguroService;
 import com.nfs.PremierNotes.diarioOcorrencias.repository.DiarioOcorrenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,7 +127,7 @@ public class ColaboradorSeguroController {
     public class ColaboradorImportController {
 
         @Autowired
-        private DiarioOcorrenciaRepository.ColaboradorSeguroRepository repository;
+        private ColaboradorSeguroRepository.colaboradorSeguroRepository repository;
 
         @PostMapping("/importar")
         public String importarColaboradores() throws Exception {

@@ -18,10 +18,6 @@ public interface DiarioOcorrenciaRepository extends JpaRepository<DiarioOcorrenc
     List<DiarioOcorrenciaModel> findByColaborador_NomeCompletoContainingIgnoreCase(String nome);
     List<DiarioOcorrenciaModel> findByStatus(StatusOcorrencia status);
 
-    public interface ColaboradorSeguroRepository extends JpaRepository<ColaboradorSeguroModel, Long> {
-    }
-
-
 
     @Query("SELECT o FROM DiarioOcorrenciaModel o JOIN FETCH o.colaborador c " +
             "WHERE o.data BETWEEN :dataInicio AND :dataFim " +

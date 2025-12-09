@@ -1,7 +1,6 @@
 package com.nfs.PremierNotes.colaboradores.repository;
 
 import com.nfs.PremierNotes.colaboradores.models.ColaboradorSeguroModel;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +19,9 @@ public interface ColaboradorSeguroRepository extends JpaRepository<ColaboradorSe
 
     Optional<ColaboradorSeguroModel> findByCpf(String cpf);
     Optional<ColaboradorSeguroModel> findByCpfAndIdNot(String cpf, Long id);
+
+    public interface colaboradorSeguroRepository extends JpaRepository<ColaboradorSeguroModel, Long> {
+    }
 
     @Query("SELECT DISTINCT c.tipoContrato FROM ColaboradorSeguroModel c ORDER BY c.tipoContrato")
     List<String> findDistinctTipoContrato();
