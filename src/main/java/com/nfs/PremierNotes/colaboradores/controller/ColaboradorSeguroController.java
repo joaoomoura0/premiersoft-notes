@@ -119,30 +119,4 @@ public class ColaboradorSeguroController {
         }
         return "redirect:/seguro";
     }
-
-    // adicionar colaboradores
-
-    @RestController
-    @RequestMapping("/colaboradores")
-    public class ColaboradorImportController {
-
-        @Autowired
-        private ColaboradorSeguroRepository repository;
-
-        @PostMapping("/importar")
-        public String importarColaboradores() throws Exception {
-            InputStream inputStream = getClass().getResourceAsStream("/colaboradores.json");
-            if (inputStream == null) {
-                return "Arquivo NÃO encontrado";
-            }
-
-            ObjectMapper mapper = new ObjectMapper();
-            List<ColaboradorSeguroModel> lista =
-                    mapper.readValue(inputStream, new TypeReference<List<ColaboradorSeguroModel>>() {});
-
-            repository.saveAll(lista);
-            return "Importação concluída. Total: " + lista.size();
-        }
-    }
-
 }
