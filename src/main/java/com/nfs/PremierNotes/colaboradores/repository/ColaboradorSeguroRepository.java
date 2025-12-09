@@ -20,9 +20,6 @@ public interface ColaboradorSeguroRepository extends JpaRepository<ColaboradorSe
     Optional<ColaboradorSeguroModel> findByCpf(String cpf);
     Optional<ColaboradorSeguroModel> findByCpfAndIdNot(String cpf, Long id);
 
-    public interface colaboradorSeguroRepository extends JpaRepository<ColaboradorSeguroModel, Long> {
-    }
-
     @Query("SELECT DISTINCT c.tipoContrato FROM ColaboradorSeguroModel c ORDER BY c.tipoContrato")
     List<String> findDistinctTipoContrato();
 

@@ -127,7 +127,7 @@ public class ColaboradorSeguroController {
     public class ColaboradorImportController {
 
         @Autowired
-        private ColaboradorSeguroRepository.colaboradorSeguroRepository repository;
+        private ColaboradorSeguroRepository repository;
 
         @PostMapping("/importar")
         public String importarColaboradores() throws Exception {
