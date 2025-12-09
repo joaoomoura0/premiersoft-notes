@@ -20,7 +20,7 @@ public interface DiarioOcorrenciaRepository extends JpaRepository<DiarioOcorrenc
 
     @Query("SELECT o FROM DiarioOcorrenciaModel o JOIN FETCH o.colaborador c " +
             "WHERE o.data BETWEEN :dataInicio AND :dataFim " +
-            "AND (:tipo IS NULL OR o.tipo = :tipo)") // <--- NOVO TRECHO DE FILTRO
+            "AND (:tipo IS NULL OR o.tipo = :tipo)")
     List<DiarioOcorrenciaModel> findByDataBetweenAndTipoFetchColaborador(
             @Param("dataInicio") LocalDate dataInicio,
             @Param("dataFim") LocalDate dataFim,

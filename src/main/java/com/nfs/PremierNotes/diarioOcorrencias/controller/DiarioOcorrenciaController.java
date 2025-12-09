@@ -40,15 +40,19 @@ public class DiarioOcorrenciaController {
         model.addAttribute("origens", List.of(
                 "TimeTracker",
                 "AB-InBev",
+                "Castrolanda",
                 "Cheesecake Labs",
                 "COAMO",
                 "Contabilizei",
                 "Credisis",
                 "Grupo Potencial",
                 "Iconic Hearts",
+                "MKS",
                 "Philips",
                 "Serasa",
                 "Sicoob SC/RS",
+                "Sicredi Dexis",
+                "Sisprime",
                 "Studio Z",
                 "Tonic.ai"
         ));
