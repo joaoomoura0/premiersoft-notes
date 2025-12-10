@@ -48,9 +48,9 @@
             <label for="tipoContrato">Tipo de Contrato</label>
             <select id="tipoContrato" th:field="*{tipoContrato}" required>
                 <option value="">Selecione</option>
-                <option value="PJ">PJ</option>
-                <option value="FUNCIONÁRIO">FUNCIONÁRIO</option>
-                <option value="ESTAGIARIO">ESTAGIÁRIO</option>
+                <option value="PRESTADOR DE SERVIÇO">PJ</option>
+                <option value="FUNCIONARIO">FUNCIONARIO</option>
+                <option value="ESTAGIARIO">ESTAGIARIO</option>
             </select>
             <span th:if="${#fields.hasErrors('tipoContrato')}" th:errors="*{tipoContrato}" class="text-danger"></span>
         </div>
