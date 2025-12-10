@@ -115,4 +115,18 @@ public class ColaboradorSeguroModel {
                 ", cpf='" + cpf + '\'' +
                 '}';
     }
+
+
+
+    @Column(name = "ativo_no_seguro", nullable = false)
+    private Boolean ativoNoSeguro = true;
+
+    public Boolean getAtivoNoSeguro() {
+        return ativoNoSeguro;
+    }
+
+    public void setAtivoNoSeguro(Boolean ativoNoSeguro) {
+        this.ativoNoSeguro = ativoNoSeguro;
+    }
+
 }
