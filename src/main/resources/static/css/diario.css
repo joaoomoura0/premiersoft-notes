@@ -1,3 +1,16 @@
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-logo {
+    width: 300px;
+    max-width: 90%;
+    height: auto;
+    margin: 0 auto 20px auto;
+}
+
 .calendar-wrapper {
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     padding: 2.5rem;
@@ -675,7 +688,6 @@
     padding-top: 1rem;
 }
 
-/* Ajustes para lista antiga */
 #occurrenceList .occ-item {
     cursor: pointer;
     padding: 1rem;
@@ -755,7 +767,7 @@
     box-shadow: 0 6px 15px rgba(0, 77, 156, 0.3);
 }
 
-.modal-overlay {
+.search-modal-overlay {
     display: none;
     position: fixed;
     top: 0;
@@ -763,14 +775,15 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 2000;
     animation: fadeIn 0.3s ease;
-}
 
-.modal-overlay.active {
-    display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.search-modal-overlay.active {
+    display: flex;
 }
 
 .modal-search-content {
@@ -785,6 +798,9 @@
     position: relative;
     animation: slideUp 0.3s ease;
     border-top: 5px solid var(--primary-color);
+
+    margin: 5% auto;
+
 }
 
 .modal-search-content h2 {
@@ -796,7 +812,7 @@
     border-bottom: 2px solid var(--background-dark);
 }
 
-.close-btn {
+.search-close-btn {
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
@@ -811,9 +827,10 @@
     justify-content: center;
     border-radius: 50%;
     background-color: transparent;
+    z-index: 10;
 }
 
-.close-btn:hover {
+.search-close-btn:hover {
     color: var(--primary-color);
     background-color: var(--background-light);
     transform: rotate(90deg);
@@ -916,29 +933,17 @@
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 .modal-search-content::-webkit-scrollbar {

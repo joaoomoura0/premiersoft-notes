@@ -857,6 +857,23 @@
         document.getElementById("modalResultados").style.display = "none";
     }
 
+    window.onclick = function(event) {
+        const modalBusca = document.getElementById("modalResultados");
+
+        if (event.target == modalBusca) {
+            fecharModalResultados();
+        }
+        const modalOcorrencia = document.getElementById('occurrenceModal');
+        if (modalOcorrencia && event.target == modalOcorrencia) {
+            if (typeof closeModal === 'function') closeModal();
+        }
+
+        const modalPeriodo = document.getElementById('periodModalElement'); // ou o ID correto do seu modal de periodo
+        if (modalPeriodo && event.target == modalPeriodo) {
+            if (typeof closePeriodModal === 'function') closePeriodModal();
+        }
+    }
+
     function formatarData(dataString) {
         if(!dataString) return "";
         const partes = dataString.split('-');
