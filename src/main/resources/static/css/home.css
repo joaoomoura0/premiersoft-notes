@@ -140,3 +140,134 @@ body {
     font-size: 1rem;
     color: #666;
 }
+
+.card-diary {
+    margin-top: 20px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 25px;
+    width: 100%;
+    max-width: 320px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    border-left: 5px solid var(--primary-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-diary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--accent-color) 0%, transparent 70%);
+    opacity: 0.1;
+    border-radius: 0 10px 0 100%;
+}
+
+.card-diary:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.calendar-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 77, 156, 0.3);
+    flex-shrink: 0;
+}
+
+.calendar-icon-top {
+    background: rgba(255, 255, 255, 0.3);
+    width: 100%;
+    height: 12px;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 2px;
+    position: relative;
+}
+
+.calendar-icon-top::before,
+.calendar-icon-top::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 6px;
+    background: white;
+    top: -3px;
+}
+
+.calendar-icon-top::before {
+    left: 12px;
+}
+
+.calendar-icon-top::after {
+    right: 12px;
+}
+
+.calendar-icon-day {
+    font-size: 20px;
+    line-height: 1;
+    margin-top: 2px;
+}
+
+.card-diary h2 {
+    color: var(--primary-color);
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.2;
+}
+
+.card-diary p {
+    font-size: 1rem;
+    color: #666;
+    margin: 15px 0 0 0;
+    line-height: 1.5;
+}
+
+.card-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+}
+
+.card-footer-icon {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--accent-color);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-footer-icon::after {
+    content: '✓';
+    font-size: 10px;
+    font-weight: bold;
+}
