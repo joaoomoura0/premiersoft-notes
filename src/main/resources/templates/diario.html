@@ -36,6 +36,41 @@
         <h1>Diário de Ocorrências</h1>
     </header>
 
+
+
+    <div class="search-container">
+        <input
+                type="text"
+                id="buscaOcorrencia"
+                placeholder="Pesquisar colaborador..."
+                class="form-control"
+        >
+        <button onclick="buscarOcorrencias()" class="btn btn-primary">
+            Buscar
+        </button>
+    </div>
+
+    <div id="modalResultados" class="modal-overlay">
+        <div class="modal-search-content">
+            <span class="close-btn" onclick="fecharModalResultados()">&times;</span>
+
+
+
+            <h2>Resultados da Busca</h2>
+
+            <div id="loading" style="display:none;">
+                Buscando...
+            </div>
+
+            <ul id="listaResultados"></ul>
+
+            <div id="semResultados" style="display:none;">
+                Nenhuma ocorrência encontrada.
+            </div>
+        </div>
+    </div>
+
+
     <div th:if="${mensagemSucesso}" class="alert alert-success" role="alert">
         <p th:text="${mensagemSucesso}"></p>
     </div>

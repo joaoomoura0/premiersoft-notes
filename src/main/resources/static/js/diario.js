@@ -781,3 +781,97 @@
             });
         }
     });
+
+    document.getElementById("buscaOcorrencia").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            buscarOcorrencias();
+        }
+    });
+
+    function buscarOcorrencias() {
+        const termo = document.getElementById("buscaOcorrencia").value.trim();
+
+        if (!termo) {
+            alert("Digite algo para pesquisar.");
+            return;
+        }
+
+        const modal = document.getElementById("modalResultados");
+        const lista = document.getElementById("listaResultados");
+        const loading = document.getElementById("loading");
+        const semResultados = document.getElementById("semResultados");
+
+        modal.style.display = "block";
+        lista.innerHTML = "";
+        semResultados.style.display = "none";
+        loading.style.display = "block";
+
+        fetch(`/diario/buscar?termo=${encodeURIComponent(termo)}`)
+            .then(response => {
+                if (!response.ok) throw new Error("Erro na requisição");
+                return response.json();
+            })
+            .then(data => {
+                loading.style.display = "none";
+                preencherModal(data);
+            })
+            .catch(error => {
+                console.error(error);
+                loading.style.display = "none";
+                lista.innerHTML = `<li style="color:red">Erro ao buscar dados.</li>`;
+            });
+    }
+
+    function preencherModal(resultados) {
+        const lista = document.getElementById("listaResultados");
+        const semResultados = document.getElementById("semResultados");
+
+        if (resultados.length === 0) {
+            semResultados.style.display = "block";
+            return;
+        }
+
+        resultados.forEach(r => {
+
+            const nomeColaborador = r.colaborador ? r.colaborador.nomeCompleto : "Sem Colaborador";
+            const descricao = r.descricao || "Sem descrição";
+            const dataFormatada = formatarData(r.data);
+
+            const li = document.createElement("li");
+
+            li.innerHTML = `
+            <div class="item-header">
+                <span>${nomeColaborador}</span>
+                <span class="item-data">${dataFormatada}</span>
+            </div>
+            <div class="item-desc">${descricao}</div>
+        `;
+
+            li.onclick = () => irParaOcorrencia(r.data);
+
+            lista.appendChild(li);
+        });
+    }
+
+    function fecharModalResultados() {
+        document.getElementById("modalResultados").style.display = "none";
+    }
+
+    function formatarData(dataString) {
+        if(!dataString) return "";
+        const partes = dataString.split('-');
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById("modalResultados");
+        if (event.target == modal) {
+            fecharModalResultados();
+        }
+    }
+
+    function irParaOcorrencia(dataIso) {
+        fecharModalResultados();
+        console.log("Navegando para: " + dataIso);
+
+    }
