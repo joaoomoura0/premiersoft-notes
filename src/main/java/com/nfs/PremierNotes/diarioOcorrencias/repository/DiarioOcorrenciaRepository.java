@@ -19,6 +19,15 @@ public interface DiarioOcorrenciaRepository extends JpaRepository<DiarioOcorrenc
     List<DiarioOcorrenciaModel> findByStatus(StatusOcorrencia status);
 
 
+    @Query("""
+    SELECT o FROM DiarioOcorrenciaModel o 
+    JOIN FETCH o.colaborador c 
+    WHERE LOWER(c.nomeCompleto) LIKE LOWER(CONCAT('%', :termo, '%'))
+       OR LOWER(o.descricao) LIKE LOWER(CONCAT('%', :termo, '%'))""")
+
+
+    List<DiarioOcorrenciaModel> buscarPorTermo(@Param("termo") String termo);
+
     @Query("SELECT o FROM DiarioOcorrenciaModel o JOIN FETCH o.colaborador c " +
             "WHERE o.data BETWEEN :dataInicio AND :dataFim " +
             "AND (:tipo IS NULL OR o.tipo = :tipo)")

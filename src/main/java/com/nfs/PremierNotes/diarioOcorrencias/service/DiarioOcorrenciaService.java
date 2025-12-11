@@ -110,4 +110,8 @@ public class DiarioOcorrenciaService {
             throw new IllegalArgumentException("A descrição é obrigatória.");
         }
     }
+
+    public List<DiarioOcorrenciaModel> buscarPorNome(String termo) {
+        return repository.buscarPorTermo(termo);
+    }
 }

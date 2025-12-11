@@ -127,7 +127,6 @@ public class DiarioOcorrenciaController {
             @RequestParam String descricao,
             @RequestParam String account,
             @RequestParam String origemTipo,
-            // @RequestParam(required = false) torna o campo opcional, pois só é enviado se a origem for Clockify
             @RequestParam(required = false) String clockifyCliente,
             RedirectAttributes attributes
     ) {
@@ -147,5 +146,11 @@ public class DiarioOcorrenciaController {
         }
 
         return "redirect:/diario";
+    }
+
+    @GetMapping("/buscar")
+    @ResponseBody
+    public List<DiarioOcorrenciaModel> buscarPorNome(@RequestParam String termo) {
+        return diarioService.buscarPorNome(termo);
     }
 }
