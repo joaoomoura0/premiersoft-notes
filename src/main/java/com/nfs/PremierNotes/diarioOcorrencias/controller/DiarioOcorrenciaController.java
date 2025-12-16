@@ -119,8 +119,8 @@ public class DiarioOcorrenciaController {
     public String salvarOcorrenciaPorPeriodo(
             @RequestParam Long colaboradorId,
             @RequestParam TipoOcorrencia tipo,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio, // Conversão de String para LocalDate
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,     // Conversão de String para LocalDate
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
             @RequestParam StatusOcorrencia status,
             @RequestParam String descricao,
             @RequestParam String account,

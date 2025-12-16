@@ -5,11 +5,10 @@ package com.nfs.PremierNotes.diarioOcorrencias.model;
         ATESTADO("Atestado"),
         DESALOCADO ("Desalocado(a)"),
         DESLIGADO ("Desligado(a)"),
-        ERRO_APONTAMENTO("Erro de apontamento"),
         ESQUECIMENTO("Esquecimento"),
         FERIAS("Férias"),
         FOLGA("Folga"),
-        NAO_ATUOU("Não atuou"),
+        NAOㅤATUOU("Não atuou"),
         ONBOARDING("Onboarding"),
         OUTRO ("Outro");
 
