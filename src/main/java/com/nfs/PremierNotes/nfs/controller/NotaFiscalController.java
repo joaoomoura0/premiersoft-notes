@@ -32,7 +32,6 @@ public class NotaFiscalController {
     @Autowired
     private TomadorRepository tomadorRepository;
 
-    // --- CADASTRO MANUAL ---
     @GetMapping("/cadastrar")
     public String showCadastroForm(Model model) {
         model.addAttribute("notaFiscal", new NotaFiscalModel());
@@ -43,7 +42,6 @@ public class NotaFiscalController {
     @PostMapping("/cadastrar")
     public String cadastrarNota(@ModelAttribute NotaFiscalModel notaFiscal, RedirectAttributes redirectAttributes) {
         try {
-            // MUDANÇA: Usa o método específico para manual que criamos na Service
             service.salvarNotaManual(notaFiscal);
             redirectAttributes.addFlashAttribute("success", "Nota fiscal cadastrada com sucesso!");
         } catch (Exception e) {
@@ -89,27 +87,22 @@ public class NotaFiscalController {
                               @RequestParam(defaultValue = "desc") String sort,
                               Model model) {
 
-        // 1. Define ordenação
         Sort.Direction direction = sort.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sortByDate = Sort.by(direction, "dataEmissao");
 
-        // 2. Prepara os filtros (trata string vazia como null)
         String nomeTomador = (filtroTomador != null && !filtroTomador.trim().isEmpty()) ? filtroTomador.trim() : null;
         String status = (filtroStatus != null && !filtroStatus.isEmpty())
                 ? (filtroStatus.equals("true") ? "PAGO" : "PENDENTE")
                 : null;
 
-        // 3. Chama a Query Poderosa
         List<NotaFiscalModel> notas = repository.buscarComFiltros(nomeTomador, status, ano, sortByDate);
 
-        // 4. Calcula prazos para visualização
         notas.forEach(n -> service.calcularDetalhesDePrazo(n));
 
         model.addAttribute("notas", notas);
         model.addAttribute("tomadores", repository.findDistinctTomadores());
         model.addAttribute("anos", repository.findDistinctAnos());
 
-        // Mantém os filtros selecionados na tela
         model.addAttribute("filtroTomador", filtroTomador);
         model.addAttribute("filtroStatus", filtroStatus);
         model.addAttribute("currentSort", sort);
@@ -118,12 +111,10 @@ public class NotaFiscalController {
         return "nfs/NFS";
     }
 
-    // --- ATUALIZAÇÃO DE STATUS (AJAX) ---
     @PostMapping("/atualizar-status/{id}")
     @ResponseBody
     public String atualizarStatus(@PathVariable Long id, @RequestBody StatusRequest statusRequest) {
         try {
-            // MUDANÇA: Nome do método atualizado na Service
             service.atualizarStatusPagamento(id, statusRequest.isStatus());
             return "OK";
         } catch (Exception e) {

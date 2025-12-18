@@ -18,7 +18,6 @@ public class TomadorController {
     @Autowired
     private TomadorService tomadorService;
 
-    // --- LISTAGEM (PREPARA A TELA DE EDIÇÃO EM MASSA) ---
     @GetMapping
     public String gerenciarTomadores(
             @RequestParam(required = false) String busca,

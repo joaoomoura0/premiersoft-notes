@@ -17,7 +17,6 @@ public class TomadorService {
         this.tomadorRepository = tomadorRepository;
     }
 
-    // --- MÉTODOS DE LEITURA ---
 
     public List<TomadorModel> listarTodosTomadores() {
         return tomadorRepository.findAll();
@@ -53,7 +52,6 @@ public class TomadorService {
                 .orElseGet(() -> {
                     TomadorModel novo = new TomadorModel();
                     novo.setNome(nomeNormalizado);
-                    // O @PrePersist na Model já define o prazo como 30 e ativo como true
                     return tomadorRepository.save(novo);
                 });
     }
