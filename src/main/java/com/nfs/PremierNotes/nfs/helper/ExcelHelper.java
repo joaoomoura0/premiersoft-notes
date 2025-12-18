@@ -4,13 +4,37 @@ import com.nfs.PremierNotes.nfs.models.NotaFiscalModel;
 import org.apache.poi.ss.usermodel.*;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ExcelHelper {
+
+    // MAPA RIGOROSO: Baseado no print da Prefeitura de Blumenau
+    private static final Map<String, List<String>> HEADER_ALIASES = new HashMap<>();
+
+    static {
+        // Coluna "Dt."
+        HEADER_ALIASES.put("DATA", Arrays.asList("dt.", "data", "dt. emissão", "emissao"));
+
+        // Coluna "CNPJ Tomador"
+        HEADER_ALIASES.put("CNPJ", Arrays.asList("cnpj tomador", "cnpj", "cpf/cnpj"));
+
+        // Coluna "Tomador"
+        HEADER_ALIASES.put("NOME", Arrays.asList("tomador", "nome", "razão social", "cliente"));
+
+        // Coluna "Vl. NF." (Removi "valor" genérico para não confundir com outras colunas)
+        HEADER_ALIASES.put("VALOR_NF", Arrays.asList("vl. nf.", "vl. nota", "valor nota", "valor total"));
+
+        // Coluna "Vl.ISSQN"
+        HEADER_ALIASES.put("ISS", Arrays.asList("vl.issqn", "valor iss", "issqn"));
+
+        // Coluna "Status"
+        HEADER_ALIASES.put("STATUS", Arrays.asList("status", "situação"));
+
+        // Coluna "Local do Recolhimento"
+        HEADER_ALIASES.put("LOCAL", Arrays.asList("local do recolhimento", "local", "município"));
+    }
 
     public static List<NotaFiscalModel> lerNotasDoExcel(InputStream is) {
         try {
@@ -18,115 +42,139 @@ public class ExcelHelper {
             Sheet sheet = workbook.getSheetAt(0);
             List<NotaFiscalModel> todasAsNotas = new ArrayList<>();
 
-            System.out.println("--- INICIANDO IMPORTAÇÃO ---");
+            System.out.println("--- INICIANDO IMPORTAÇÃO OTIMIZADA ---");
 
             for (int i = 0; i <= sheet.getLastRowNum(); i++) {
-                Row currentRow = sheet.getRow(i);
-                if (currentRow == null) continue;
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
 
-                if (isHeaderRow(currentRow)) {
-                    System.out.println("\n>>> Bloco de Notas Encontrado na Linha " + (i + 1) + " <<<");
+                // 1. Identifica as colunas da linha atual
+                Map<String, Integer> mapColunas = identificarColunas(row);
 
-                    Map<String, Integer> columnMap = mapColumns(currentRow);
-                    System.out.println("Mapa de Colunas: " + columnMap);
+                // 2. Validação: Só processa se achar DATA e CNPJ (garantia que é cabeçalho de nota)
+                if (mapColunas.containsKey("DATA") && mapColunas.containsKey("CNPJ")) {
+                    System.out.println(">>> Cabeçalho encontrado na linha " + (i + 1));
 
+                    // 3. Loop interno: Lê os dados abaixo do cabeçalho
                     for (int j = i + 1; j <= sheet.getLastRowNum(); j++) {
                         Row dataRow = sheet.getRow(j);
                         if (dataRow == null) break;
 
-                        String cnpj = getCellValueAsString(dataRow.getCell(columnMap.get("CNPJ Tomador")));
-                        if (cnpj.trim().isEmpty() || cnpj.toLowerCase().contains("valor total")) {
-                            System.out.println("Fim do bloco de dados na linha " + (j + 1));
-                            i = j; // Pula o contador principal para depois deste bloco
+                        // Verifica a coluna NOME ou CNPJ para saber se o bloco acabou
+                        String nome = getCellValueAsString(dataRow, mapColunas.get("NOME"));
+
+                        // Critério de parada: Linha vazia ou linha de Totais do rodapé
+                        if (nome.isEmpty() || nome.toLowerCase().contains("total")) {
+                            System.out.println("Fim do bloco na linha " + (j + 1));
+                            i = j; // Avança o contador externo
                             break;
                         }
 
                         try {
                             NotaFiscalModel nota = new NotaFiscalModel();
 
-                            nota.setDataEmissao(getCellValueAsDate(dataRow.getCell(columnMap.get("Dt. Emissão"))));
-                            nota.setCnpjTomador(cnpj);
-                            nota.setNomeTomadorString(getCellValueAsString(dataRow.getCell(columnMap.get("Tomador"))).trim().toUpperCase());
-                            nota.setValorNF(getCellValueAsDouble(dataRow.getCell(columnMap.get("Vl. NF."))));
-                            nota.setValorDeducoes(getCellValueAsDouble(dataRow.getCell(columnMap.get("Vl. Ded."))));
-                            nota.setValorBase(getCellValueAsDouble(dataRow.getCell(columnMap.get("Vl. Base"))));
-                            nota.setAliquota(getCellValueAsDouble(dataRow.getCell(columnMap.get("Alíq"))));
-                            nota.setValorIssqn(getCellValueAsDouble(dataRow.getCell(columnMap.get("Vl.ISSQN"))));
-                            nota.setRetido(getCellValueAsString(dataRow.getCell(columnMap.get("Retido"))));
-                            nota.setStatus(getCellValueAsString(dataRow.getCell(columnMap.get("Status"))));
-                            nota.setLocalRecolhimento(getCellValueAsString(dataRow.getCell(columnMap.get("Local do Recolhimento"))));
+                            // Leitura Mapeada (Cada dado na sua coluna correta)
+                            nota.setDataEmissao(getCellValueAsDate(dataRow, mapColunas.get("DATA")));
+                            nota.setCnpjTomador(getCellValueAsString(dataRow, mapColunas.get("CNPJ")));
+                            nota.setNomeTomadorString(nome.toUpperCase().trim()); // Salva temporário para o Service processar
+
+                            // Valores Numéricos
+                            nota.setValorNF(getCellValueAsDouble(dataRow, mapColunas.get("VALOR_NF")));
+                            nota.setValorIssqn(getCellValueAsDouble(dataRow, mapColunas.get("ISS")));
+
+                            // Detalhes
+                            nota.setStatus(getCellValueAsString(dataRow, mapColunas.get("STATUS")).toUpperCase());
+                            nota.setLocalRecolhimento(getCellValueAsString(dataRow, mapColunas.get("LOCAL")).toUpperCase());
 
                             todasAsNotas.add(nota);
                         } catch (Exception e) {
-                            System.err.println("AVISO: Ignorando linha " + (j + 1) + ". Causa: " + e.getMessage());
+                            System.err.println("Erro na linha " + (j + 1) + ": " + e.getMessage());
                         }
                     }
                 }
             }
 
             workbook.close();
-            System.out.println("\n--- IMPORTAÇÃO FINALIZADA. TOTAL DE NOTAS LIDAS: " + todasAsNotas.size() + " ---");
+            System.out.println("Total de notas lidas: " + todasAsNotas.size());
             return todasAsNotas;
 
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Falha crítica ao processar o arquivo Excel: " + e.getMessage());
+            throw new RuntimeException("Erro crítico ao ler Excel: " + e.getMessage());
         }
     }
 
-    private static boolean isHeaderRow(Row row) {
-        if (row == null) return false;
-        boolean hasDtEmissao = false;
-        boolean hasCnpj = false;
+    // --- LÓGICA DE IDENTIFICAÇÃO DE COLUNAS ---
+    private static Map<String, Integer> identificarColunas(Row row) {
+        Map<String, Integer> map = new HashMap<>();
+
         for (Cell cell : row) {
-            String value = getCellValueAsString(cell).toLowerCase();
-            if (value.contains("dt. emissão")) hasDtEmissao = true; // Com espaço
-            if (value.contains("cnpj tomador")) hasCnpj = true;
-        }
-        return hasDtEmissao && hasCnpj;
-    }
+            String valorCelula = getCellValueAsString(cell).toLowerCase().trim();
+            if (valorCelula.isEmpty()) continue;
 
-    private static Map<String, Integer> mapColumns(Row headerRow) {
-        Map<String, Integer> columnMap = new HashMap<>();
-        for (Cell cell : headerRow) {
-            String headerText = getCellValueAsString(cell).replace("\"", "").trim();
-            if (!headerText.isEmpty()) {
-                columnMap.put(headerText, cell.getColumnIndex());
+            for (Map.Entry<String, List<String>> entry : HEADER_ALIASES.entrySet()) {
+                for (String alias : entry.getValue()) {
+                    // MUDANÇA IMPORTANTE:
+                    // Usamos equals() para colunas curtas (evita que 'Valor' pegue 'Valor ISS')
+                    // Usamos contains() apenas para textos longos se necessário
+                    if (valorCelula.equals(alias) || (alias.length() > 5 && valorCelula.contains(alias))) {
+                        map.put(entry.getKey(), cell.getColumnIndex());
+                        // Se achou, para de procurar apelidos para essa chave e vai pra próxima célula
+                        break;
+                    }
+                }
             }
         }
-        return columnMap;
+        return map;
+    }
+
+    // --- MÉTODOS DE LEITURA SEGURA (Mantidos pois funcionam bem) ---
+
+    private static String getCellValueAsString(Row row, Integer index) {
+        if (index == null) return "";
+        return getCellValueAsString(row.getCell(index));
+    }
+
+    private static Double getCellValueAsDouble(Row row, Integer index) {
+        if (index == null) return 0.0;
+        return getCellValueAsDouble(row.getCell(index));
+    }
+
+    private static LocalDate getCellValueAsDate(Row row, Integer index) {
+        if (index == null) return null;
+        return getCellValueAsDate(row.getCell(index));
     }
 
     private static String getCellValueAsString(Cell cell) {
         if (cell == null) return "";
-        DataFormatter formatter = new DataFormatter();
-        return formatter.formatCellValue(cell).trim();
+        return new DataFormatter().formatCellValue(cell).trim();
     }
 
     private static Double getCellValueAsDouble(Cell cell) {
         if (cell == null) return 0.0;
-        String value = getCellValueAsString(cell);
-        try {
-            return Double.parseDouble(value.replace(".", "").replace(",", "."));
-        } catch (NumberFormatException e) {
-            return 0.0;
+        if (cell.getCellType() == CellType.NUMERIC) {
+            return cell.getNumericCellValue();
+        } else {
+            String val = getCellValueAsString(cell)
+                    .replace("R$", "").replace(" ", "").trim();
+            if (val.isEmpty()) return 0.0;
+            try {
+                return Double.parseDouble(val.replace(".", "").replace(",", "."));
+            } catch (NumberFormatException e) {
+                return 0.0;
+            }
         }
     }
 
     private static LocalDate getCellValueAsDate(Cell cell) {
-        if (cell == null) {
-            return null;
+        if (cell == null) return null;
+        if (cell.getCellType() == CellType.NUMERIC && DateUtil.isCellDateFormatted(cell)) {
+            return cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
-
         String dateStr = getCellValueAsString(cell);
-        if (dateStr.isEmpty()) {
-            return null;
-        }
-
+        if (dateStr.isEmpty()) return null;
         try {
             return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         } catch (Exception e) {
-            System.err.println("--> ERRO DE DATA: O texto '" + dateStr + "' não está no formato dd/MM/yyyy.");
             return null;
         }
     }

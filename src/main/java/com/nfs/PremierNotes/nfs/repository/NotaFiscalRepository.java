@@ -13,22 +13,15 @@ import java.util.List;
 @Repository
 public interface NotaFiscalRepository extends JpaRepository<NotaFiscalModel, Long> {
 
-    // --- IMPORTAÇÃO: Verifica duplicidade ---
     boolean existsByDataEmissaoAndCnpjTomadorAndValorNF(LocalDate dataEmissao, String cnpjTomador, Double valorNF);
 
-    // --- FILTROS PARA OS DROPDOWNS DO HTML ---
 
-    // Lista nomes únicos para o <select> de Tomadores
     @Query("SELECT DISTINCT n.tomador.nome FROM NotaFiscalModel n WHERE n.tomador IS NOT NULL ORDER BY n.tomador.nome ASC")
     List<String> findDistinctTomadores();
 
-    // Lista anos únicos para o <select> de Anos
     @Query("SELECT DISTINCT YEAR(n.dataEmissao) FROM NotaFiscalModel n ORDER BY YEAR(n.dataEmissao) DESC")
     List<Integer> findDistinctAnos();
 
-    // --- NOVA QUERY PODEROSA (FILTROS COMBINADOS) ---
-    // Esta query substitui findByAno, findByTomador e findByStatusPagamento individuais.
-    // Lógica: Se o parâmetro for NULL, ele ignora aquela parte do filtro (OR ... IS NULL).
     @Query("SELECT n FROM NotaFiscalModel n WHERE " +
             "(:nomeTomador IS NULL OR UPPER(n.tomador.nome) LIKE UPPER(CONCAT('%', :nomeTomador, '%'))) AND " +
             "(:statusPagamento IS NULL OR n.statusPagamento = :statusPagamento) AND " +
@@ -40,7 +33,5 @@ public interface NotaFiscalRepository extends JpaRepository<NotaFiscalModel, Lon
             Sort sort
     );
 
-    // --- SUGESTÃO ---
-    // Você pode manter o findAll padrão do JpaRepository, não precisa declarar.
-    // Os métodos antigos (findByAno, etc) podem ser apagados se você atualizar o Controller.
+
 }

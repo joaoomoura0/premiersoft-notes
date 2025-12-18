@@ -27,7 +27,6 @@ public class TomadorController {
 
         List<TomadorModel> tomadores;
 
-        // Mantivemos sua lógica de filtros original
         if (busca != null && !busca.trim().isEmpty()) {
             tomadores = tomadorService.buscarTomadoresPorNomeParcial(busca);
         } else if (filtroAtivo != null && !filtroAtivo.isEmpty()) {
@@ -37,25 +36,22 @@ public class TomadorController {
             tomadores = tomadorService.listarTodosTomadores();
         }
 
-        // NOVO: Embrulha a lista no DTO para o Thymeleaf conseguir editar todos de uma vez
         TomadoresFormWrapper formWrapper = new TomadoresFormWrapper();
         formWrapper.setTomadores(tomadores);
 
-        model.addAttribute("formWrapper", formWrapper); // Objeto principal da tabela
-        model.addAttribute("novoTomador", new TomadorModel()); // Objeto para o Modal de cadastro
+        model.addAttribute("formWrapper", formWrapper);
+        model.addAttribute("novoTomador", new TomadorModel());
         model.addAttribute("buscaAtual", busca);
         model.addAttribute("filtroAtivo", filtroAtivo);
 
         return "nfs/gerenciar-tomadores";
     }
 
-    // --- AÇÃO: SALVAR TODOS (EDIÇÃO EM MASSA) ---
     @PostMapping("/salvar-todos")
     public String salvarTodos(@ModelAttribute TomadoresFormWrapper formWrapper, RedirectAttributes redirectAttributes) {
         try {
             if (formWrapper.getTomadores() != null) {
                 for (TomadorModel tomador : formWrapper.getTomadores()) {
-                    // O JPA identifica pelo ID que é uma atualização
                     tomadorService.salvarTomador(tomador);
                 }
             }
@@ -66,7 +62,6 @@ public class TomadorController {
         return "redirect:/tomadores";
     }
 
-    // --- AÇÃO: NOVO TOMADOR (VIA MODAL) ---
     @PostMapping("/novo")
     public String novoTomador(@ModelAttribute TomadorModel novoTomador, RedirectAttributes redirectAttributes) {
         try {
