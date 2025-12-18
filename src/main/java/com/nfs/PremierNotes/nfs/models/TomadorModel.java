@@ -18,9 +18,12 @@ public class TomadorModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Nome único para evitar duplicidade de cadastro do mesmo cliente
     @Column(unique = true, nullable = false)
     private String nome;
 
+    // O "Pulo do gato": Assim que importamos o Excel, o sistema olha o nome,
+    // acha este tomador e descobre qual o prazo de pagamento dele automaticamente.
     @Column(nullable = false)
     private Integer prazoPagamentoDias;
 
@@ -30,7 +33,7 @@ public class TomadorModel {
     @PrePersist
     public void prePersist() {
         if (this.prazoPagamentoDias == null) {
-            this.prazoPagamentoDias = 30;
+            this.prazoPagamentoDias = 30; // Padrão de 30 dias se não informado
         }
         if (this.ativo == null) {
             this.ativo = true;

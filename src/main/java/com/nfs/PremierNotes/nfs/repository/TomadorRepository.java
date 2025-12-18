@@ -10,10 +10,15 @@ import java.util.Optional;
 @Repository
 public interface TomadorRepository extends JpaRepository<TomadorModel, Long> {
 
+    // OBRIGATÓRIO: Usado na importação para achar o cliente sem ligar para maiúsculas/minúsculas
     Optional<TomadorModel> findByNomeIgnoreCase(String nome);
+
+    // Usado para busca/autocomplete
     List<TomadorModel> findByNomeContainingIgnoreCase(String nome);
+
+    // Usado para listar em dropdowns (ordem alfabética)
     List<TomadorModel> findByAtivoTrueOrderByNomeAsc();
+
+    // Filtro administrativo
     List<TomadorModel> findByAtivo(Boolean ativo);
-
-
 }

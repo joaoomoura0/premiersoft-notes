@@ -17,12 +17,14 @@ public class TomadorService {
         this.tomadorRepository = tomadorRepository;
     }
 
+    // --- MÉTODOS DE LEITURA ---
+
     public List<TomadorModel> listarTodosTomadores() {
         return tomadorRepository.findAll();
     }
 
-    public Optional<TomadorModel> buscarTomadorPorNome(String nome) {
-        return tomadorRepository.findByNomeIgnoreCase(nome);
+    public Optional<TomadorModel> buscarTomadorPorId(Long id) {
+        return tomadorRepository.findById(id);
     }
 
     public List<TomadorModel> buscarTomadoresPorNomeParcial(String busca) {
@@ -30,14 +32,6 @@ public class TomadorService {
             return tomadorRepository.findAll();
         }
         return tomadorRepository.findByNomeContainingIgnoreCase(busca.trim());
-    }
-
-    @Transactional
-    public TomadorModel salvarTomador(TomadorModel tomador) {
-        if (tomador.getNome() != null) {
-            tomador.setNome(tomador.getNome().trim().toUpperCase());
-        }
-        return tomadorRepository.save(tomador);
     }
 
     public List<TomadorModel> buscarPorStatus(Boolean ativo) {
@@ -48,28 +42,28 @@ public class TomadorService {
     }
 
     @Transactional
-    public TomadorModel criarOuAtualizarTomador(String nomeTomador, Integer prazo, Boolean ativo) {
-        if (nomeTomador == null || nomeTomador.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome do tomador não pode ser nulo ou vazio.");
-        }
-        String nomeNormalizado = nomeTomador.trim().toUpperCase();
-        Optional<TomadorModel> tomadorOptional = tomadorRepository.findByNomeIgnoreCase(nomeNormalizado);
-
-        TomadorModel tomador;
-        if (tomadorOptional.isPresent()) {
-            tomador = tomadorOptional.get();
-        } else {
-            tomador = new TomadorModel();
-            tomador.setNome(nomeNormalizado);
+    public TomadorModel buscarOuCriarTomador(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            nome = "GENERICO"; // Fallback de segurança
         }
 
-        tomador.setPrazoPagamentoDias(prazo != null ? prazo : tomador.getPrazoPagamentoDias());
-        tomador.setAtivo(ativo != null ? ativo : tomador.getAtivo());
-        return tomadorRepository.save(tomador);
+        String nomeNormalizado = nome.trim().toUpperCase();
+
+        return tomadorRepository.findByNomeIgnoreCase(nomeNormalizado)
+                .orElseGet(() -> {
+                    TomadorModel novo = new TomadorModel();
+                    novo.setNome(nomeNormalizado);
+                    // O @PrePersist na Model já define o prazo como 30 e ativo como true
+                    return tomadorRepository.save(novo);
+                });
     }
 
-    public Optional<TomadorModel> buscarTomadorPorId(Long id) {
-        return tomadorRepository.findById(id);
+    @Transactional
+    public TomadorModel salvarTomador(TomadorModel tomador) {
+        if (tomador.getNome() != null) {
+            tomador.setNome(tomador.getNome().trim().toUpperCase());
+        }
+        return tomadorRepository.save(tomador);
     }
 
     @Transactional
@@ -79,6 +73,6 @@ public class TomadorService {
                     tomadorExistente.setPrazoPagamentoDias(tomadorAtualizado.getPrazoPagamentoDias());
                     tomadorExistente.setAtivo(tomadorAtualizado.getAtivo());
                     return tomadorRepository.save(tomadorExistente);
-                }).orElseThrow(() -> new RuntimeException("Tomador não encontrado com ID: " + tomadorAtualizado.getId()));
+                }).orElseThrow(() -> new RuntimeException("Tomador não encontrado ID: " + tomadorAtualizado.getId()));
     }
 }
