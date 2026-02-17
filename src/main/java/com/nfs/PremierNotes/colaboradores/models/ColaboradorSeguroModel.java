@@ -43,6 +43,10 @@ public class ColaboradorSeguroModel {
     @Column(nullable = false)
     private String origem = "TimeTracker";
 
+    @Column(unique = true)
+    private String usernameImportacao;
+
+
     public ColaboradorSeguroModel() {
     }
 
