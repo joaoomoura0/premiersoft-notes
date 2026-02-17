@@ -19,6 +19,7 @@ public interface ColaboradorSeguroRepository extends JpaRepository<ColaboradorSe
 
     Optional<ColaboradorSeguroModel> findByCpf(String cpf);
     Optional<ColaboradorSeguroModel> findByCpfAndIdNot(String cpf, Long id);
+    Optional<ColaboradorSeguroModel> findByUsernameImportacaoIgnoreCase(String usernameImportacao);
 
     @Query("SELECT DISTINCT c.tipoContrato FROM ColaboradorSeguroModel c ORDER BY c.tipoContrato")
     List<String> findDistinctTipoContrato();
@@ -30,4 +31,5 @@ public interface ColaboradorSeguroRepository extends JpaRepository<ColaboradorSe
             @Param("nomeCompleto") String nomeCompleto,
             @Param("tipoContrato") String tipoContrato,
             Sort sort);
+
 }
