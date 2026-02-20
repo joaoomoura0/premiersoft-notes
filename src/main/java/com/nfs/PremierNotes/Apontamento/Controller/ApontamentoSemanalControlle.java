@@ -1,13 +1,14 @@
 package com.nfs.PremierNotes.Apontamento.Controller;
 
+import com.nfs.PremierNotes.Apontamento.Model.ApontamentoSemanal;
 import com.nfs.PremierNotes.Apontamento.Service.ApontamentosSemanalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/apontamentos")
@@ -25,5 +26,12 @@ public class ApontamentoSemanalControlle {
         catch (Exception e){
             return ResponseEntity.badRequest().body("Erro: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/semana")
+    public List<ApontamentoSemanal> buscarSemana(
+            @RequestParam LocalDate data) {
+
+        return service.buscarSemana(data);
     }
 }
