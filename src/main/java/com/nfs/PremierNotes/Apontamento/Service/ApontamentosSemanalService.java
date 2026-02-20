@@ -20,7 +20,9 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -39,14 +41,11 @@ public class ApontamentosSemanalService {
             Sheet sheet = workbook.getSheetAt(0);
 
         List<LocalDate> datasEncontradas = new ArrayList<>();
-        List<ApontamentoSemanal> apontamentosParaSalvar = new ArrayList<>();
-
+            Map<String, ApontamentoSemanal> mapaAgrupado = new HashMap<>();
 
             for (Row row : sheet) {
 
-                if (row.getRowNum() == 0) {
-                    continue; // pula cabeçalho
-                }
+                if (row.getRowNum() == 0) continue;
 
                 String username = row.getCell(4).getStringCellValue().trim();
 
@@ -87,14 +86,21 @@ public class ApontamentosSemanalService {
                             return clienteRepository.save(novoCliente);
                         });
 
-                ApontamentoSemanal apontamento = new ApontamentoSemanal();
-                apontamento.setData(data);
-                apontamento.setHoras(horas);
-                apontamento.setPossuiDescricao(possuiDescricao);
-                apontamento.setColaborador(colaborador);
-                apontamento.setCliente(cliente);
+                String chave = colaborador.getId() + "-" + data;
 
-                apontamentosParaSalvar.add(apontamento);
+                if (mapaAgrupado.containsKey(chave)) {
+                    ApontamentoSemanal existente = mapaAgrupado.get(chave);
+                    existente.setHoras(existente.getHoras().add(horas));
+                } else {
+                    ApontamentoSemanal novo = new ApontamentoSemanal();
+                    novo.setData(data);
+                    novo.setHoras(horas);
+                    novo.setPossuiDescricao(possuiDescricao);
+                    novo.setColaborador(colaborador);
+                    novo.setCliente(cliente); // vai pegar o primeiro cliente do dia
+
+                    mapaAgrupado.put(chave, novo);
+                }
             }
 
             // Descobrir menor e maior data
@@ -113,10 +119,18 @@ public class ApontamentosSemanalService {
             System.out.println("Semana detectada: " + inicioSemana + " até " + fimSemana);
 
             apontamentoSemanalRepository.deleteByDataBetween(inicioSemana, fimSemana);
-            apontamentoSemanalRepository.saveAll(apontamentosParaSalvar);
+            apontamentoSemanalRepository.saveAll(mapaAgrupado.values());
 
         } catch (Exception e) {
             throw new RuntimeException("Erro ao processar arquivo Excel", e);
         }
+    }
+
+    public  List<ApontamentoSemanal> buscarSemana(LocalDate dataReferencia){
+
+        LocalDate inicioSemana = dataReferencia.with(DayOfWeek.MONDAY);
+        LocalDate fimSemana = dataReferencia.with(DayOfWeek.SUNDAY);
+
+        return apontamentoSemanalRepository.findByDataBetween(inicioSemana, fimSemana);
     }
 }
