@@ -1,6 +1,7 @@
 package com.nfs.PremierNotes.colaboradores.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nfs.PremierNotes.diarioOcorrencias.model.DiarioOcorrenciaModel;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "colaboradores_seguro")
 public class ColaboradorSeguroModel {
