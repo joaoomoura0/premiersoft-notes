@@ -32,11 +32,11 @@ public class ApontamentoSemanal {
     @Column(nullable = false)
     private Boolean possuiDescricao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "colaborador_id", nullable = false)
     private ColaboradorSeguroModel colaborador;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 }
